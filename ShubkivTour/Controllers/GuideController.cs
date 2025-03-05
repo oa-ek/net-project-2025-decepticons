@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ShubkivTour.Models;
 using ShubkivTour.Models.Entity;
+using ShubkivTour.Models.DTO;
 using ShubkivTour.Repository.Interfaces;
 using System.Diagnostics;
 
@@ -25,14 +26,27 @@ namespace ShubkivTour.Controllers
 		[HttpPost]
 		public IActionResult Create(Guide guide)
 		{
+			if(ModelState.IsValid)
+			{
+				var guide = new Guide
+				{
+					Name = model.Name,
+					Specialty = model.Specialty,
+					Contact = model.Contact
+				};
+				_guideRepository.CreateGuide(guide);
+				return RedirectToAction("GuideManagement");
+			}
+			return View(model);
 			/*			if (ModelState.IsValid)
 						{
 							_guideRepository.CreateGuide(guide);
 							return RedirectToAction("GuideManagement");
 						}
-						return View(guide);*/
+						return View(guide);*//*
 			_guideRepository.CreateGuide(guide);
-			return RedirectToAction("GuideManagement");
+			return RedirectToAction("GuideManagement");*/
+
 		}
 		[HttpGet]
 		public IActionResult Get()
@@ -41,7 +55,7 @@ namespace ShubkivTour.Controllers
 			return View("GuideLook");
 		}
 		[HttpDelete]
-		public IActionResult Delete(int id) //Тут треба зробити правильно
+		public IActionResult Delete(int id) //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		{
 			_guideRepository.DeleteGuide(id);
 			return View();
