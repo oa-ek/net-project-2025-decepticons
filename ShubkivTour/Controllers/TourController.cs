@@ -80,24 +80,27 @@ namespace ShubkivTour.Controllers
 		[HttpPost]
 		public IActionResult TourCreate(TourDTOCreate model)
 		{
-			if (ModelState.IsValid)
+			var tour = new Tour
 			{
-				var tour = new Tour
+				Name = model.Name,
+				TourGuides = guidsInTour.Select(guide => new TourGuides
 				{
-					Name = model.Name,
-					TourGuides = guidsInTour.Select(guide => new TourGuides
-					{
-						GuideId = guide.Id,
-						Guide = guide
-					}).ToList()
-				};
-				foreach(var tourGuide in tour.TourGuides)
+					GuideId = guide.Id
+				}).ToList(),
+				TourEntertainments = entertainmentInTour.Select(entertainment => new TourEntertainments
 				{
-					tourGuide.Tour = tour;
-				}
-				_tourRepository.CreateTour(tour);
-				return RedirectToAction("GuideAdd");
-			}
+					EntertainmentId = entertainment.Id
+				}).ToList(),
+				TourLocations = locationInTour.Select(location => new TourLocations
+				{
+					LocationId = location.Id
+				}).ToList(),
+				Complexity = model.Complexity ?? "DefaultValue",
+				Price = model.Price,
+				Date = model.Date
+			};
+			_tourRepository.CreateTour(tour);
+			return RedirectToAction("TourManagement");
 			return View(model);
 		}
 
