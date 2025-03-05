@@ -1,0 +1,23 @@
+﻿@model ShubkivTour.Models.DTO.LocationDTOCreate;
+
+@{
+    ViewData["Title"] = "Редагування гіда";
+}
+
+<h2>Редагування локації</h2>
+
+<form asp-controller="Location" asp-action="LocationEdit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="Name">Назва</label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description">Опис</label>
+        <input asp-for="Description" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Зберегти зміни</button>
+    <a asp-action="GuideLook" class="btn btn-secondary">Скасувати</a>
+</form>

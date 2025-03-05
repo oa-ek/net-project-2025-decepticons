@@ -21,6 +21,7 @@ builder.Services.AddScoped<IGuide, GuideRepository>();
 builder.Services.AddScoped<ITour, TourRepository>();
 builder.Services.AddScoped<IEntertainments, EntertainmentRepository>();
 
+builder.Services.AddScoped<ILocation, LocationRepository>();
 
 var app = builder.Build();
 
