@@ -43,5 +43,17 @@ namespace ShubkivTour.Repository
 		{
 			return _context.Guides.FirstOrDefault(p => p.Id == guideId);
 		}
-	}
+        public void UpdateGuide(Guide guide)
+        {
+            var existingGuide = _context.Guides.Find(guide.Id);
+            if (existingGuide != null)
+            {
+                existingGuide.Name = guide.Name;
+                existingGuide.Specialty = guide.Specialty;
+                existingGuide.Contact = guide.Contact;
+                _context.SaveChanges();
+            }
+        }
+
+    }
 }
