@@ -6,3 +6,16 @@
     <h1 class="display-4">Salam</h1>
     <p>Тут кароче будуть всякі плюшкі для керування турами від лиця адміна</p>
 </div>
+<form asp-controller="Tour" asp-action="Create" method="post">
+	<div class="form-group">
+		<label for="Name">Ім'я</label>
+		<input type="text" id="Name" name="Name" class="form-control" required />
+
+		<label for="Specialty">Спеціальність</label>
+		<input type="text" id="Specialty" name="Specialty" class="form-control" required />
+
+		<label for="Contact">Контакти</label>
+		<input type="text" id="Contact" name="Contact" class="form-control" required />
+	</div>
+	<button type="submit" class="btn btn-primary">Записати гіда</button>
+</form>

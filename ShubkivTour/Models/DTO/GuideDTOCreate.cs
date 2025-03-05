@@ -2,7 +2,7 @@
 
 namespace ShubkivTour.Models.DTO
 {
-    public class GuideDTO
+    public class GuideDTOCreate
     {
         public int Id { get; set; }
 		[Required(ErrorMessage = "Ім'я обов'язкове")]

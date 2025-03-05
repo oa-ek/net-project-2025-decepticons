@@ -18,6 +18,7 @@ builder.Services.AddControllersWithViews();
 
 
 builder.Services.AddScoped<IGuide, GuideRepository>();
+builder.Services.AddScoped<ITour, TourRepository>();
 
 var app = builder.Build();
 

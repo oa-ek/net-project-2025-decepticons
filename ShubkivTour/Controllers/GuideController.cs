@@ -24,7 +24,7 @@ namespace ShubkivTour.Controllers
 		}*/
 
 		[HttpPost]
-		public IActionResult Create(GuideDTO model)
+		public IActionResult GuideCreate(GuideDTOCreate model)
 		{
 			if(ModelState.IsValid)
 			{
@@ -53,7 +53,7 @@ namespace ShubkivTour.Controllers
         {
             var guides = _guideRepository.GetAllGuides();
 
-            var guideDTOs = guides.Select(g => new GuideDTO
+            var guideDTOs = guides.Select(g => new GuideDTOCreate
             {
                 Id = g.Id,
                 Name = g.Name,
