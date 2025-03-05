@@ -12,24 +12,93 @@ namespace ShubkivTour.Controllers
 		private readonly ILogger<TourController> _logger;
 		private readonly ITour _tourRepository;
 		private readonly IGuide _guideRepository;
+		private readonly ILocation _locationRepository;
+		private readonly IEntertainments _entertainmentRepository;
 
-		public TourController(ILogger<TourController> logger, ITour tourRepository, IGuide guideRepository)
+		private static List<Guide> guidsInTour = new List<Guide>();
+		private static List<Location> locationInTour = new List<Location>();
+		private static List<Entertainment> entertainmentInTour = new List<Entertainment>();
+
+		public TourController(ILogger<TourController> logger, ITour tourRepository, IGuide guideRepository, ILocation locationRepository, IEntertainments entertainmentRepository)
 		{
 			_logger = logger;
 			_tourRepository = tourRepository;
 			_guideRepository = guideRepository;
+			_locationRepository = locationRepository;
+			_entertainmentRepository = entertainmentRepository;
+		}
+
+		[HttpPost]
+		public IActionResult AddGuide(int guideId)
+		{
+			var guide = _guideRepository.GetGuideById(guideId);
+			if (guide != null)
+			{
+				guidsInTour.Add(guide);
+			}
+			return RedirectToAction("TourManagement");
+		}
+		public IActionResult AddLocation(int locationId)
+		{
+			var location = _locationRepository.GetLocationById(locationId);
+			if (location != null)
+			{
+				locationInTour.Add(location);
+			}
+			return RedirectToAction("TourManagement");
+		}
+		public IActionResult AddEntertainment(int entertainmentId)
+		{
+			var entertainment = _entertainmentRepository.GetEntertainmentById(entertainmentId);
+			if (entertainment != null)
+			{
+				entertainmentInTour.Add(entertainment);
+			}
+			return RedirectToAction("TourManagement");
 		}
 
 		public IActionResult TourManagement()
 		{
+			var allGuids = _guideRepository.GetAllGuides()
+	.Where(g => !guidsInTour.Any(gt => gt.Id == g.Id))
+	.ToList();
+			var allLocations = _locationRepository.GetAllLocations()
+				.Where(l => !locationInTour.Any(lt => lt.Id == l.Id))
+				.ToList();
+			var allEntertainment = _entertainmentRepository.GetAllEntertainments()
+				.Where(e => !entertainmentInTour.Any(et => et.Id == e.Id))
+				.ToList();
+
+			ViewBag.AllGuids = allGuids;
+			ViewBag.AllLocations = allLocations;
+			ViewBag.AllEntertainments = allEntertainment;
+
 			return View();
 		}
 
 
 		[HttpPost]
-		public IActionResult TourCreate()
+		public IActionResult TourCreate(TourDTOCreate model)
 		{
-			return View();
+			if (ModelState.IsValid)
+			{
+				var tour = new Tour
+				{
+					Name = model.Name,
+					TourGuides = guidsInTour.Select(guide => new TourGuides
+					{
+						GuideId = guide.Id,
+						Guide = guide
+					}).ToList()
+				};
+				foreach(var tourGuide in tour.TourGuides)
+				{
+					tourGuide.Tour = tour;
+				}
+				_tourRepository.CreateTour(tour);
+				return RedirectToAction("GuideAdd");
+			}
+			return View(model);
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

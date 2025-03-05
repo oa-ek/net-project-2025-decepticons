@@ -8,6 +8,7 @@ namespace ShubkivTour.Repository
     {
         private readonly ApplicationDbContext _context;
 
+
         public TourRepository(ApplicationDbContext context)
         {
             _context = context;
