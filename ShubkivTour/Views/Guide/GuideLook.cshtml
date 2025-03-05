@@ -29,12 +29,13 @@
 
                     <form asp-controller="Guide" asp-action="Delete" method="post" style="display:inline;">
                         <input type="hidden" name="id" value="@guide.Id" />
-                        <button type="submit" class="btn btn-danger">Видалити</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Ви впевнені?')">Видалити</button>
                     </form>
+
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<a asp-controller="Guide" asp-action="Create" class="btn btn-success">Додати гіда</a>
+<a asp-controller="Guide" asp-action="GuideAdd" class="btn btn-success">Додати гіда</a>

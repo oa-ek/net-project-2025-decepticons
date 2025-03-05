@@ -24,7 +24,7 @@ namespace ShubkivTour.Controllers
 		}*/
 
 		[HttpPost]
-		public IActionResult GuideCreate(GuideDTO model)
+		public IActionResult Create(GuideDTO model)
 		{
 			if(ModelState.IsValid)
 			{
@@ -35,7 +35,7 @@ namespace ShubkivTour.Controllers
 					Contact = model.Contact
 				};
 				_guideRepository.CreateGuide(guide);
-				return RedirectToAction("GuideManagement");
+				return RedirectToAction("GuideAdd");
 			}
 			return View(model);
 			/*			if (ModelState.IsValid)
@@ -67,9 +67,9 @@ namespace ShubkivTour.Controllers
 		public IActionResult Delete(int id)
 		{
 			_guideRepository.DeleteGuide(id);
-			return View();
-		}
-		public IActionResult GuideManagement()
+            return RedirectToAction("GuideLook");
+        }
+		public IActionResult GuideAdd()
 		{
 			return View();
 		}
