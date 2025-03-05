@@ -1,8 +1,22 @@
-﻿@{
-    ViewData["Title"] = "Guide Managemet";
+﻿@model ShubkivTour.Models.Entity.Guide;
+@{
+	ViewData["Title"] = "Guide Managemet";
 }
-
+	
 <div class="text-center">
-    <h1 class="display-4">Aboba</h1>
-    <p>Тут кароче будем створювать гідів, дивиться їхню інфу, всіх існуючих і всяка така шняга</p>
+	<h1 class="display-4">Aboba</h1>
+	<p>Тут кароче будем створювать гідів, дивиться їхню інфу, всіх існуючих і всяка така шняга</p>
 </div>
+<form asp-controller="Guide" asp-action="GuideCreate" method="post">
+	<div class="form-group">
+		<label for="Name">Ім'я</label>
+		<input type="text" id="Name" name="Name" class="form-control" required />
+
+		<label for="Specialty">Спеціальність</label>
+		<input type="text" id="Specialty" name="Specialty" class="form-control" required />
+
+		<label for="Contact">Контакти</label>
+		<input type="text" id="Contact" name="Contact" class="form-control" required />
+	</div>
+	<button type="submit" class="btn btn-primary">Записати гіда</button>
+</form>
