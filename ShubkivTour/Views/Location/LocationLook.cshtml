@@ -1,0 +1,39 @@
+﻿@model List<ShubkivTour.Models.DTO.LocationDTOCreate>;
+@{
+    ViewData["Title"] = "Lokation List";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Список локацій</h1>
+    <p>Тут можна редагувати або видаляти локації!</p>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Опис</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var location in Model)
+        {
+            <tr>
+                <td>@location.Name</td>
+                <td>@location.Description</td>
+                <td>
+                    <a asp-controller="Location" asp-action="LocationEdit" asp-route-id="@location.Id" class="btn btn-warning">Редагувати</a>
+
+
+                    <form asp-controller="Location" asp-action="Delete" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@location.Id" />
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Ви впевнені?')">Видалити</button>
+                    </form>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Location" asp-action="LocationAdd" class="btn btn-success">Додати локацію</a>
