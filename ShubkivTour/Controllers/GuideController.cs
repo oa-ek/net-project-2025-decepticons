@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ShubkivTour.Models;
 using ShubkivTour.Models.Entity;
+using ShubkivTour.Models.DTO;
 using ShubkivTour.Repository.Interfaces;
 using System.Diagnostics;
 
@@ -23,16 +24,29 @@ namespace ShubkivTour.Controllers
 		}*/
 
 		[HttpPost]
-		public IActionResult GuideCreate(Guide guide)
+		public IActionResult GuideCreate(GuideDTO model)
 		{
+			if(ModelState.IsValid)
+			{
+				var guide = new Guide
+				{
+					Name = model.Name,
+					Specialty = model.Specialty,
+					Contact = model.Contact
+				};
+				_guideRepository.CreateGuide(guide);
+				return RedirectToAction("GuideManagement");
+			}
+			return View(model);
 			/*			if (ModelState.IsValid)
 						{
 							_guideRepository.CreateGuide(guide);
 							return RedirectToAction("GuideManagement");
 						}
-						return View(guide);*/
+						return View(guide);*//*
 			_guideRepository.CreateGuide(guide);
-			return RedirectToAction("GuideManagement");
+			return RedirectToAction("GuideManagement");*/
+
 		}
 
 		public IActionResult GuideManagement()
