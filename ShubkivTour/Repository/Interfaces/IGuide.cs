@@ -8,5 +8,6 @@ namespace ShubkivTour.Repository.Interfaces
 		Guide GetGuideById(int guideId);
 		void CreateGuide(Guide guide);
 		void DeleteGuide(int id);
+		void UpdateGuide(Guide guide);
 	}
 }

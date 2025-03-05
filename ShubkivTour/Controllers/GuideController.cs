@@ -23,8 +23,10 @@ namespace ShubkivTour.Controllers
 			_guideRepository = guideRepository;
 		}*/
 
+		//GuideAdd
+
 		[HttpPost]
-		public IActionResult GuideCreate(GuideDTOCreate model)
+		public IActionResult Create(GuideDTOCreate model)
 		{
 			if(ModelState.IsValid)
 			{
@@ -48,7 +50,14 @@ namespace ShubkivTour.Controllers
 			return RedirectToAction("GuideManagement");*/
 
 		}
-		[HttpGet]
+        public IActionResult GuideAdd()
+        {
+            return View();
+        }
+
+        //Guidelook
+
+        [HttpGet]
         public IActionResult GuideLook()
         {
             var guides = _guideRepository.GetAllGuides();
@@ -63,18 +72,60 @@ namespace ShubkivTour.Controllers
 
             return View(guideDTOs);
         }
-        [HttpDelete]
-		public IActionResult Delete(int id)
-		{
-			_guideRepository.DeleteGuide(id);
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _guideRepository.DeleteGuide(id);
+            return RedirectToAction("GuideLook"); 
+        }
+
+
+        //GuideEdit
+
+        [HttpGet]
+        public IActionResult GuideEdit(int id)
+        {
+            var guide = _guideRepository.GetGuideById(id);
+            if (guide == null)
+            {
+                return NotFound();
+            }
+
+            var guideDTO = new GuideDTOCreate
+            {
+                Id = guide.Id,
+                Name = guide.Name,
+                Specialty = guide.Specialty,
+                Contact = guide.Contact
+            };
+
+            return View(guideDTO);
+        }
+
+        [HttpPost]
+        public IActionResult GuideEdit(GuideDTOCreate model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var guide = new Guide
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Specialty = model.Specialty,
+                Contact = model.Contact
+            };
+
+            _guideRepository.UpdateGuide(guide);
+
             return RedirectToAction("GuideLook");
         }
-		public IActionResult GuideAdd()
-		{
-			return View();
-		}
 
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+
+        //Base
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
