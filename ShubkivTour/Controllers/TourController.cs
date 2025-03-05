@@ -101,7 +101,6 @@ namespace ShubkivTour.Controllers
 			};
 			_tourRepository.CreateTour(tour);
 			return RedirectToAction("TourManagement");
-			return View(model);
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

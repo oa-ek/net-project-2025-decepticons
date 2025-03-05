@@ -48,6 +48,19 @@
 		</select>
 		<button type="submit" class="btn btn-primary" asp-action="AddEntertainment">Записати розвагу</button>
 
+		<label>Ціна</label>
+		<input type="text" id="Priсe" name="Priсe" class="form-control" required />
+
+		<label>Важкість</label>
+		<select name="Complexity" class="form-control">
+			<option value="Легка">Легка</option>
+			<option value="Середня">Середня</option>
+			<option value="Складна">Складна</option>
+		</select>
+
+		<label>Дата</label>
+		<input type="date" id="Date" name="Date" class="form-control" required />
+
 
 		<button type="submit" class="btn btn-primary" asp-action="TourCreate">Створити тур</button>
 
