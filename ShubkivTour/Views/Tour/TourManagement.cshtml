@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ShubkivTour.Models.DTO.TourDTOCreate
+@{
     ViewData["Title"] = "Tour Managemet";
 }
 
@@ -6,16 +7,21 @@
     <h1 class="display-4">Salam</h1>
     <p>Тут кароче будуть всякі плюшкі для керування турами від лиця адміна</p>
 </div>
-<form asp-controller="Tour" asp-action="Create" method="post">
+<form asp-controller="Tour" asp-action="TourCreate" method="post">
 	<div class="form-group">
-		<label for="Name">Ім'я</label>
+		<label>Назва</label>
 		<input type="text" id="Name" name="Name" class="form-control" required />
 
-		<label for="Specialty">Спеціальність</label>
-		<input type="text" id="Specialty" name="Specialty" class="form-control" required />
-
-		<label for="Contact">Контакти</label>
-		<input type="text" id="Contact" name="Contact" class="form-control" required />
+		<label>Гід</label>
+		<select name="Guides" class="form-control">
+			@if (ViewBag.Guides != null)
+			{
+				@foreach (var guide in ViewBag.Guides as List<ShubkivTour.Models.Entity.Guide>)
+				{
+					<option value="@guide.Id">@guide.Name</option>
+				}
+			}
+		</select>
 	</div>
 	<button type="submit" class="btn btn-primary">Записати гіда</button>
 </form>

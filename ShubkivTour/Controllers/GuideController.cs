@@ -24,7 +24,7 @@ namespace ShubkivTour.Controllers
 		}*/
 
 		[HttpPost]
-		public IActionResult GuideCreate(GuideDTOCreate model)
+		public IActionResult Create(GuideDTOCreate model)
 		{
 			if(ModelState.IsValid)
 			{
