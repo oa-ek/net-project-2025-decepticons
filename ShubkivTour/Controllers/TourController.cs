@@ -106,6 +106,7 @@ namespace ShubkivTour.Controllers
             entertainmentInTour.Clear();
 
             return RedirectToAction("TourManagement");
+
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
