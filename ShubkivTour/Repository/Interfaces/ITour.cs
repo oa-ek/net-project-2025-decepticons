@@ -1,6 +1,12 @@
-﻿namespace ShubkivTour.Repository.Interfaces
+﻿using ShubkivTour.Models.Entity;
+
+namespace ShubkivTour.Repository.Interfaces
 {
-    public class ITour
+    public interface ITour
     {
+        IEnumerable<Tour> GetAllTours();
+        Tour GetToursById(int tourId);
+        void CreateTour(Tour tour);
+        void DeleteTour(int id);
     }
 }

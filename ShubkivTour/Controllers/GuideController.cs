@@ -23,7 +23,7 @@ namespace ShubkivTour.Controllers
 		}*/
 
 		[HttpPost]
-		public IActionResult GuideCreate(Guide guide)
+		public IActionResult Create(Guide guide)
 		{
 			/*			if (ModelState.IsValid)
 						{
@@ -34,7 +34,18 @@ namespace ShubkivTour.Controllers
 			_guideRepository.CreateGuide(guide);
 			return RedirectToAction("GuideManagement");
 		}
-
+		[HttpGet]
+		public IActionResult Get()
+		{
+			_guideRepository.GetAllGuides();
+			return View("GuideLook");
+		}
+		[HttpDelete]
+		public IActionResult Delete(int id) //Тут треба зробити правильно
+		{
+			_guideRepository.DeleteGuide(id);
+			return View();
+		}
 		public IActionResult GuideManagement()
 		{
 			return View();
