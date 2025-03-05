@@ -100,8 +100,12 @@ namespace ShubkivTour.Controllers
 				Date = model.Date
 			};
 			_tourRepository.CreateTour(tour);
-			return RedirectToAction("TourManagement");
-			return View(model);
+
+            guidsInTour.Clear();
+            locationInTour.Clear();
+            entertainmentInTour.Clear();
+
+            return RedirectToAction("TourManagement");
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
