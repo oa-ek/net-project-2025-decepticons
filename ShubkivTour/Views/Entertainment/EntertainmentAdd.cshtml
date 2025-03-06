@@ -1,0 +1,21 @@
+﻿@model List<ShubkivTour.Models.DTO.EntertainmentDTOCreate>;
+@{
+	ViewData["Title"] = "Entertainments add";
+}
+<h2>Додавання розваг</h2>
+
+<div class="text-center">
+	<h1 class="display-4">Aboba</h1>
+	<p>Тут кароче будем створювать розваги, дивиться їхню інфу, всіх існуючих і всяка така шняга</p>
+</div>
+<form asp-controller="Entertainment" asp-action="Create" method="post">
+	<div class="form-group">
+		<label for="Name">Назва</label>
+		<input type="text" id="Name" name="Name" class="form-control" required />
+
+		<label for="Description">Опис</label>
+		<input type="text" id="Description" name="Description" class="form-control" required />
+
+	</div>
+	<button type="submit" class="btn btn-primary">Записати розвагу</button>
+</form>

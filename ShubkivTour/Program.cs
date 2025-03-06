@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ShubkivTour.Data;
+using ShubkivTour.Repository;
+using ShubkivTour.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,13 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+
+builder.Services.AddScoped<IGuide, GuideRepository>();
+builder.Services.AddScoped<ITour, TourRepository>();
+builder.Services.AddScoped<IEntertainments, EntertainmentRepository>();
+
+builder.Services.AddScoped<ILocation, LocationRepository>();
 
 var app = builder.Build();
 

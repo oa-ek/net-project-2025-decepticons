@@ -1,0 +1,39 @@
+﻿@model List<ShubkivTour.Models.DTO.EntertainmentDTOCreate>;
+@{
+    ViewData["Title"] = "Entertainments List";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Список розваг</h1>
+    <p>Тут можна редагувати або видаляти розваги!</p>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Опис</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entertainment in Model)
+        {
+            <tr>
+                <td>@entertainment.Name</td>
+                <td>@entertainment.Description</td>
+                <td>
+                    <a asp-controller="Entertainment" asp-action="EntertainmentEdit" asp-route-id="@entertainment.Id" class="btn btn-warning">Редагувати</a>
+
+
+                    <form asp-controller="Entertainment" asp-action="Delete" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@entertainment.Id" />
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Ви впевнені?')">Видалити</button>
+                    </form>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Entertainment" asp-action="EntertainmentAdd" class="btn btn-success">Додати розвагу</a>

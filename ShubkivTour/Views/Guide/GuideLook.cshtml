@@ -1,0 +1,42 @@
+﻿@model List<ShubkivTour.Models.DTO.GuideDTOCreate>;
+@{
+    ViewData["Title"] = "Guide List";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Список гідів</h1>
+    <p>Тут можна редагувати або видаляти гідів!</p>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ім'я</th>
+            <th>Спеціальність</th>
+            <th>Контакти</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var guide in Model)
+        {
+            <tr>
+                <td>@guide.Name</td>
+                <td>@guide.Specialty</td>
+                <td>@guide.Contact</td>
+                <td>
+                    <a asp-controller="Guide" asp-action="GuideEdit" asp-route-id="@guide.Id" class="btn btn-warning">Редагувати</a>
+
+
+                    <form asp-controller="Guide" asp-action="Delete" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@guide.Id" />
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Ви впевнені?')">Видалити</button>
+                    </form>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Guide" asp-action="GuideAdd" class="btn btn-success">Додати гіда</a>
