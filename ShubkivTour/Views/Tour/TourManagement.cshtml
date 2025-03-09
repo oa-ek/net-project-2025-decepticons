@@ -10,7 +10,7 @@
 <form asp-controller="Tour" asp-action="TourCreate" method="post">
 	<div class="form-group">
 		<label>Назва</label>
-		<input type="text" id="Name" name="Name" class="form-control"/>
+		<input type="text" id="Name" name="Name" class="form-control" />
 
 		<label>Гід</label>
 		<select name="GuideId" class="form-control">
@@ -49,7 +49,7 @@
 		<button type="submit" class="btn btn-primary" asp-action="AddEntertainment">Записати розвагу</button>
 
 		<label>Ціна</label>
-		<input type="number" id="Price" name="Price" class="form-control" />
+		<input type="number" id="Priсe" name="Price" class="form-control" />
 
 		<label>Важкість</label>
 		<select name="Complexity" class="form-control">
@@ -59,12 +59,37 @@
 		</select>
 
 		<label>Дата</label>
-		<input type="date" id="Date" name="Date" class="form-control"/>
+		<input type="date" id="Date" name="Date" class="form-control" />
 
 
 		<button type="submit" class="btn btn-primary" asp-action="TourCreate">Створити тур</button>
 
 	</div>
 </form>
+<div class="text-center">
+	<h1 class="display-4">Список турів</h1>
+</div>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Назва</th>
+			<th>Складність</th>
+			<th>Ціна</th>
+			<th>Дата</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var tour in ViewBag.AllTours)
+		{
+			<tr>
+				<td>@tour.Name</td>
+				<td>@tour.Complexity</td>
+				<td>@tour.Price</td>
+				<td>@tour.Date</td>
+			</tr>
+		}
+	</tbody>
+</table>
 
 

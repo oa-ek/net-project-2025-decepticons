@@ -69,9 +69,13 @@ namespace ShubkivTour.Controllers
 				.Where(e => !entertainmentInTour.Any(et => et.Id == e.Id))
 				.ToList();
 
+			var allTours = _tourRepository.GetAllTours();
+
 			ViewBag.AllGuids = allGuids;
 			ViewBag.AllLocations = allLocations;
 			ViewBag.AllEntertainments = allEntertainment;
+
+			ViewBag.AllTours = allTours;
 
 			return View();
 		}

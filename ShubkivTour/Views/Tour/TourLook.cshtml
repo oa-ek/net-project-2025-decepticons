@@ -1,0 +1,30 @@
+﻿@model List<ShubkivTour.Models.DTO.TourDTOCreate>;
+@{
+    ViewData["Title"] = "Tour List";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Список турів</h1>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Складність</th>
+            <th>Ціна</th>
+            <th>Дата</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tour in Model)
+        {
+            <tr>
+                <td>@tour.Name</td>
+                <td>@tour.Complexity</td>
+                <td>@tour.Price</td>
+                <td>@tour.Date</td>
+            </tr>
+        }
+    </tbody>
+</table>
