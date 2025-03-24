@@ -79,8 +79,6 @@ namespace ShubkivTour.Controllers
 
 			return View();
 		}
-
-
 		[HttpPost]
 		public IActionResult TourCreate(TourDTOCreate model)
 		{
@@ -91,10 +89,10 @@ namespace ShubkivTour.Controllers
 				{
 					GuideId = guide.Id
 				}).ToList(),
-				TourEvents = entertainmentInTour.Select(entertainment => new TourEvents
+				/*TourEvents = entertainmentInTour.Select(entertainment => new TourEvents
 				{
 					EventId = entertainment.Id
-				}).ToList(),
+				}).ToList(),*/
 				/*TourEvents = locationInTour.Select(location => new TourLocations
 				{
 					LocationId = location.Id
