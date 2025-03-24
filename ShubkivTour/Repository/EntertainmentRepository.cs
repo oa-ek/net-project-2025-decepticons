@@ -13,38 +13,38 @@ namespace ShubkivTour.Repository
             _context = context;
         }
 
-        public void CreateEntertainment(Entertainment entertainment)
+        public void CreateEntertainment(Event entertainment)
         {
             if (entertainment == null)
             {
                 throw new ArgumentNullException(nameof(entertainment), "Не всі поля отримали значення");
             }
-            _context.Entertainments.Add(entertainment);
+            _context.Events.Add(entertainment);
             _context.SaveChanges();
         }
 
         public void DeleteEntertainment(int id)
         {
-            var deletedEntertainment = _context.Entertainments.FirstOrDefault(g => g.Id == id);
+            var deletedEntertainment = _context.Events.FirstOrDefault(g => g.Id == id);
             if (deletedEntertainment != null)
             {
-                _context.Entertainments.Remove(deletedEntertainment);
+                _context.Events.Remove(deletedEntertainment);
                 _context.SaveChanges();
             }
         }
 
-        public IEnumerable<Entertainment> GetAllEntertainments()
+        public IEnumerable<Event> GetAllEntertainments()
         {
-            return _context.Entertainments.ToList();
+            return _context.Events.ToList();
         }
 
-        public Entertainment GetEntertainmentById(int entertainmentId)
+        public Event GetEntertainmentById(int entertainmentId)
         {
-            return _context.Entertainments.FirstOrDefault(p => p.Id == entertainmentId);
+            return _context.Events.FirstOrDefault(p => p.Id == entertainmentId);
         }
-        public void UpdateEntertainment(Entertainment entertainment)
+        public void UpdateEntertainment(Event entertainment)
         {
-            var existingEntertainment = _context.Entertainments.Find(entertainment.Id);
+            var existingEntertainment = _context.Events.Find(entertainment.Id);
             if (existingEntertainment != null)
             {
                 existingEntertainment.Name = entertainment.Name;

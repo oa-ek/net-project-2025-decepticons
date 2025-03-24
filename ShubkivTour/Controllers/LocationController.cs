@@ -35,7 +35,6 @@ namespace ShubkivTour.Controllers
 				var location = new Location
 				{
 					Name = model.Name,
-					Description = model.Description
 				};
 				_locationRepository.CreateLocation(location);
 				return RedirectToAction("LocationAdd");
@@ -52,7 +51,6 @@ namespace ShubkivTour.Controllers
 			{
 				Id = l.Id,
 				Name = l.Name,
-				Description = l.Description
 			}).ToList();
 
 			return View(locationDTOs);
@@ -81,7 +79,6 @@ namespace ShubkivTour.Controllers
 			{
 				Id = location.Id,
 				Name = location.Name,
-				Description = location.Description
 			};
 
 			return View(locationDTO);
@@ -99,7 +96,6 @@ namespace ShubkivTour.Controllers
 			{
 				Id = model.Id,
 				Name = model.Name,
-				Description = model.Description
 			};
 
 			_locationRepository.UpdateLocation(location);

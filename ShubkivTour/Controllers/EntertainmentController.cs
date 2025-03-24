@@ -25,7 +25,7 @@ namespace ShubkivTour.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var entertainment = new Entertainment
+				var entertainment = new Event
 				{
 					Name = model.Name,
 					Description = model.Description,
@@ -95,7 +95,7 @@ namespace ShubkivTour.Controllers
 				return View(model);
 			}
 
-			var entertainment = new Entertainment
+			var entertainment = new Event
 			{
 				Id = model.Id,
 				Name = model.Name,

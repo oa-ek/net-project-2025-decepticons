@@ -1,11 +1,13 @@
-﻿namespace ShubkivTour.Models.Entity
+﻿/*namespace ShubkivTour.Models.Entity
 {
     public class TourLocations
     {
-        public int TourId { get; set; }
-        public Tour Tour { get; set; }
+        public int Id { get; set; }
+        public int EventId { get; set; }
+        public Event Event { get; set; }
 
         public int LocationId { get; set; }
         public Location Location { get; set; }
     }
 }
+*/

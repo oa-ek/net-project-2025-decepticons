@@ -40,7 +40,7 @@
 		<select name="EntertainmentId" class="form-control">
 			@if (ViewBag.AllEntertainments != null)
 			{
-				@foreach (var entertainment in ViewBag.AllEntertainments as List<ShubkivTour.Models.Entity.Entertainment>)
+				@foreach (var entertainment in ViewBag.AllEntertainments as List<ShubkivTour.Models.Entity.Event>)
 				{
 					<option value="@entertainment.Id">@entertainment.Name</option>
 				}

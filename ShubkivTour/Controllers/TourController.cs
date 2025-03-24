@@ -17,7 +17,7 @@ namespace ShubkivTour.Controllers
 
 		private static List<Guide> guidsInTour = new List<Guide>();
 		private static List<Location> locationInTour = new List<Location>();
-		private static List<Entertainment> entertainmentInTour = new List<Entertainment>();
+		private static List<Event> entertainmentInTour = new List<Event>();
 
 		public TourController(ILogger<TourController> logger, ITour tourRepository, IGuide guideRepository, ILocation locationRepository, IEntertainments entertainmentRepository)
 		{
@@ -91,14 +91,14 @@ namespace ShubkivTour.Controllers
 				{
 					GuideId = guide.Id
 				}).ToList(),
-				TourEntertainments = entertainmentInTour.Select(entertainment => new TourEntertainments
+				TourEvents = entertainmentInTour.Select(entertainment => new TourEvents
 				{
-					EntertainmentId = entertainment.Id
+					EventId = entertainment.Id
 				}).ToList(),
-				TourLocations = locationInTour.Select(location => new TourLocations
+				/*TourEvents = locationInTour.Select(location => new TourLocations
 				{
 					LocationId = location.Id
-				}).ToList(),
+				}).ToList(),*/
 				Complexity = model.Complexity ?? "DefaultValue",
 				Price = model.Price,
 				Date = model.Date

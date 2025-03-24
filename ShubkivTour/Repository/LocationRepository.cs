@@ -49,7 +49,6 @@ namespace ShubkivTour.Repository
 			if (existingLocation != null)
 			{
 				existingLocation.Name = location.Name;
-				existingLocation.Description = location.Description;
 				_context.SaveChanges();
 			}
 		}
