@@ -17,7 +17,7 @@ namespace ShubkivTour.Data
         public DbSet<Location> Locations => Set<Location>();
         public DbSet<Tour> Tours => Set<Tour>();
         public DbSet<TourClients> TourClients => Set<TourClients>();
-        public DbSet<TourEvents> TourEntertainments => Set<TourEvents>();
+        //public DbSet<TourEvents> TourEntertainments => Set<TourEvents>();
         public DbSet<TourGuides> TourGuides => Set<TourGuides>();
         //public DbSet<TourLocations> TourLocations => Set<TourLocations>();
         public DbSet<Day> Days => Set<Day>();

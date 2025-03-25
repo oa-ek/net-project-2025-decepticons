@@ -1,4 +1,52 @@
-﻿@model ShubkivTour.Models.DTO.TourDTOCreate
+﻿@model ShubkivTour.Models.DTO.TourProgramViewModel;
+
 @{
-	ViewData["Title"] = "Day create";
+    ViewData["Title"] = "Створення туру";
 }
+
+<h1>Створення програми туру</h1>
+
+<form asp-action="AddDay" method="post">
+    <button type="submit">Створити день</button>
+</form>
+
+@if (Model.Days.Count == 0 && Model.CurrentDay.Events.Count == 0)
+{
+    <p>Немає доданих днів.</p>
+}
+
+<h2>Додати подію</h2>
+<form asp-action="AddEvent" method="post">
+    <input type="text" name="name" placeholder="Назва події" required />
+    <input type="text" name="description" placeholder="Опис" required />
+    <input type="datetime-local" name="time" required />
+    <button type="submit">Записати івент</button>
+</form>
+
+@if (Model.CurrentDay.Events.Count > 0)
+{
+    <h3>Тимчасовий список івентів для дня</h3>
+    <ul>
+        @foreach (var eventItem in Model.CurrentDay.Events)
+        {
+            <li>@eventItem.Name - @eventItem.Description (@eventItem.Time)</li>
+        }
+    </ul>
+}
+
+@if (Model.Days.Count > 0)
+{
+    <h2>Програма туру</h2>
+    @for (int i = 0; i < Model.Days.Count; i++)
+    {
+        <h3>День @(i + 1)</h3>
+        <ul>
+            @foreach (var eventItem in Model.Days[i].Events)
+            {
+                <li>@eventItem.Name - @eventItem.Description (@eventItem.Time)</li>
+            }
+        </ul>
+    }
+}
+<a asp-controller="Tour" asp-action="TourManagement" class="btn btn-primary">Готово</a>
+

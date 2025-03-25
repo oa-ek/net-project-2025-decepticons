@@ -18,8 +18,10 @@ namespace ShubkivTour.Controllers
 		private static List<Guide> guidsInTour = new List<Guide>();
 		private static List<Location> locationInTour = new List<Location>();
 		private static List<Event> entertainmentInTour = new List<Event>();
+        private static TourProgramViewModel tourProgram = new TourProgramViewModel();
 
-		public TourController(ILogger<TourController> logger, ITour tourRepository, IGuide guideRepository, ILocation locationRepository, IEntertainments entertainmentRepository)
+
+        public TourController(ILogger<TourController> logger, ITour tourRepository, IGuide guideRepository, ILocation locationRepository, IEntertainments entertainmentRepository)
 		{
 			_logger = logger;
 			_tourRepository = tourRepository;
@@ -80,41 +82,56 @@ namespace ShubkivTour.Controllers
 			return View();
 		}
 		[HttpPost]
-		public IActionResult TourCreate(TourDTOCreate model)
-		{
-			var tour = new Tour
-			{
-				Name = model.Name,
-				TourGuides = guidsInTour.Select(guide => new TourGuides
-				{
-					GuideId = guide.Id
-				}).ToList(),
-				/*TourEvents = entertainmentInTour.Select(entertainment => new TourEvents
-				{
-					EventId = entertainment.Id
-				}).ToList(),*/
-				/*TourEvents = locationInTour.Select(location => new TourLocations
-				{
-					LocationId = location.Id
-				}).ToList(),*/
-				Complexity = model.Complexity ?? "DefaultValue",
-				Price = model.Price,
-				Date = model.Date
-			};
-			_tourRepository.CreateTour(tour);
+        public IActionResult TourCreate(TourDTOCreate model)
+        {
+            if (model == null)
+            {
+                return BadRequest("Некоректні дані для створення туру.");
+            }
+
+            var tour = new Tour
+            {
+                Name = model.Name,
+                Complexity = model.Complexity ?? "DefaultValue",
+                Price = model.Price,
+                Date = model.Date,
+				Category = model.Category,
+                TourGuides = guidsInTour.Select(guide => new TourGuides
+                {
+                    GuideId = guide.Id
+                }).ToList(),
+       
+                Days = tourProgram.Days.Select(dayDto => new Day
+                {
+                    Date = model.Date, 
+                    Events = dayDto.Events.Select(eventDto => new Event
+                    {
+                        Name = eventDto.Name,
+                        Description = eventDto.Description,
+                        Time = eventDto.Time,
+                        Location = eventDto.Location 
+                    }).ToList()
+                }).ToList()
+            };
+
+            _tourRepository.CreateTour(tour);
 
             guidsInTour.Clear();
             locationInTour.Clear();
             entertainmentInTour.Clear();
+            tourProgram = new TourProgramViewModel(); 
 
             return RedirectToAction("TourManagement");
+        }
 
-		}
 
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
-	}
+
+
+    }
+
 }
