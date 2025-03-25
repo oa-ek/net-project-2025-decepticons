@@ -2,14 +2,15 @@
 {
 	public class Day
 	{
-		public int Id { get; set; } // Було id з малої, виправлено
+		public int Id { get; set; }
 		public DateTime Date { get; set; }
 
-		// Зв'язок з туром
-		public int TourId { get; set; }
-		public Tour Tour { get; set; }
+		public int TourProgramId { get; set; }
+		public TourProgram TourProgram { get; set; }
 
-		// Зв'язок з подіями
+
+		//public ICollection<DayEvents> DayEvents { get; set; } = new List<DayEvents>();
 		public ICollection<Event> Events { get; set; } = new List<Event>();
+
 	}
 }

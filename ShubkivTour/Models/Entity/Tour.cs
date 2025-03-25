@@ -12,7 +12,7 @@
 
 		// Навігаційні властивості
 		public ICollection<TourGuides> TourGuides { get; set; } = new List<TourGuides>();
-		public ICollection<TourEvents> TourEvents { get; set; } = new List<TourEvents>();
+		//public ICollection<TourEvents> TourEvents { get; set; } = new List<TourEvents>();
 		public ICollection<TourClients> TourClients { get; set; } = new List<TourClients>();
 
 

@@ -15,10 +15,14 @@ namespace ShubkivTour.Data
         public DbSet<Event> Events => Set<Event>();
         public DbSet<Guide> Guides => Set<Guide>();
         public DbSet<Location> Locations => Set<Location>();
+        public DbSet<TourProgram> TourPrograms => Set<TourProgram>();
+        public DbSet<Day> Days => Set<Day>();
         public DbSet<Tour> Tours => Set<Tour>();
         public DbSet<TourClients> TourClients => Set<TourClients>();
-        //public DbSet<TourEvents> TourEntertainments => Set<TourEvents>();
         public DbSet<TourGuides> TourGuides => Set<TourGuides>();
+
+
+        //public DbSet<TourEvents> TourEntertainments => Set<TourEvents>();
         //public DbSet<TourLocations> TourLocations => Set<TourLocations>();
         public DbSet<Day> Days => Set<Day>();
 		public DbSet<Brand> Brands => Set<Brand>();
@@ -62,38 +66,62 @@ namespace ShubkivTour.Data
                 .WithMany(g => g.TourClients)
                 .HasForeignKey(tg => tg.ClientId);
 
+			// Зв'язок між Day і Event
+			modelBuilder.Entity<Event>()
+				.HasOne(e => e.Day)
+				.WithMany(d => d.Events)
+				.HasForeignKey(e => e.DayId);
+
+			// Зв'язок між Day і TourProgram
+			modelBuilder.Entity<Day>()
+				.HasOne(d => d.TourProgram)
+				.WithMany(tp => tp.Days)
+				.HasForeignKey(d => d.TourProgramId);
+
+			/*//зв'язок між Day та Event через проміжну
+			modelBuilder.Entity<DayEvents>()
+				.HasKey(tg => new { tg.DayId, tg.EventId });
+
+			modelBuilder.Entity<DayEvents>()
+				.HasOne(tg => tg.Day)
+				.WithMany(t => t.DayEvents)
+				.HasForeignKey(tg => tg.DayId);
+
+			modelBuilder.Entity<DayEvents>()
+				.HasOne(tg => tg.Event)
+				.WithMany(g => g.DayEvents)
+				.HasForeignKey(tg => tg.EventId);*/
+
+			/* //зв'язок між Tour та Location через проміжну
+			 modelBuilder.Entity<TourLocations>()
+				 .HasKey(tg => new { tg.TourId, tg.LocationId });
+
+			 modelBuilder.Entity<TourLocations>()
+				 .HasOne(tg => tg.Tour)
+				 .WithMany(t => t.TourLocations)
+				 .HasForeignKey(tg => tg.TourId);
+
+			 modelBuilder.Entity<TourLocations>()
+				 .HasOne(tg => tg.Location)
+				 .WithMany(g => g.TourLocations)
+				 .HasForeignKey(tg => tg.LocationId);*/
 
 
-           /* //зв'язок між Tour та Location через проміжну
-            modelBuilder.Entity<TourLocations>()
-                .HasKey(tg => new { tg.TourId, tg.LocationId });
-
-            modelBuilder.Entity<TourLocations>()
-                .HasOne(tg => tg.Tour)
-                .WithMany(t => t.TourLocations)
-                .HasForeignKey(tg => tg.TourId);
-
-            modelBuilder.Entity<TourLocations>()
-                .HasOne(tg => tg.Location)
-                .WithMany(g => g.TourLocations)
-                .HasForeignKey(tg => tg.LocationId);*/
 
 
+			/* //зв'язок між Tour та Location через проміжну
+			 modelBuilder.Entity<TourEvents>()
+				 .HasKey(tg => new { tg.TourId, tg.EntertainmentId });
 
+			 modelBuilder.Entity<TourEvents>()
+				 .HasOne(tg => tg.Tour)
+				 .WithMany(t => t.TourEvents)
+				 .HasForeignKey(tg => tg.TourId);
 
-           /* //зв'язок між Tour та Location через проміжну
-            modelBuilder.Entity<TourEvents>()
-                .HasKey(tg => new { tg.TourId, tg.EntertainmentId });
-
-            modelBuilder.Entity<TourEvents>()
-                .HasOne(tg => tg.Tour)
-                .WithMany(t => t.TourEvents)
-                .HasForeignKey(tg => tg.TourId);
-
-            modelBuilder.Entity<TourEvents>()
-                .HasOne(tg => tg.Entertainment)
-                .WithMany(g => g.TourEvents)
-                .HasForeignKey(tg => tg.EntertainmentId);*/
-        }
+			 modelBuilder.Entity<TourEvents>()
+				 .HasOne(tg => tg.Entertainment)
+				 .WithMany(g => g.TourEvents)
+				 .HasForeignKey(tg => tg.EntertainmentId);*/
+		}
     } 
 }
