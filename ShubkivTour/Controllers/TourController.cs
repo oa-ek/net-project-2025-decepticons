@@ -18,7 +18,7 @@ namespace ShubkivTour.Controllers
 		private static List<Guide> guidsInTour = new List<Guide>();
 		private static List<Location> locationInTour = new List<Location>();
 		private static List<Event> entertainmentInTour = new List<Event>();
-        private static TourProgramViewModel tourProgram = new TourProgramViewModel();
+       // private static TourProgramViewModel tourProgram = new TourProgramViewModel();
 
 
         public TourController(ILogger<TourController> logger, ITour tourRepository, IGuide guideRepository, ILocation locationRepository, IEntertainments entertainmentRepository)
@@ -82,50 +82,63 @@ namespace ShubkivTour.Controllers
 			return View();
 		}
 		[HttpPost]
-        public IActionResult TourCreate(TourDTOCreate model)
-        {
-            if (model == null)
-            {
-                return BadRequest("Некоректні дані для створення туру.");
-            }
+		public IActionResult TourCreate(TourDTOCreate model)
+		{
+			if (model == null)
+			{
+				return BadRequest("Некоректні дані для створення туру.");
+			}
 
-            var tour = new Tour
-            {
-                Name = model.Name,
-                Complexity = model.Complexity ?? "DefaultValue",
-                Price = model.Price,
-                Date = model.Date,
+			// Використовуємо дані із ProgramController
+			var tourProgram = ProgramController.tourProgram;
+
+			if (tourProgram.Days.Count == 0)
+			{
+				return BadRequest("Тур не може бути створений без днів.");
+			}
+
+			var tour = new Tour
+			{
+				Name = model.Name,
+				Complexity = model.Complexity ?? "DefaultValue",
+				Price = model.Price,
+				Date = model.Date,
 				Category = model.Category,
-                TourGuides = guidsInTour.Select(guide => new TourGuides
-                {
-                    GuideId = guide.Id
-                }).ToList(),
-       
-                Days = tourProgram.Days.Select(dayDto => new Day
-                {
-                    Date = model.Date, 
-                    Events = dayDto.Events.Select(eventDto => new Event
-                    {
-                        Name = eventDto.Name,
-                        Description = eventDto.Description,
-                        Time = eventDto.Time,
-                        Location = eventDto.Location 
-                    }).ToList()
-                }).ToList()
-            };
+				Members = model.Members,
+				TourGuides = guidsInTour.Select(guide => new TourGuides { GuideId = guide.Id }).ToList()
+			};
 
-            _tourRepository.CreateTour(tour);
+			var tourProgramEntity = new TourProgram
+			{
+				Tour = tour,
+				Days = tourProgram.Days.Select(dayDto => new Day
+				{
+					Date = model.Date,
+					Events = dayDto.Events.Select(eventDto => new Event
+					{
+						Name = eventDto.Name,
+						Description = eventDto.Description,
+						Time = eventDto.Time,
+						LocationId = eventDto.Location?.Id ?? 1 // Якщо локація не задана, використовуємо ID = 1
+					}).ToList()
+				}).ToList()
+			};
 
-            guidsInTour.Clear();
-            locationInTour.Clear();
-            entertainmentInTour.Clear();
-            tourProgram = new TourProgramViewModel(); 
+			tour.TourProgram = tourProgramEntity;
+			_tourRepository.CreateTour(tour);
 
-            return RedirectToAction("TourManagement");
-        }
+			// Очистка даних
+			guidsInTour.Clear();
+			locationInTour.Clear();
+			entertainmentInTour.Clear();
+			ProgramController.tourProgram = new TourProgramViewModel();
+
+			return RedirectToAction("TourManagement");
+		}
 
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

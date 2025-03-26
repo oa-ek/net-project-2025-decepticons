@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShubkivTour.Data;
 
@@ -11,9 +12,11 @@ using ShubkivTour.Data;
 namespace ShubkivTour.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250325235447_upd")]
+    partial class upd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -259,10 +262,10 @@ namespace ShubkivTour.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TourId")
+                    b.Property<int?>("TourId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TourProgramId")
+                    b.Property<int>("TourProgramId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -499,17 +502,17 @@ namespace ShubkivTour.Migrations
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Day", b =>
                 {
-                    b.HasOne("ShubkivTour.Models.Entity.Tour", "Tour")
+                    b.HasOne("ShubkivTour.Models.Entity.Tour", null)
                         .WithMany("Days")
-                        .HasForeignKey("TourId")
+                        .HasForeignKey("TourId");
+
+                    b.HasOne("ShubkivTour.Models.Entity.TourProgram", "TourProgram")
+                        .WithMany("Days")
+                        .HasForeignKey("TourProgramId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ShubkivTour.Models.Entity.TourProgram", null)
-                        .WithMany("Days")
-                        .HasForeignKey("TourProgramId");
-
-                    b.Navigation("Tour");
+                    b.Navigation("TourProgram");
                 });
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Event", b =>
