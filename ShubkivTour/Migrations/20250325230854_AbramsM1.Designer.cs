@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShubkivTour.Data;
 
@@ -11,9 +12,11 @@ using ShubkivTour.Data;
 namespace ShubkivTour.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250325230854_AbramsM1")]
+    partial class AbramsM1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -301,14 +304,9 @@ namespace ShubkivTour.Migrations
                     b.Property<int>("TourId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TourProgramId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("TourId");
-
-                    b.HasIndex("TourProgramId");
 
                     b.ToTable("Days");
                 });
@@ -321,7 +319,7 @@ namespace ShubkivTour.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DayId")
+                    b.Property<int?>("DayId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -636,25 +634,6 @@ namespace ShubkivTour.Migrations
                     b.ToTable("TourGuides");
                 });
 
-            modelBuilder.Entity("ShubkivTour.Models.Entity.TourProgram", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("TourId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TourId")
-                        .IsUnique();
-
-                    b.ToTable("TourPrograms");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -725,28 +704,20 @@ namespace ShubkivTour.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ShubkivTour.Models.Entity.TourProgram", null)
-                        .WithMany("Days")
-                        .HasForeignKey("TourProgramId");
-
                     b.Navigation("Tour");
                 });
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Event", b =>
                 {
-                    b.HasOne("ShubkivTour.Models.Entity.Day", "Day")
+                    b.HasOne("ShubkivTour.Models.Entity.Day", null)
                         .WithMany("Events")
-                        .HasForeignKey("DayId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DayId");
 
                     b.HasOne("ShubkivTour.Models.Entity.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Day");
 
                     b.Navigation("Location");
                 });
@@ -835,6 +806,25 @@ namespace ShubkivTour.Migrations
                     b.Navigation("Tour");
                 });
 
+            modelBuilder.Entity("ShubkivTour.Models.Entity.TourEvents", b =>
+                {
+                    b.HasOne("ShubkivTour.Models.Entity.Event", "Event")
+                        .WithMany("TourEvents")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShubkivTour.Models.Entity.Tour", "Tour")
+                        .WithMany("TourEvents")
+                        .HasForeignKey("TourId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+
+                    b.Navigation("Tour");
+                });
+
             modelBuilder.Entity("ShubkivTour.Models.Entity.TourGuides", b =>
                 {
                     b.HasOne("ShubkivTour.Models.Entity.Guide", "Guide")
@@ -854,17 +844,6 @@ namespace ShubkivTour.Migrations
                     b.Navigation("Tour");
                 });
 
-            modelBuilder.Entity("ShubkivTour.Models.Entity.TourProgram", b =>
-                {
-                    b.HasOne("ShubkivTour.Models.Entity.Tour", "Tour")
-                        .WithOne("TourProgram")
-                        .HasForeignKey("ShubkivTour.Models.Entity.TourProgram", "TourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tour");
-                });
-
             modelBuilder.Entity("ShubkivTour.Models.Entity.Client", b =>
                 {
                     b.Navigation("TourClients");
@@ -873,6 +852,11 @@ namespace ShubkivTour.Migrations
             modelBuilder.Entity("ShubkivTour.Models.Entity.Day", b =>
                 {
                     b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("ShubkivTour.Models.Entity.Event", b =>
+                {
+                    b.Navigation("TourEvents");
                 });
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Guide", b =>
@@ -888,15 +872,9 @@ namespace ShubkivTour.Migrations
 
                     b.Navigation("TourClients");
 
+                    b.Navigation("TourEvents");
+
                     b.Navigation("TourGuides");
-
-                    b.Navigation("TourProgram")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ShubkivTour.Models.Entity.TourProgram", b =>
-                {
-                    b.Navigation("Days");
                 });
 #pragma warning restore 612, 618
         }
