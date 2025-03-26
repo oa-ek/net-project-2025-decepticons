@@ -7,7 +7,8 @@
 
 		public int TourProgramId { get; set; }
 		public TourProgram TourProgram { get; set; }
-
+/*		public int TourId { get; set; }
+		public Tour Tour { get; set; }*/
 
 		//public ICollection<DayEvents> DayEvents { get; set; } = new List<DayEvents>();
 		public ICollection<Event> Events { get; set; } = new List<Event>();

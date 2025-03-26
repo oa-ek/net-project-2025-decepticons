@@ -14,6 +14,7 @@ namespace ShubkivTour.Models.DTO
 		public ICollection<TourClients> TourClients { get; set; }
 		public string Complexity { get; set; }
 		public int Price { get; set; }
+		public int Members { get; set; }
 		public DateTime Date { get; set; }
 	}
 }
