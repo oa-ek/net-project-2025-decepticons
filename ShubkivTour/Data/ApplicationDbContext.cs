@@ -22,12 +22,6 @@ namespace ShubkivTour.Data
 		public DbSet<TourGuides> TourGuides => Set<TourGuides>();
 
 
-		//public DbSet<TourEvents> TourEntertainments => Set<TourEvents>();
-		//public DbSet<TourLocations> TourLocations => Set<TourLocations>();
-=======
-        //public DbSet<TourEvents> TourEntertainments => Set<TourEvents>();
-        //public DbSet<TourLocations> TourLocations => Set<TourLocations>();
-        public DbSet<Day> Days => Set<Day>();
 		public DbSet<Brand> Brands => Set<Brand>();
 		public DbSet<CategoryProduct> CategoryProducts => Set<CategoryProduct>();
 		public DbSet<Order> Orders => Set<Order>();
@@ -36,7 +30,6 @@ namespace ShubkivTour.Data
 		public DbSet<Review> Reviews => Set<Review>();
 		public DbSet<SubCategory> SubCategories => Set<SubCategory>();
 
->>>>>>> 556bed247ee9a7d7f2d0e07ab77d1e3b839e0bf7
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -84,10 +77,10 @@ namespace ShubkivTour.Data
 
 
 
-			modelBuilder.Entity<Tour>()
+/*			modelBuilder.Entity<Tour>()
 	.HasOne(t => t.TourProgram)
 	.WithOne(tp => tp.Tour)
-	.HasForeignKey<TourProgram>(tp => tp.TourId);
+	.HasForeignKey<TourProgram>(tp => tp.TourId);*/
 
 
 			/*//зв'язок між Day та Event через проміжну

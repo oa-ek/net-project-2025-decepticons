@@ -1,7 +1,7 @@
 ﻿@model ShubkivTour.Models.DTO.TourProgramViewModel;
 
 @{
-    ViewData["Title"] = "Створення туру";
+    ViewData["Title"] = "Створення програми";
 }
 
 <h1>Створення програми туру</h1>
@@ -48,5 +48,9 @@
         </ul>
     }
 }
+<form asp-action="CreateProgram" method="post">
+    <button type="submit" class="btn btn-primary">Створити програму</button>
+</form>
+
 <a asp-controller="Tour" asp-action="TourManagement" class="btn btn-primary">Готово</a>
 

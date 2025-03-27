@@ -1,0 +1,17 @@
+﻿@* @using ShubkivTour.Models.Entity
+@model Tour
+
+<h2>@Model.Name</h2>
+<p><strong>Ціна:</strong> @Model.Price грн</p>
+
+<h3>Програма туру:</h3>
+@foreach (var day in Model.Days)
+{
+    <div>
+        <h4>День @day.DayNumber</h4>
+        @foreach (var ev in day.Events)
+        {
+            <p><strong>@ev.Time:</strong> @ev.Description (@ev.Location)</p>
+        }
+    </div>
+} *@

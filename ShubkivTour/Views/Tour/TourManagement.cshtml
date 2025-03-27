@@ -24,6 +24,14 @@
 		</select>
 		<button type="submit" class="btn btn-primary" asp-action="AddGuide">Записати гіда</button>
 
+		<label for="tourProgramId">Програма туру:</label>
+		<select name="TourProgramId" required>
+			<option value="">Оберіть програму туру</option>
+			@foreach (var program in ViewBag.AllTourPrograms)
+			{
+				<option value="@program.Id">@program.Id</option>
+			}
+		</select>
 
 		<a asp-controller="Program" asp-action="DayCreate" class="btn btn-primary">Розробити програму туру</a>
 
@@ -75,6 +83,11 @@
 				<td>@tour.Complexity</td>
 				<td>@tour.Price</td>
 				<td>@tour.Date</td>
+				<td>
+					<a asp-controller="Tour" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-info" target="_blank">
+						Переглянути деталі
+					</a>
+				</td>
 			</tr>
 		}
 	</tbody>
