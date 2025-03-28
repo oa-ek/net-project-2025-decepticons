@@ -23,7 +23,7 @@ namespace ShubkivTour.Repository
 
 			_context.Tours.Add(tour);
 
-			if (tour.TourProgram != null)
+			/*if (tour.TourProgram != null)
 			{
 				_context.TourPrograms.Add(tour.TourProgram);
 
@@ -36,7 +36,7 @@ namespace ShubkivTour.Repository
 						_context.Events.Add(ev);
 					}
 				}
-			}
+			}*/
 
 			_context.SaveChanges();
 		}

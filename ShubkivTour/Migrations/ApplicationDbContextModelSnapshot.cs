@@ -306,8 +306,6 @@ namespace ShubkivTour.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TourId");
-
                     b.HasIndex("TourProgramId");
 
                     b.ToTable("Days");
@@ -575,7 +573,12 @@ namespace ShubkivTour.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
+                    b.Property<int>("TourProgramId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TourProgramId");
 
                     b.ToTable("Tours");
                 });
@@ -627,13 +630,7 @@ namespace ShubkivTour.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("TourId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TourId")
-                        .IsUnique();
 
                     b.ToTable("TourPrograms");
                 });
@@ -799,6 +796,17 @@ namespace ShubkivTour.Migrations
                     b.Navigation("Tour");
                 });
 
+            modelBuilder.Entity("ShubkivTour.Models.Entity.Tour", b =>
+                {
+                    b.HasOne("ShubkivTour.Models.Entity.TourProgram", "TourProgram")
+                        .WithMany()
+                        .HasForeignKey("TourProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TourProgram");
+                });
+
             modelBuilder.Entity("ShubkivTour.Models.Entity.TourClients", b =>
                 {
                     b.HasOne("ShubkivTour.Models.Entity.Client", "Client")
@@ -837,17 +845,6 @@ namespace ShubkivTour.Migrations
                     b.Navigation("Tour");
                 });
 
-            modelBuilder.Entity("ShubkivTour.Models.Entity.TourProgram", b =>
-                {
-                    b.HasOne("ShubkivTour.Models.Entity.Tour", "Tour")
-                        .WithOne("TourProgram")
-                        .HasForeignKey("ShubkivTour.Models.Entity.TourProgram", "TourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tour");
-                });
-
             modelBuilder.Entity("ShubkivTour.Models.Entity.Client", b =>
                 {
                     b.Navigation("TourClients");
@@ -865,16 +862,11 @@ namespace ShubkivTour.Migrations
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Tour", b =>
                 {
-                    b.Navigation("Days");
-
                     b.Navigation("Reviews");
 
                     b.Navigation("TourClients");
 
                     b.Navigation("TourGuides");
-
-                    b.Navigation("TourProgram")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.TourProgram", b =>

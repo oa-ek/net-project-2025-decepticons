@@ -12,8 +12,13 @@ using ShubkivTour.Data;
 namespace ShubkivTour.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
+<<<<<<<< HEAD:ShubkivTour/Migrations/20250327195757_Initial.Designer.cs
+    [Migration("20250327195757_Initial")]
+    partial class Initial
+========
     [Migration("20250325233608_Tanos")]
     partial class Tanos
+>>>>>>>> 7d97f4400d8d6bfdafa4e5c64f2e691586f30c56:ShubkivTour/Migrations/20250325233608_Tanos.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -298,18 +303,21 @@ namespace ShubkivTour.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("DayNumber")
+                        .HasColumnType("int");
 
+<<<<<<<< HEAD:ShubkivTour/Migrations/20250327195757_Initial.Designer.cs
+========
                     b.Property<int?>("TourId")
                         .HasColumnType("int");
 
+>>>>>>>> 7d97f4400d8d6bfdafa4e5c64f2e691586f30c56:ShubkivTour/Migrations/20250325233608_Tanos.Designer.cs
                     b.Property<int>("TourProgramId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TourId");
+                    b.HasIndex("TourProgramId");
 
                     b.HasIndex("TourProgramId");
 
@@ -578,7 +586,12 @@ namespace ShubkivTour.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
+                    b.Property<int>("TourProgramId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TourProgramId");
 
                     b.ToTable("Tours");
                 });
@@ -624,6 +637,10 @@ namespace ShubkivTour.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+<<<<<<<< HEAD:ShubkivTour/Migrations/20250327195757_Initial.Designer.cs
+                    b.HasKey("Id");
+
+========
                     b.Property<int>("TourId")
                         .HasColumnType("int");
 
@@ -631,6 +648,7 @@ namespace ShubkivTour.Migrations
 
                     b.HasIndex("TourId");
 
+>>>>>>>> 7d97f4400d8d6bfdafa4e5c64f2e691586f30c56:ShubkivTour/Migrations/20250325233608_Tanos.Designer.cs
                     b.ToTable("TourPrograms");
                 });
 
@@ -698,12 +716,17 @@ namespace ShubkivTour.Migrations
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Day", b =>
                 {
+<<<<<<<< HEAD:ShubkivTour/Migrations/20250327195757_Initial.Designer.cs
+                    b.HasOne("ShubkivTour.Models.Entity.TourProgram", "TourProgram")
+                        .WithMany("Days")
+========
                     b.HasOne("ShubkivTour.Models.Entity.Tour", null)
                         .WithMany("Days")
                         .HasForeignKey("TourId");
 
                     b.HasOne("ShubkivTour.Models.Entity.TourProgram", "TourProgram")
                         .WithMany("Days")
+>>>>>>>> 7d97f4400d8d6bfdafa4e5c64f2e691586f30c56:ShubkivTour/Migrations/20250325233608_Tanos.Designer.cs
                         .HasForeignKey("TourProgramId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -795,6 +818,17 @@ namespace ShubkivTour.Migrations
                     b.Navigation("Tour");
                 });
 
+            modelBuilder.Entity("ShubkivTour.Models.Entity.Tour", b =>
+                {
+                    b.HasOne("ShubkivTour.Models.Entity.TourProgram", "TourProgram")
+                        .WithMany()
+                        .HasForeignKey("TourProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TourProgram");
+                });
+
             modelBuilder.Entity("ShubkivTour.Models.Entity.TourClients", b =>
                 {
                     b.HasOne("ShubkivTour.Models.Entity.Client", "Client")
@@ -861,8 +895,6 @@ namespace ShubkivTour.Migrations
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Tour", b =>
                 {
-                    b.Navigation("Days");
-
                     b.Navigation("Reviews");
 
                     b.Navigation("TourClients");
