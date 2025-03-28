@@ -1,5 +1,78 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<ShubkivTour.Models.Entity.Product>
+
 @{
+    ViewData["Title"] = "Каталог товарів";
 }
+
+<h2>Каталог товарів</h2>
+
+<form method="get">
+    <label for="category">Категорія:</label>
+    <select name="categoryId" id="category">
+        <option value="">Всі</option>
+        @foreach (var category in ViewBag.Categories)
+        {
+            <option value="@category.Value">@category.Text</option>
+        }
+    </select>
+
+    <label for="subCategory">Підкатегорія:</label>
+    <select name="subCategoryId" id="subCategory">
+        <option value="">Всі</option>
+        @foreach (var subCategory in ViewBag.SubCategories)
+        {
+            <option value="@subCategory.Value">@subCategory.Text</option>
+        }
+    </select>
+
+    <label for="sortOrder">Сортування:</label>
+    <select name="sortOrder" id="sortOrder">
+        <option value="">Без сортування</option>
+        <option value="price_asc">Ціна: зростання</option>
+        <option value="price_desc">Ціна: спадання</option>
+    </select>
+
+    <button type="submit">Фільтрувати</button>
+</form>
+
+<a href="@Url.Action("Add", "Catalog")" class="btn btn-success">Додати товар</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Категорія</th>
+            <th>Підкатегорія</th>
+            <th>Бренд</th>
+            <th>Розмір</th>
+            <th>Колір</th>
+            <th>Матеріал</th>
+            <th>Ціна</th>
+            <th>Опис</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.CategoryProduct?.Name</td>
+                <td>@product.CategoryProduct?.SubCategory?.Name</td>
+                <td>@product.Brand?.Name</td>
+                <td>@product.Size</td>
+                <td>@product.Color</td>
+                <td>@product.Material</td>
+                <td>@product.Price</td>
+                <td>@product.Description</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Catalog", new { id = product.Id })" class="btn btn-primary">Редагувати</a>
+                    <form asp-action="Delete" asp-controller="Catalog" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@product.Id" />
+                        <button type="submit" class="btn btn-danger">Видалити</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -18,5 +18,7 @@
 		public string Material { get; set; }
 		public string Description { get; set; }
 
-	}
+        public virtual ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
+
+    }
 }

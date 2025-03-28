@@ -25,7 +25,7 @@ namespace ShubkivTour.Data
 		public DbSet<CategoryProduct> CategoryProducts => Set<CategoryProduct>();
 		public DbSet<Order> Orders => Set<Order>();
         public DbSet<OrderStatus> OrderStatuses => Set<OrderStatus>();
-		public DbSet<Product> Product => Set<Product>();
+		public DbSet<Product> Products => Set<Product>();
 		public DbSet<Review> Reviews => Set<Review>();
 		public DbSet<SubCategory> SubCategories => Set<SubCategory>();
 
