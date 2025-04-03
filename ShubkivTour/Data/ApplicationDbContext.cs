@@ -21,10 +21,7 @@ namespace ShubkivTour.Data
 		public DbSet<TourClients> TourClients => Set<TourClients>();
 		public DbSet<TourGuides> TourGuides => Set<TourGuides>();
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 7d97f4400d8d6bfdafa4e5c64f2e691586f30c56
 		public DbSet<Brand> Brands => Set<Brand>();
 		public DbSet<CategoryProduct> CategoryProducts => Set<CategoryProduct>();
 		public DbSet<Order> Orders => Set<Order>();
@@ -33,10 +30,7 @@ namespace ShubkivTour.Data
 		public DbSet<Review> Reviews => Set<Review>();
 		public DbSet<SubCategory> SubCategories => Set<SubCategory>();
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 7d97f4400d8d6bfdafa4e5c64f2e691586f30c56
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
