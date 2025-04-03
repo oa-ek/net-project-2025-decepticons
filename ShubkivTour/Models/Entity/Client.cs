@@ -1,11 +1,12 @@
-﻿namespace ShubkivTour.Models.Entity
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace ShubkivTour.Models.Entity
 {
-    public class Client
+    public class Client : IdentityUser
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Contact { get; set; }
-        public int Age { get; set; }
+        public int YearOfBirth { get; set; }
         public ICollection<TourClients> TourClients { get; set; }
     }
 }

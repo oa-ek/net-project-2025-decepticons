@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ShubkivTour.Data;
 using ShubkivTour.Models.DTO;
 using ShubkivTour.Models.Entity;
+using ShubkivTour.Repository;
 
 public class ProgramController : Controller
 {
@@ -19,11 +21,15 @@ public class ProgramController : Controller
 
 	public IActionResult DayCreate()
 	{
+		var allPrograms = _context.TourPrograms.ToList();
+		ViewBag.AllPrograms = allPrograms;
 		return View(tourProgram);
+
+
 	}
 
 	[HttpPost]
-	public IActionResult AddEvent(string name, string description, DateTime time)
+	public IActionResult AddEvent(string name, string description, TimeOnly time)
 	{
 		if (!string.IsNullOrWhiteSpace(name))
 		{
@@ -57,10 +63,11 @@ public class ProgramController : Controller
 	}
 
     [HttpPost]
-    public IActionResult CreateProgram()
+    public IActionResult CreateProgram(string name)
     {
         var tourProgramEntity = new TourProgram
         {
+			Name = name,
             Days = tourProgram.Days.Select(dayDto => new Day
             {
                 DayNumber = dayDto.DayNumber,
@@ -85,5 +92,35 @@ public class ProgramController : Controller
 
         return RedirectToAction("DayCreate");
     }
+
+	public IActionResult ProgramDetails(int id)
+	{
+		var tourProgram = _context.TourPrograms
+			.Include(tp => tp.Days)
+				.ThenInclude(d => d.Events)
+				.ThenInclude(e => e.Location)
+			.FirstOrDefault(tp => tp.Id == id);
+
+		if (tourProgram == null)
+		{
+			return NotFound();
+		}
+
+		return View(tourProgram);
+	}
+    [HttpPost]
+    public IActionResult RemoveProgram(int id)
+    {
+        var deletedProgram = _context.TourPrograms.FirstOrDefault(p => p.Id == id);
+
+        if (deletedProgram != null)
+        {
+            _context.TourPrograms.Remove(deletedProgram);
+            _context.SaveChanges();
+        }
+
+        return RedirectToAction("DayCreate");
+    }
+
 
 }

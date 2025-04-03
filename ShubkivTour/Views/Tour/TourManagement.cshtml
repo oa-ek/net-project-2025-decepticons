@@ -25,11 +25,11 @@
 		<button type="submit" class="btn btn-primary" asp-action="AddGuide">Записати гіда</button>
 
 		<label for="tourProgramId">Програма туру:</label>
-		<select name="TourProgramId" required>
+		<select name="TourProgramId">
 			<option value="">Оберіть програму туру</option>
 			@foreach (var program in ViewBag.AllTourPrograms)
 			{
-				<option value="@program.Id">@program.Id</option>
+				<option value="@program.Id">@program.Name</option>
 			}
 		</select>
 
@@ -40,7 +40,7 @@
 		<input type="number" id="Priсe" name="Price" class="form-control" />
 
 		<label>Кількість учасників</label>
-		<input type="number" id="Members" name="Members" class="form-control" />
+		<input type="number" id="MaxMembers" name="MaxMembers" class="form-control" />
 
 		<label>Категорія</label>
 		<input type="text" id="Category" name="Category" class="form-control" />
@@ -73,6 +73,7 @@
 			<th>Складність</th>
 			<th>Ціна</th>
 			<th>Дата</th>
+			<th>Кількість учасників</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -83,10 +84,14 @@
 				<td>@tour.Complexity</td>
 				<td>@tour.Price</td>
 				<td>@tour.Date</td>
+				<td>@tour.MaxMembers</td>
 				<td>
 					<a asp-controller="Tour" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-info" target="_blank">
 						Переглянути деталі
 					</a>
+					<form asp-controller="Tour" asp-action="RemoveTour" asp-route-id="@tour.Id" method="post" style="display:inline;">
+						<button type="submit" class="btn btn-danger">Видалити</button>
+					</form>
 				</td>
 			</tr>
 		}

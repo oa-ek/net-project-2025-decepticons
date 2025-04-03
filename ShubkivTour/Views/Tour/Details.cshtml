@@ -1,17 +1,37 @@
-﻿@* @using ShubkivTour.Models.Entity
-@model Tour
+﻿@model ShubkivTour.Models.Entity.Tour;
 
-<h2>@Model.Name</h2>
-<p><strong>Ціна:</strong> @Model.Price грн</p>
+<h2>Програма туру: @Model.Name</h2>
 
-<h3>Програма туру:</h3>
-@foreach (var day in Model.Days)
+@if (Model.TourProgram != null && Model.TourProgram.Days.Any())
 {
-    <div>
-        <h4>День @day.DayNumber</h4>
-        @foreach (var ev in day.Events)
+    <ul>
+        @foreach (var day in Model.TourProgram.Days)
         {
-            <p><strong>@ev.Time:</strong> @ev.Description (@ev.Location)</p>
+            <li>
+                <h3>День @day.DayNumber</h3>
+                @if (day.Events.Any())
+                {
+                    <ul>
+                        @foreach (var eventItem in day.Events)
+                        {
+                            <li>
+                                <strong>@eventItem.Name</strong> - @eventItem.Description <br />
+                                <em>Час: @eventItem.Time</em>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>Подій немає</p>
+                }
+            </li>
         }
-    </div>
-} *@
+    </ul>
+}
+else
+{
+    <p>Днів у цьому турі ще немає</p>
+}
+
+<a asp-controller="Tour" asp-action="TourManagement" class="btn btn-primary">Назад</a>
