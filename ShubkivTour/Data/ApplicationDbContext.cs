@@ -28,6 +28,9 @@ namespace ShubkivTour.Data
         public DbSet<Product> Product => Set<Product>();
         public DbSet<Review> Reviews => Set<Review>();
         public DbSet<SubCategory> SubCategories => Set<SubCategory>();
+		public DbSet<Product> Products => Set<Product>();
+		public DbSet<Review> Reviews => Set<Review>();
+		public DbSet<SubCategory> SubCategories => Set<SubCategory>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

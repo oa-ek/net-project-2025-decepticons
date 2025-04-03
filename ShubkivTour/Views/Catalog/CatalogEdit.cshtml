@@ -1,5 +1,54 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ShubkivTour.Models.Entity.Product
+
 @{
+    ViewData["Title"] = "Редагування товару";
 }
+
+<h2>Редагувати товар</h2>
+
+<form method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="form-group">
+        <label>Назва</label>
+        <input type="text" name="Name" class="form-control" value="@Model.Name" required />
+    </div>
+
+    <div class="form-group">
+        <label>Категорія</label>
+        <select name="CategoryProductId" class="form-control" required>
+            @foreach (var category in ViewBag.Categories)
+            {
+                <option value="@category.Value" selected="@(Model.CategoryProductId == int.Parse(category.Value) ? "selected" : null)">@category.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Підкатегорія</label>
+        <select name="SubCategoryId" class="form-control">
+            @foreach (var subCategory in ViewBag.SubCategories)
+            {
+                <option value="@subCategory.Value" selected="@(Model.CategoryProduct?.SubCategoryId == int.Parse(subCategory.Value) ? "selected" : null)">@subCategory.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Бренд</label>
+        <select name="BrandId" class="form-control">
+            @foreach (var brand in ViewBag.Brands)
+            {
+                <option value="@brand.Value" selected="@(Model.BrandId == int.Parse(brand.Value) ? "selected" : null)">@brand.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Ціна</label>
+        <input type="number" name="Price" class="form-control" value="@Model.Price" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Зберегти</button>
+    <a href="@Url.Action("CatalogLook", "Catalog")" class="btn btn-secondary">Скасувати</a>
+</form>
