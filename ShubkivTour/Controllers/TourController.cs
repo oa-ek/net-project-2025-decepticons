@@ -63,28 +63,28 @@ namespace ShubkivTour.Controllers
 			return RedirectToAction("TourManagement");
 		}
 
-        public IActionResult TourManagement()
-        {
-            var allGuids = _guideRepository.GetAllGuides()
-                .Where(g => !guidsInTour.Any(gt => gt.Id == g.Id))
-                .ToList();
-            var allLocations = _locationRepository.GetAllLocations()
-                .Where(l => !locationInTour.Any(lt => lt.Id == l.Id))
-                .ToList();
-            var allEntertainment = _entertainmentRepository.GetAllEntertainments()
-                .Where(e => !entertainmentInTour.Any(et => et.Id == e.Id))
-                .ToList();
-            var allTours = _tourRepository.GetAllTours();
-            var allTourPrograms = _context.TourPrograms.ToList(); // Îòğèìàòè âñ³ ïğîãğàìè
+		public IActionResult TourManagement()
+		{
+			var allGuids = _guideRepository.GetAllGuides()
+				.Where(g => !guidsInTour.Any(gt => gt.Id == g.Id))
+				.ToList();
+			var allLocations = _locationRepository.GetAllLocations()
+				.Where(l => !locationInTour.Any(lt => lt.Id == l.Id))
+				.ToList();
+			var allEntertainment = _entertainmentRepository.GetAllEntertainments()
+				.Where(e => !entertainmentInTour.Any(et => et.Id == e.Id))
+				.ToList();
+			var allTours = _tourRepository.GetAllTours();
+			var allTourPrograms = _context.TourPrograms.ToList();
 
-            ViewBag.AllGuids = allGuids;
-            ViewBag.AllLocations = allLocations;
-            ViewBag.AllEntertainments = allEntertainment;
-            ViewBag.AllTours = allTours;
-            ViewBag.AllTourPrograms = allTourPrograms; // Ïåğåäàºìî ïğîãğàìè ó View
+			ViewBag.AllGuids = allGuids;
+			ViewBag.AllLocations = allLocations;
+			ViewBag.AllEntertainments = allEntertainment;
+			ViewBag.AllTours = allTours;
+			ViewBag.AllTourPrograms = allTourPrograms; 
 
-            return View();
-        }
+			return View();
+		}
 
 		[HttpPost]
 		public IActionResult TourCreate(TourDTOCreate model, int TourProgramId)
@@ -111,9 +111,11 @@ namespace ShubkivTour.Controllers
 				Price = model.Price,
 				Date = model.Date,
 				Category = model.Category,
-				Members = model.Members,
-				TourGuides = guidsInTour.Select(guide => new TourGuides { GuideId = guide.Id }).ToList(),
-				TourProgram = selectedProgram // Ïğèâ’ÿçêà ïğîãğàìè òóğó
+				MaxMembers = model.MaxMembers,
+                CurrentMembers = 0,
+                TourGuides = guidsInTour.Select(guide => new TourGuides { GuideId = guide.Id }).ToList(),
+				TourProgram = selectedProgram,
+				Status = "Â î÷³êóâàíí³"
 			};
 
 			_tourRepository.CreateTour(tour);
@@ -133,8 +135,7 @@ namespace ShubkivTour.Controllers
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
-		//ÒĞÅÁÀ ÂÈÒßÃÍÓÒÈ Ç ÁÀÇÈ ÄÀÍÈÕ ÎÁ'ªÊÒ ÒÓĞ Ç ÒÀÁËÈÖ² Tours(ÍÀÇÂÀ, ÑÊËÀÄÍ²ÑÒÜ, ÊÀÒÅÃÎĞ²ß, Ö²ÍÀ, Ê²ËÜÊ²ÑÒÜ Ó×ÀÑÍÊ²Â, ÄÀÒÀ)
-		//ÇÍÀÉÒÈ Â ÒÀÁËÈÖ² TourPrograms ÏĞÎÃĞÀÌÓ ßÊÀ ÇÀÄ²ßÍÀ Â ÖÜÎÌÓ ÒÓĞ²
+
 		public IActionResult Details(int id)
 		{
 			var tour = _context.Tours
@@ -151,6 +152,37 @@ namespace ShubkivTour.Controllers
 
 			return View(tour);
 		}
+		[HttpPost]
+		public IActionResult RemoveTour(int id)
+		{
+			var deletedTour = _tourRepository.GetToursById(id);
+			if(deletedTour !=null)
+			{
+				_tourRepository.DeleteTour(id);
+			}
+			return RedirectToAction("TourManagement");
+		}
+
+		[HttpGet]
+		public IActionResult GetTourWithDetails(int id)
+		{
+			var tour = _context.Tours
+	 .Where(t => t.Id == id)
+	 .Include(t => t.TourProgram)
+		 .ThenInclude(tp => tp.Days)
+			 .ThenInclude(d => d.Events)
+	 .FirstOrDefault();
+
+
+			if (tour == null)
+			{
+				return NotFound("Òóğ íå çíàéäåíî");
+			}
+
+			return View(tour);
+		}
+
+
 	}
 
 }

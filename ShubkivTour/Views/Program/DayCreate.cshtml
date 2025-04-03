@@ -19,7 +19,7 @@
 <form asp-action="AddEvent" method="post">
     <input type="text" name="name" placeholder="Назва події" required />
     <input type="text" name="description" placeholder="Опис" required />
-    <input type="datetime-local" name="time" required />
+    <input type="time" name="time" required />
     <button type="submit">Записати івент</button>
 </form>
 
@@ -49,8 +49,36 @@
     }
 }
 <form asp-action="CreateProgram" method="post">
+    <input type="text" name="name" placeholder="Назва програми" required />
     <button type="submit" class="btn btn-primary">Створити програму</button>
 </form>
 
 <a asp-controller="Tour" asp-action="TourManagement" class="btn btn-primary">Готово</a>
+
+
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Назва</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var program in ViewBag.AllPrograms)
+		{
+			<tr>
+				<td>@program.Name</td>
+				<td>
+                    <a asp-controller="Program" asp-action="ProgramDetails" asp-route-id="@program.Id" class="btn btn-info" target="_blank">
+						Переглянути деталі
+					</a>
+                    <form asp-controller="Program" asp-action="RemoveProgram" asp-route-id="@program.Id" method="post" style="display:inline;">
+						<button type="submit" class="btn btn-danger">Видалити</button>
+					</form>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
 

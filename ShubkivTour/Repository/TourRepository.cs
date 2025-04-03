@@ -22,29 +22,12 @@ namespace ShubkivTour.Repository
 			}
 
 			_context.Tours.Add(tour);
-
-			/*if (tour.TourProgram != null)
-			{
-				_context.TourPrograms.Add(tour.TourProgram);
-
-				foreach (var day in tour.TourProgram.Days)
-				{
-					_context.Days.Add(day);
-
-					foreach (var ev in day.Events)
-					{
-						_context.Events.Add(ev);
-					}
-				}
-			}*/
-
 			_context.SaveChanges();
 		}
 
-		//ЗРОБИ ТАК ЩОБ ПРОГРАМА ЗЧИТУВАЛА ДАНІ З ТИМЧАСОВИХ СПИСКІВ (ДНІВ ТА ІВЕНТІВ) І ЗАПИСУВАЛА ЦІ ДАНІ В ТАБЛИЦІ.
 		public void DeleteTour(int id)
         {
-            var deletedTour = _context.Tours.FirstOrDefault(g => g.Id == id);
+            var deletedTour = _context.Tours.FirstOrDefault(t => t.Id == id);
             if (deletedTour != null)
             {
                 _context.Tours.Remove(deletedTour);
@@ -55,6 +38,19 @@ namespace ShubkivTour.Repository
         public IEnumerable<Tour> GetAllTours()
         {
             return _context.Tours.ToList();
+        }
+
+        public IEnumerable<Tour> GetExpectedTours()
+        {
+            return _context.Tours.Where(t => t.Status == "В очікуванні").ToList();
+        }
+
+        public IEnumerable<Tour> GetUpcomingTours()
+        {
+            var today = DateTime.Now;
+            var upcomingTours = today.AddDays(7);
+
+            return _context.Tours.Where(t => t.Date <= upcomingTours && t.Date >= today).ToList();
         }
 
         public Tour GetToursById(int tourId)

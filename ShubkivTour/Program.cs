@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ShubkivTour.Data;
+using ShubkivTour.Models.Entity;
 using ShubkivTour.Repository;
 using ShubkivTour.Repository.Interfaces;
 
@@ -12,7 +13,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<Client>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
@@ -21,6 +23,10 @@ builder.Services.AddScoped<IGuide, GuideRepository>();
 builder.Services.AddScoped<ITour, TourRepository>();
 builder.Services.AddScoped<IEntertainments, EntertainmentRepository>();
 
+builder.Services.AddScoped<UserManager<Client>>();
+//builder.Services.AddScoped<UserManager<Client>>();
+builder.Services.AddScoped<RoleManager<IdentityRole>>();
+
 builder.Services.AddScoped<ILocation, LocationRepository>();
 
 var app = builder.Build();
@@ -28,6 +34,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+
     app.UseMigrationsEndPoint();
 }
 else

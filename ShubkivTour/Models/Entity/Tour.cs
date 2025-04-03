@@ -7,9 +7,11 @@
 		public string Complexity { get; set; }
 		public string Category { get; set; }
 		public int Price { get; set; }
-		public int Members { get; set; } 
-		public DateTime Date { get; set; }
-		public TourProgram TourProgram { get; set; }
+		public int MaxMembers { get; set; }
+        public int CurrentMembers { get; set; }
+        public DateTime Date { get; set; }
+        public string Status { get; set; }
+        public TourProgram TourProgram { get; set; }
 
 		// Навігаційні властивості
 		public ICollection<TourGuides> TourGuides { get; set; } = new List<TourGuides>();
