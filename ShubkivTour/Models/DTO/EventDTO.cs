@@ -7,6 +7,7 @@ namespace ShubkivTour.Models.DTO
         public string Description { get; set; }
         public TimeOnly Time { get; set; }
         public Location Location { get; set; }
+        public int LocationId { get; set; }
 
     }
 }

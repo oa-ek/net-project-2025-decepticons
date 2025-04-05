@@ -28,9 +28,9 @@ namespace ShubkivTour.Data
         public DbSet<Product> Product => Set<Product>();
         public DbSet<Review> Reviews => Set<Review>();
         public DbSet<SubCategory> SubCategories => Set<SubCategory>();
-		public DbSet<Product> Products => Set<Product>();
-		public DbSet<Review> Reviews => Set<Review>();
-		public DbSet<SubCategory> SubCategories => Set<SubCategory>();
+        public DbSet<Product> Products => Set<Product>();
+        //public DbSet<Review> Reviews => Set<Review>();
+        //public DbSet<SubCategory> SubCategories => Set<SubCategory>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -52,7 +52,7 @@ namespace ShubkivTour.Data
 
             //зв'язок між Tour та Client через проміжну
             modelBuilder.Entity<TourClients>()
-                .HasKey(tc => new { tc.TourId, tc.ClientId });
+    .HasKey(tc => tc.Id);
 
             modelBuilder.Entity<TourClients>()
                 .HasOne(tc => tc.Tour)

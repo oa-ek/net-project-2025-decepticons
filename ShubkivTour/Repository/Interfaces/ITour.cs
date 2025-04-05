@@ -8,5 +8,7 @@ namespace ShubkivTour.Repository.Interfaces
         Tour GetToursById(int tourId);
         void CreateTour(Tour tour);
         void DeleteTour(int id);
+
+        Task RegisterForTour(int tourId, string userId); // Заміна void на Task
     }
 }

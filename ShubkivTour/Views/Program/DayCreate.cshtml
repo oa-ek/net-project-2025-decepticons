@@ -1,56 +1,91 @@
 ﻿@model ShubkivTour.Models.DTO.TourProgramViewModel;
 
 @{
-    ViewData["Title"] = "Створення програми";
+	ViewData["Title"] = "Створення програми";
 }
+<head>
+	<!-- Leaflet CSS -->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+	<!-- Leaflet JS -->
+	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+
+	<!-- Leaflet Control Geocoder (для пошуку місць) -->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+</head>
+<body>
 <h1>Створення програми туру</h1>
 
 <form asp-action="AddDay" method="post">
-    <button type="submit">Створити день</button>
+	<button type="submit">Створити день</button>
 </form>
 
 @if (Model.Days.Count == 0 && Model.CurrentDay.Events.Count == 0)
 {
-    <p>Немає доданих днів.</p>
+	<p>Немає доданих днів.</p>
 }
 
 <h2>Додати подію</h2>
-<form asp-action="AddEvent" method="post">
-    <input type="text" name="name" placeholder="Назва події" required />
-    <input type="text" name="description" placeholder="Опис" required />
-    <input type="time" name="time" required />
-    <button type="submit">Записати івент</button>
-</form>
+	<form asp-action="AddEvent" id="eventForm" method="post">
+		<input type="text" id="eventName" name="name" placeholder="Назва події" required />
+		<input type="text" id="eventDescription" name="description" placeholder="Опис" required />
+		<input type="time" id="eventTime" name="time" required />
+
+		<input type="hidden" id="eventId" name="eventId" required />
+
+		<input type="hidden" name="locationId" id="locationId" required />
+
+		<button id="addEventButton" type="submit">Записати івент</button>
+	</form>
+
+
+		<div id="map" style="height: 500px;"></div>
+	<form id="locationForm">
+		<label>Назва локації:</label>
+		<input type="text" id="locationName" required /><br>
+
+		<label>Широта (Latitude):</label>
+		<input type="text" id="latitude" readonly /><br>
+
+		<label>Довгота (Longitude):</label>
+		<input type="text" id="longitude" readonly /><br>
+
+		<label>Адреса:</label>
+		<input type="text" id="address" required /><br>
+
+		<button type="button" id="createLocationBtn">Записати локацію до події</button>
+	</form>
+
 
 @if (Model.CurrentDay.Events.Count > 0)
 {
-    <h3>Тимчасовий список івентів для дня</h3>
-    <ul>
-        @foreach (var eventItem in Model.CurrentDay.Events)
-        {
-            <li>@eventItem.Name - @eventItem.Description (@eventItem.Time)</li>
-        }
-    </ul>
+	<h3>Тимчасовий список івентів для дня</h3>
+	<ul id="eventsList">
+		@foreach (var eventItem in Model.CurrentDay.Events)
+		{
+			<li>@eventItem.Name - @eventItem.Description (@eventItem.Time)</li>
+		}
+	</ul>
 }
 
 @if (Model.Days.Count > 0)
 {
-    <h2>Програма туру</h2>
-    @for (int i = 0; i < Model.Days.Count; i++)
-    {
-        <h3>День @(i + 1)</h3>
-        <ul>
-            @foreach (var eventItem in Model.Days[i].Events)
-            {
-                <li>@eventItem.Name - @eventItem.Description (@eventItem.Time)</li>
-            }
-        </ul>
-    }
+	<h2>Програма туру</h2>
+	@for (int i = 0; i < Model.Days.Count; i++)
+	{
+		<h3>День @(i + 1)</h3>
+		<ul>
+			@foreach (var eventItem in Model.Days[i].Events)
+			{
+				<li>@eventItem.Name - @eventItem.Description (@eventItem.Time)</li>
+			}
+		</ul>
+	}
 }
 <form asp-action="CreateProgram" method="post">
-    <input type="text" name="name" placeholder="Назва програми" required />
-    <button type="submit" class="btn btn-primary">Створити програму</button>
+	<input type="text" name="name" placeholder="Назва програми" required />
+	<button type="submit" class="btn btn-primary">Створити програму</button>
 </form>
 
 <a asp-controller="Tour" asp-action="TourManagement" class="btn btn-primary">Готово</a>
@@ -69,10 +104,10 @@
 			<tr>
 				<td>@program.Name</td>
 				<td>
-                    <a asp-controller="Program" asp-action="ProgramDetails" asp-route-id="@program.Id" class="btn btn-info" target="_blank">
+					<a asp-controller="Program" asp-action="ProgramDetails" asp-route-id="@program.Id" class="btn btn-info" target="_blank">
 						Переглянути деталі
 					</a>
-                    <form asp-controller="Program" asp-action="RemoveProgram" asp-route-id="@program.Id" method="post" style="display:inline;">
+					<form asp-controller="Program" asp-action="RemoveProgram" asp-route-id="@program.Id" method="post" style="display:inline;">
 						<button type="submit" class="btn btn-danger">Видалити</button>
 					</form>
 				</td>
@@ -80,5 +115,8 @@
 		}
 	</tbody>
 </table>
+</body>
 
 
+<script src="~/js/site.js"></script>
+<script src="~/js/map.js"></script>

@@ -1,8 +1,8 @@
 ﻿@model ShubkivTour.Models.DTO.TourDTOCreate
 @{
 	ViewData["Title"] = "Tour Managemet";
-}
 
+}
 <div class="text-center">
 	<h1 class="display-4">Salam</h1>
 	<p>Тут кароче будуть всякі плюшкі для керування турами від лиця адміна</p>
@@ -13,7 +13,7 @@
 		<input type="text" id="Name" name="Name" class="form-control" />
 
 		<label>Гід</label>
-		<select name="GuideId" class="form-control">
+		<select name="GuideId" id="guideSelect" class="form-control">
 			@if (ViewBag.AllGuids != null)
 			{
 				@foreach (var guide in ViewBag.AllGuids as List<ShubkivTour.Models.Entity.Guide>)
@@ -22,7 +22,7 @@
 				}
 			}
 		</select>
-		<button type="submit" class="btn btn-primary" asp-action="AddGuide">Записати гіда</button>
+		<button type="submit" id="addGuideBtn" class="btn btn-primary" asp-action="AddGuide">Записати гіда</button>
 
 		<label for="tourProgramId">Програма туру:</label>
 		<select name="TourProgramId">
@@ -89,6 +89,10 @@
 					<a asp-controller="Tour" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-info" target="_blank">
 						Переглянути деталі
 					</a>
+					<a asp-controller="Tour" asp-action="RegClientForTour" asp-route-tourId="@tour.Id" class="btn btn-info" target="_blank">
+						Зареєструватися
+					</a>
+
 					<form asp-controller="Tour" asp-action="RemoveTour" asp-route-id="@tour.Id" method="post" style="display:inline;">
 						<button type="submit" class="btn btn-danger">Видалити</button>
 					</form>
@@ -97,5 +101,4 @@
 		}
 	</tbody>
 </table>
-
-
+<script src="~/js/tour.js"></script>

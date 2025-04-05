@@ -210,10 +210,6 @@ namespace ShubkivTour.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Contact")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -282,10 +278,7 @@ namespace ShubkivTour.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("TourId")
+                    b.Property<int>("DayNumber")
                         .HasColumnType("int");
 
                     b.Property<int>("TourProgramId")
@@ -481,7 +474,29 @@ namespace ShubkivTour.Migrations
 
                     b.HasIndex("CategoryProductId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("ShubkivTour.Models.Entity.ProductImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImage");
                 });
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Review", b =>
@@ -585,21 +600,27 @@ namespace ShubkivTour.Migrations
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.TourClients", b =>
                 {
-                    b.Property<int>("TourId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("ClientId")
-                        .HasColumnType("nvarchar(450)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("BookingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("TourId")
                         .HasColumnType("int");
 
-                    b.HasKey("TourId", "ClientId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("TourId");
 
                     b.ToTable("TourClients");
                 });
@@ -703,10 +724,6 @@ namespace ShubkivTour.Migrations
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Day", b =>
                 {
-                    b.HasOne("ShubkivTour.Models.Entity.Tour", null)
-                        .WithMany("Days")
-                        .HasForeignKey("TourId");
-
                     b.HasOne("ShubkivTour.Models.Entity.TourProgram", "TourProgram")
                         .WithMany("Days")
                         .HasForeignKey("TourProgramId")
@@ -777,6 +794,17 @@ namespace ShubkivTour.Migrations
                     b.Navigation("Brand");
 
                     b.Navigation("CategoryProduct");
+                });
+
+            modelBuilder.Entity("ShubkivTour.Models.Entity.ProductImage", b =>
+                {
+                    b.HasOne("ShubkivTour.Models.Entity.Product", "Product")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Review", b =>
@@ -858,6 +886,11 @@ namespace ShubkivTour.Migrations
             modelBuilder.Entity("ShubkivTour.Models.Entity.Guide", b =>
                 {
                     b.Navigation("TourGuides");
+                });
+
+            modelBuilder.Entity("ShubkivTour.Models.Entity.Product", b =>
+                {
+                    b.Navigation("ProductImages");
                 });
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Tour", b =>
