@@ -1,4 +1,5 @@
-﻿@inject SignInManager<Client> SignInManager
+﻿@using ShubkivTour.Models.Entity
+@inject SignInManager<Client> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

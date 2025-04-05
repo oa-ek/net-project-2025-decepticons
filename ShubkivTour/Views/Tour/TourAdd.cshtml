@@ -27,11 +27,19 @@
 		<label for="tourProgramId">Програма туру:</label>
 		<select name="TourProgramId">
 			<option value="">Оберіть програму туру</option>
-			@foreach (var program in ViewBag.AllTourPrograms)
+			@if (ViewBag.AllTourPrograms != null)
 			{
-				<option value="@program.Id">@program.Name</option>
+				@foreach (var program in ViewBag.AllTourPrograms)
+				{
+					<option value="@program.Id">@program.Name</option>
+				}
+			}
+			else
+			{
+				<option disabled>Програми не знайдено</option>
 			}
 		</select>
+
 
 		<a asp-controller="Program" asp-action="DayCreate" class="btn btn-primary">Розробити програму туру</a>
 
@@ -77,24 +85,34 @@
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var tour in ViewBag.AllTours)
+		@if (ViewBag.AllTours != null && ViewBag.AllTours.Any())
+		{
+			foreach (var tour in ViewBag.AllTours)
+			{
+				<tr>
+					<td>@tour.Name</td>
+					<td>@tour.Complexity</td>
+					<td>@tour.Price</td>
+					<td>@tour.Date</td>
+					<td>@tour.MaxMembers</td>
+					<td>
+						<a asp-controller="Tour" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-info" target="_blank">
+							Переглянути деталі
+						</a>
+						<form asp-controller="Tour" asp-action="RemoveTour" asp-route-id="@tour.Id" method="post" style="display:inline;">
+							<button type="submit" class="btn btn-danger">Видалити</button>
+						</form>
+					</td>
+				</tr>
+			}
+		}
+		else
 		{
 			<tr>
-				<td>@tour.Name</td>
-				<td>@tour.Complexity</td>
-				<td>@tour.Price</td>
-				<td>@tour.Date</td>
-				<td>@tour.MaxMembers</td>
-				<td>
-					<a asp-controller="Tour" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-info" target="_blank">
-						Переглянути деталі
-					</a>
-					<form asp-controller="Tour" asp-action="RemoveTour" asp-route-id="@tour.Id" method="post" style="display:inline;">
-						<button type="submit" class="btn btn-danger">Видалити</button>
-					</form>
-				</td>
+				<td colspan="6" class="text-center">Тури не знайдені.</td>
 			</tr>
 		}
+
 	</tbody>
 </table>
 

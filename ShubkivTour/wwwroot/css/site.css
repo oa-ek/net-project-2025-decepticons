@@ -1,13 +1,54 @@
-/* Центрування меню */
-.navbar-nav {
-    margin: 0 auto;
+header {
+    background-color: transparent !important;
+    width: 100%;
+    padding: 1rem 0;
+    position: relative;
+    z-index: 999;
 }
 
-/* Вирівнюємо логін по правому краю */
+.navbar {
+    background-color: transparent !important;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
 .navbar-collapse {
-    justify-content: center;
+    flex-grow: 1;
+    justify-content: center !important;
 }
 
-.d-flex.align-items-center {
-    margin-left: auto;
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
 }
+
+.nav-link {
+    font-size: 1.1rem;
+    color: white !important;
+    font-family: "Russo One", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+}
+
+.btn-signing {
+    background-color: #a7a7a7;
+    color: black;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-signing:hover {
+    background-color: white;
+    color: black;
+}
+
+

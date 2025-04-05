@@ -389,10 +389,8 @@ namespace ShubkivTour.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ClientId1")
+                    b.Property<string>("ClientId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Date")
@@ -409,7 +407,7 @@ namespace ShubkivTour.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId1");
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("OrderStatusId");
 
@@ -511,10 +509,8 @@ namespace ShubkivTour.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ClientId1")
+                    b.Property<string>("ClientId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Comment")
@@ -532,7 +528,7 @@ namespace ShubkivTour.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId1");
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("TourId");
 
@@ -625,18 +621,23 @@ namespace ShubkivTour.Migrations
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.TourGuides", b =>
                 {
-                    b.Property<int>("TourId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("GuideId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("TourId")
                         .HasColumnType("int");
 
-                    b.HasKey("TourId", "GuideId");
+                    b.HasKey("Id");
 
                     b.HasIndex("GuideId");
+
+                    b.HasIndex("TourId");
 
                     b.ToTable("TourGuides");
                 });
@@ -754,7 +755,9 @@ namespace ShubkivTour.Migrations
                 {
                     b.HasOne("ShubkivTour.Models.Entity.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId1");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ShubkivTour.Models.Entity.OrderStatus", "OrderStatus")
                         .WithMany()
@@ -809,7 +812,9 @@ namespace ShubkivTour.Migrations
                 {
                     b.HasOne("ShubkivTour.Models.Entity.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId1");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ShubkivTour.Models.Entity.Tour", "Tour")
                         .WithMany("Reviews")

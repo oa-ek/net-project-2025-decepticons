@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    Layout = "_Menu";
 }
 
 <!DOCTYPE html>
@@ -8,11 +9,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/css/styles.css">
+    <link rel="stylesheet" href="~/css/homes.css">
 </head>
 <body>
-    <div class="text-center">
-        <h1 class="display-4">Shubkiv Tour</h1>
-    </div>
+    <img class="image-gradient" src="img/gradient.png" alt="gradient">
+    <div class="layer-blur"></div>
+
+    <main>
+        <div class="content">
+            <div class="tag-box">
+                <div class="tag">ВИБРАТИ ТУР &wedbar;</div>
+            </div>
+
+            <h1>SHUBKIV<br>TOUR</h1>
+
+            <p class="description">
+                Тури, як шаурма на вокзалі – швидко, смачно, і хочеться ще! Але в нас безпечніше і з краєвидами ;)
+            </p>
+
+            <div class="buttons">
+                <a href="#" class="btn-get-started">Про нас &gt;</a>
+                <a href="#" class="btn-signing-main">Vovan &gt;</a>
+            </div>
+        </div>
+    </main>
+
+    <spline-viewer class="planet-3d" url="https://prod.spline.design/tpLiFH22-wHDkxgc/scene.splinecode"></spline-viewer>
+
 </body>
+
+<script type="module" src="https://unpkg.com/@@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+
 </html>
