@@ -21,9 +21,10 @@ namespace ShubkivTour.Data
         public DbSet<TourClients> TourClients => Set<TourClients>();
         public DbSet<TourGuides> TourGuides => Set<TourGuides>();
 
-        public DbSet<Brand> Brands => Set<Brand>();
-        public DbSet<CategoryProduct> CategoryProducts => Set<CategoryProduct>();
-        public DbSet<Order> Orders => Set<Order>();
+
+		public DbSet<Brand> Brands => Set<Brand>();
+		public DbSet<CategoryProduct> CategoryProducts => Set<CategoryProduct>();
+		public DbSet<Order> Orders => Set<Order>();
         public DbSet<OrderStatus> OrderStatuses => Set<OrderStatus>();
         public DbSet<Product> Product => Set<Product>();
         public DbSet<Review> Reviews => Set<Review>();
@@ -32,13 +33,10 @@ namespace ShubkivTour.Data
         //public DbSet<Review> Reviews => Set<Review>();
         //public DbSet<SubCategory> SubCategories => Set<SubCategory>();
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
 
-            //зв'язок між Tour та Guide через проміжну
-            modelBuilder.Entity<TourGuides>()
-                .HasKey(tg => new { tg.TourId, tg.GuideId });
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<TourGuides>()
                 .HasOne(tg => tg.Tour)
