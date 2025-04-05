@@ -7,6 +7,5 @@
         public double Latitude { get; set; }
         public double Longtitude { get; set; }
         public string Adress { get; set; }
-        //public ICollection<TourLocations> TourLocations { get; set; }
     }
 }

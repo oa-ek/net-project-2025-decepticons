@@ -98,6 +98,14 @@ namespace ShubkivTour.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+
+            [Required]
+            public string Name { get; set; } = null!;
+
+            [Required]
+            [Range(1900, 2100, ErrorMessage = "Enter a valid year.")]
+            public int YearOfBirth { get; set; }
         }
 
 
@@ -159,12 +167,19 @@ namespace ShubkivTour.Areas.Identity.Pages.Account
         {
             try
             {
-                return Activator.CreateInstance<Client>();
+                return new Client
+                {
+                    UserName = Input.Email,  // Встановлюємо ім'я користувача
+                    Email = Input.Email,     // Встановлюємо email
+                    Name = Input.Name,       // Встановлюємо ім'я
+                    YearOfBirth = Input.YearOfBirth // Встановлюємо рік народження
+                };
+                //return Activator.CreateInstance<Client>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(Client)}'. " +
+                    $"Ensure that '{nameof(Client)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
