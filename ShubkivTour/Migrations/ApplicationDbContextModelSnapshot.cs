@@ -472,29 +472,7 @@ namespace ShubkivTour.Migrations
 
                     b.HasIndex("CategoryProductId");
 
-                    b.ToTable("Product");
-                });
-
-            modelBuilder.Entity("ShubkivTour.Models.Entity.ProductImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductImage");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.ProductImage", b =>

@@ -85,6 +85,7 @@
 		</tr>
 	</thead>
 	<tbody>
+		
 		@if (ViewBag.AllTours != null && ViewBag.AllTours.Any())
 		{
 			foreach (var tour in ViewBag.AllTours)
@@ -109,26 +110,9 @@
 		else
 		{
 			<tr>
-				<td>@tour.Name</td>
-				<td>@tour.Complexity</td>
-				<td>@tour.Price</td>
-				<td>@tour.Date</td>
-				<td>@tour.MaxMembers</td>
-				<td>
-					<a asp-controller="Tour" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-info" target="_blank">
-						Переглянути деталі
-					</a>
-					<a asp-controller="Tour" asp-action="RegClientForTour" asp-route-tourId="@tour.Id" class="btn btn-info" target="_blank">
-						Зареєструватися
-					</a>
-
-					<form asp-controller="Tour" asp-action="RemoveTour" asp-route-id="@tour.Id" method="post" style="display:inline;">
-						<button type="submit" class="btn btn-danger">Видалити</button>
-					</form>
-				</td>
+				<td colspan="6">Турів не знайдено</td>
 			</tr>
 		}
-
 	</tbody>
 </table>
 <script src="~/js/tour.js"></script>

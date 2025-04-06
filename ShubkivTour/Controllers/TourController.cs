@@ -66,7 +66,7 @@ namespace ShubkivTour.Controllers
             {
                 locationInTour.Add(location);
             }
-            return RedirectToAction("TourManagement");
+            return RedirectToAction("TourAdd");
         }
         public IActionResult AddEntertainment(int entertainmentId)
         {
@@ -75,10 +75,10 @@ namespace ShubkivTour.Controllers
             {
                 entertainmentInTour.Add(entertainment);
             }
-            return RedirectToAction("TourManagement");
+            return RedirectToAction("TourAdd");
         }
 
-        public IActionResult TourManagement()
+        public IActionResult TourLook()
         {
             var allGuids = _guideRepository.GetAllGuides()
                 .Where(g => !guidsInTour.Any(gt => gt.Id == g.Id))
@@ -106,7 +106,7 @@ namespace ShubkivTour.Controllers
         {
             if (model == null)
             {
-                return BadRequest("���������� ���� ��� ��������� ����.");
+                return BadRequest("Alah.");
             }
 
             var selectedProgram = _context.TourPrograms
@@ -116,7 +116,7 @@ namespace ShubkivTour.Controllers
 
             if (selectedProgram == null)
             {
-                return BadRequest("������ �������� ���� �� ��������.");
+                return BadRequest("Babah.");
             }
 
             var tour = new Tour
@@ -130,7 +130,7 @@ namespace ShubkivTour.Controllers
                 CurrentMembers = 0,
                 TourGuides = guidsInTour.Select(guide => new TourGuides { GuideId = guide.Id }).ToList(),
                 TourProgram = selectedProgram,
-                Status = "� ����������"
+                Status = "Pizdec�"
             };
 
 
@@ -140,7 +140,7 @@ namespace ShubkivTour.Controllers
             locationInTour.Clear();
             entertainmentInTour.Clear();
 
-            return RedirectToAction("TourManagement");
+            return RedirectToAction("TourAdd");
         }
 
 
@@ -176,7 +176,7 @@ namespace ShubkivTour.Controllers
             {
                 _tourRepository.DeleteTour(id);
             }
-            return RedirectToAction("TourManagement");
+            return RedirectToAction("TourAdd");
         }
 
         [HttpGet]
@@ -200,25 +200,6 @@ namespace ShubkivTour.Controllers
 
         public async Task<IActionResult> RegClientForTour(int tourId)
         {
-            /*var userId = _userManager.GetUserId(User);
-
-            if (userId == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            _tourRepository.RegisterForTour(tourId, userId);
-
-            return RedirectToAction("Index", "Tours"); */
-
-		public IActionResult TourAdd()
-		{
-			ViewBag.AllGuids = _guideRepository.GetAllGuides();
-			ViewBag.AllTourPrograms = _context.TourPrograms.ToList(); 
-			return View();
-		}
-
-
-
             var userId = _userManager.GetUserId(User);
 
             if (userId == null)
@@ -230,13 +211,20 @@ namespace ShubkivTour.Controllers
             {
                 await _tourRepository.RegisterForTour(tourId, userId);
 
-                return RedirectToAction("TourManagement");
+                return RedirectToAction("TourAdd");
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
-                return RedirectToAction("TourManagement");
+                return RedirectToAction("TourAdd");
             }
+        }
+
+        private IActionResult TourAdd()
+        {
+            ViewBag.AllGuids = _guideRepository.GetAllGuides();
+            ViewBag.AllTourPrograms = _context.TourPrograms.ToList();
+            return View();
         }
 
     }

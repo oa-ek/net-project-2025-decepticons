@@ -12,13 +12,8 @@ using ShubkivTour.Data;
 namespace ShubkivTour.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:ShubkivTour/Migrations/20250404123205_Vovan.Designer.cs
-    [Migration("20250404123205_Vovan")]
-    partial class Vovan
-========
-    [Migration("20250404151503_idUpd")]
-    partial class idUpd
->>>>>>>> 29b5161ca0b8d784a5f85c267edb0345ad71bd9a:ShubkivTour/Migrations/20250404151503_idUpd.Designer.cs
+    [Migration("20250405214429_Pidas")]
+    partial class Pidas
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -481,28 +476,6 @@ namespace ShubkivTour.Migrations
                     b.HasIndex("CategoryProductId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("ShubkivTour.Models.Entity.ProductImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductImage");
                 });
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.ProductImage", b =>
