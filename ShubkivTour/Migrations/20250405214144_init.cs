@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ShubkivTour.Migrations
 {
     /// <inheritdoc />
-    public partial class Vovan : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,7 +31,6 @@ namespace ShubkivTour.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Contact = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     YearOfBirth = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -403,14 +402,15 @@ namespace ShubkivTour.Migrations
                 name: "TourClients",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TourId = table.Column<int>(type: "int", nullable: false),
                     ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
                     BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TourClients", x => new { x.TourId, x.ClientId });
+                    table.PrimaryKey("PK_TourClients", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TourClients_AspNetUsers_ClientId",
                         column: x => x.ClientId,
@@ -609,6 +609,11 @@ namespace ShubkivTour.Migrations
                 name: "IX_TourClients_ClientId",
                 table: "TourClients",
                 column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TourClients_TourId",
+                table: "TourClients",
+                column: "TourId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TourGuides_GuideId",

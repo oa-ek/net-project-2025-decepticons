@@ -6,38 +6,25 @@ const { error, event } = require("jquery");
 // Write your JavaScript code.
 
 
-/*function updateEventList(events) {
-    var eventListDiv = document.getElementById('eventsList');
-    eventListDiv.innerHTML = '';
+document.getElementById("addGuideBtn").addEventListener("click", function () {
+    var guideId = document.getElementById("guideSelect").value;
 
-    // Додаємо нові події до списку
-    events.forEach(event => {
-        var eventElement = document.createElement('li');
-        eventElement.innerHTML = `${event.Name} - ${event.Description} (${event.Time})`;
-        eventsListDiv.appendChild(eventElement);
-    });
-}*/
-
-/*// Обробник кнопки "Створити івент"
-document.getElementById("createLocationBtn").addEventListener("click", function () {
-    var event = {
-        Name: document.getElementById("eventName").value,
-        Description: document.getElementById("eventDescription").value,
-        Time: document.getElementById("eventTime").value,
-        LocationId: document.getElementById("locationId").value
-    };
-
-    // Відправляємо об'єкт Event на сервер через fetch
-    fetch('/Program/AddEvent', {
+    fetch('/Tour/AddGuide', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(event)
+        body: JSON.stringify(guideId) // Передаємо тільки guideId
     })
         .then(response => response.json())
         .then(data => {
-            console.log("Подія створена:", data);
-            document.getElementById("eventId").value = data.event.id;
+            console.log("Гіда додано:", data);
+
+            // Додаємо гіда до списку на сторінці
+            var listItem = document.createElement("li");
+            listItem.textContent = data.guide.Name; // Покажемо ім'я гіда
+            document.getElementById("guidsInTourList").appendChild(listItem);
+
+            // Можливо, ви хочете додати ID гіда в прихований input
+            document.getElementById("guideId").value = guideId;
         })
         .catch(error => console.error("Помилка:", error));
 });
-*/

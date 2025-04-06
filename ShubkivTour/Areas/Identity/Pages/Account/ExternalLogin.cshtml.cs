@@ -85,6 +85,11 @@ namespace ShubkivTour.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+            [Required]
+            public string Name { get; set; }
+            [Required]
+            [Range(1900, 2100)]
+            public int YearOfBirth { get; set; }
         }
         
         public IActionResult OnGet() => RedirectToPage("./Login");
@@ -97,7 +102,7 @@ namespace ShubkivTour.Areas.Identity.Pages.Account
             return new ChallengeResult(provider, properties);
         }
 
-        public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
+        public async Task<IActionResult> OnGetCallbackAsync(string name,int yearOfBirth ,string returnUrl = null, string remoteError = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             if (remoteError != null)
@@ -132,7 +137,9 @@ namespace ShubkivTour.Areas.Identity.Pages.Account
                 {
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                        Name = name,
+                        YearOfBirth = yearOfBirth
                     };
                 }
                 return Page();
@@ -153,6 +160,9 @@ namespace ShubkivTour.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+
+                user.Name = Input.Name;
+                user.YearOfBirth = Input.YearOfBirth;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
