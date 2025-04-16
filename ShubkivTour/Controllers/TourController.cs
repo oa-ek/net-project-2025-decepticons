@@ -246,17 +246,6 @@ namespace ShubkivTour.Controllers
             ViewBag.AllTourPrograms = _context.TourPrograms.ToList();
             return View();
         }
-
-
-
-
-        private IActionResult TourAdd()
-        {
-            ViewBag.AllGuids = _guideRepository.GetAllGuides();
-            ViewBag.AllTourPrograms = _context.TourPrograms.ToList();
-            return View();
-        }
-
     }
 
 }

@@ -12,8 +12,8 @@ using ShubkivTour.Data;
 namespace ShubkivTour.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250406134713_updd")]
-    partial class updd
+    [Migration("20250416165204_Vovan")]
+    partial class Vovan
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -302,7 +302,7 @@ namespace ShubkivTour.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DayId")
+                    b.Property<int?>("DayId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -764,9 +764,7 @@ namespace ShubkivTour.Migrations
                 {
                     b.HasOne("ShubkivTour.Models.Entity.Day", "Day")
                         .WithMany("Events")
-                        .HasForeignKey("DayId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DayId");
 
                     b.HasOne("ShubkivTour.Models.Entity.Location", "Location")
                         .WithMany()
@@ -927,8 +925,7 @@ namespace ShubkivTour.Migrations
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Event", b =>
                 {
-                    b.Navigation("Image")
-                        .IsRequired();
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Guide", b =>

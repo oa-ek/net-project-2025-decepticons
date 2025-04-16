@@ -6,11 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ShubkivTour.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:ShubkivTour/Migrations/20250405214429_Pidas.cs
-    public partial class Pidas : Migration
-========
-    public partial class init : Migration
->>>>>>>> 741e23a1134af01d5b291960271b18948db28af2:ShubkivTour/Migrations/20250405214144_init.cs
+    public partial class Vovan : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -354,7 +350,7 @@ namespace ShubkivTour.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Time = table.Column<TimeOnly>(type: "time", nullable: false),
                     LocationId = table.Column<int>(type: "int", nullable: false),
-                    DayId = table.Column<int>(type: "int", nullable: false)
+                    DayId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -363,8 +359,7 @@ namespace ShubkivTour.Migrations
                         name: "FK_Events_Days_DayId",
                         column: x => x.DayId,
                         principalTable: "Days",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Events_Locations_LocationId",
                         column: x => x.LocationId,
@@ -510,6 +505,26 @@ namespace ShubkivTour.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "EventImages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EventId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EventImages_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -558,6 +573,12 @@ namespace ShubkivTour.Migrations
                 name: "IX_Days_TourProgramId",
                 table: "Days",
                 column: "TourProgramId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventImages_EventId",
+                table: "EventImages",
+                column: "EventId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_DayId",
@@ -654,7 +675,7 @@ namespace ShubkivTour.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Events");
+                name: "EventImages");
 
             migrationBuilder.DropTable(
                 name: "Orders");
@@ -675,10 +696,7 @@ namespace ShubkivTour.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Days");
-
-            migrationBuilder.DropTable(
-                name: "Locations");
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "OrderStatuses");
@@ -694,6 +712,12 @@ namespace ShubkivTour.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tours");
+
+            migrationBuilder.DropTable(
+                name: "Days");
+
+            migrationBuilder.DropTable(
+                name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "Brands");
