@@ -3,7 +3,7 @@
 	ViewData["Title"] = "Tour Managemet";
 
 }
-<<<<<<< HEAD
+
 <head>
 	<div class="text-center">
 		<h1 class="display-4">Salam</h1>
@@ -15,11 +15,6 @@
 		<div class="form-group">
 			<label>Назва</label>
 			<input type="text" id="Name" name="Name" class="form-control" />
-
-			<label>Гід</label>
-			<select name="GuideId" id="guideSelect" class="form-control">
-				@if (ViewBag.AllGuids != null)
-=======
 <div class="text-center">
 	<h1 class="display-4">Salam</h1>
 	<p>Тут кароче будуть всякі плюшкі для керування турами від лиця адміна</p>
@@ -34,7 +29,10 @@
 			@if (ViewBag.AllGuids != null)
 			{
 				@foreach (var guide in ViewBag.AllGuids as List<ShubkivTour.Models.Entity.Guide>)
->>>>>>> parent of 7e6e9f5 (upd)
+			}
+			<label>Гід</label>
+			<select name="GuideId" id="guideSelect" class="form-control">
+				@if (ViewBag.AllGuids != null)
 				{
 					@foreach (var guide in ViewBag.AllGuids as List<ShubkivTour.Models.Entity.Guide>)
 					{
