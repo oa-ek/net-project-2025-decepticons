@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ShubkivTour.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System.Drawing;
 
 namespace ShubkivTour.Controllers
 {
@@ -110,7 +111,7 @@ namespace ShubkivTour.Controllers
         {
             if (model == null)
             {
-                return BadRequest("���������� ���� ��� ��������� ����.");
+                return BadRequest("Alah.");
             }
 
             var selectedProgram = _context.TourPrograms
@@ -120,7 +121,7 @@ namespace ShubkivTour.Controllers
 
             if (selectedProgram == null)
             {
-                return BadRequest("������ �������� ���� �� ��������.");
+                return BadRequest("Babah.");
             }
 
             var tour = new Tour
@@ -134,7 +135,7 @@ namespace ShubkivTour.Controllers
                 CurrentMembers = 0,
                 TourGuides = guidsInTour.Select(guide => new TourGuides { GuideId = guide.Id }).ToList(),
                 TourProgram = selectedProgram,
-                Status = "� ����������"
+                Status = "Pizdec�"
             };
 
 
@@ -156,14 +157,19 @@ namespace ShubkivTour.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Details(int id)
+        public IActionResult TourDetails(int id)
         {
             var tour = _context.Tours
-                .Include(t => t.TourProgram)
-                    .ThenInclude(tp => tp.Days)
-                    .ThenInclude(d => d.Events)
-                    .ThenInclude(e => e.Location)
-                .FirstOrDefault(t => t.Id == id);
+      .Include(t => t.TourProgram)
+          .ThenInclude(tp => tp.Days)
+              .ThenInclude(d => d.Events)
+                  .ThenInclude(e => e.Image)
+      .FirstOrDefault(t => t.Id == id);
+
+            var ev = _context.Events
+    .Include(e => e.Image)
+    .FirstOrDefault(e => e.Id == id);
+
 
             if (tour == null)
             {
@@ -233,7 +239,7 @@ namespace ShubkivTour.Controllers
                 return RedirectToAction("ToorLook");
             }
         }
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult TourAdd()
         {
             ViewBag.AllGuids = _guideRepository.GetAllGuides();
@@ -243,6 +249,13 @@ namespace ShubkivTour.Controllers
 
 
 
+
+        private IActionResult TourAdd()
+        {
+            ViewBag.AllGuids = _guideRepository.GetAllGuides();
+            ViewBag.AllTourPrograms = _context.TourPrograms.ToList();
+            return View();
+        }
 
     }
 

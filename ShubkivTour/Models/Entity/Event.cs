@@ -8,9 +8,11 @@
         public TimeOnly Time { get; set; }
 		public int LocationId { get; set; } 
 		public Location Location { get; set; }
-		public int DayId { get; set; }
-		public Day Day { get; set; }
+		public int? DayId { get; set; }
+		public Day? Day { get; set; }
 
-		//public ICollection<TourEvents> TourEvents { get; set; }
-	}
+        public EventImage? Image { get; set; }
+
+        //public ICollection<TourEvents> TourEvents { get; set; }
+    }
 }

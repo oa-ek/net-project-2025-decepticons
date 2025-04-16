@@ -299,7 +299,7 @@ namespace ShubkivTour.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DayId")
+                    b.Property<int?>("DayId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -323,6 +323,29 @@ namespace ShubkivTour.Migrations
                     b.HasIndex("LocationId");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("ShubkivTour.Models.Entity.EventImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId")
+                        .IsUnique();
+
+                    b.ToTable("EventImages");
                 });
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Guide", b =>
@@ -738,9 +761,7 @@ namespace ShubkivTour.Migrations
                 {
                     b.HasOne("ShubkivTour.Models.Entity.Day", "Day")
                         .WithMany("Events")
-                        .HasForeignKey("DayId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DayId");
 
                     b.HasOne("ShubkivTour.Models.Entity.Location", "Location")
                         .WithMany()
@@ -751,6 +772,17 @@ namespace ShubkivTour.Migrations
                     b.Navigation("Day");
 
                     b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("ShubkivTour.Models.Entity.EventImage", b =>
+                {
+                    b.HasOne("ShubkivTour.Models.Entity.Event", "Event")
+                        .WithOne("Image")
+                        .HasForeignKey("ShubkivTour.Models.Entity.EventImage", "EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Order", b =>
@@ -886,6 +918,11 @@ namespace ShubkivTour.Migrations
             modelBuilder.Entity("ShubkivTour.Models.Entity.Day", b =>
                 {
                     b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("ShubkivTour.Models.Entity.Event", b =>
+                {
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Guide", b =>

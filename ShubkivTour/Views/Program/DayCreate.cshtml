@@ -27,7 +27,7 @@
 }
 
 <h2>Додати подію</h2>
-	<form asp-action="AddEvent" id="eventForm" method="post">
+	<form asp-action="AddEvent" id="eventForm" method="post" enctype="multipart/form-data">
 		<input type="text" id="eventName" name="name" placeholder="Назва події" required />
 		<input type="text" id="eventDescription" name="description" placeholder="Опис" required />
 		<input type="time" id="eventTime" name="time" required />
@@ -35,6 +35,9 @@
 		<input type="hidden" id="eventId" name="eventId" required />
 
 		<input type="hidden" name="locationId" id="locationId" required />
+
+		<label for="Image">Фото:</label>
+		<input type="file" name="imageFile" id="locationId" required accept="image/*" />
 
 		<button id="addEventButton" type="submit">Записати івент</button>
 	</form>
