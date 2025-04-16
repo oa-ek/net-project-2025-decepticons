@@ -3,6 +3,23 @@
 	ViewData["Title"] = "Tour Managemet";
 
 }
+<<<<<<< HEAD
+<head>
+	<div class="text-center">
+		<h1 class="display-4">Salam</h1>
+		<p>Тут кароче будуть всякі плюшкі для керування турами від лиця адміна</p>
+	</div>
+</head>
+<body>
+	<form asp-controller="Tour" asp-action="TourCreate" method="post">
+		<div class="form-group">
+			<label>Назва</label>
+			<input type="text" id="Name" name="Name" class="form-control" />
+
+			<label>Гід</label>
+			<select name="GuideId" id="guideSelect" class="form-control">
+				@if (ViewBag.AllGuids != null)
+=======
 <div class="text-center">
 	<h1 class="display-4">Salam</h1>
 	<p>Тут кароче будуть всякі плюшкі для керування турами від лиця адміна</p>
@@ -17,26 +34,101 @@
 			@if (ViewBag.AllGuids != null)
 			{
 				@foreach (var guide in ViewBag.AllGuids as List<ShubkivTour.Models.Entity.Guide>)
+>>>>>>> parent of 7e6e9f5 (upd)
 				{
-					<option value="@guide.Id">@guide.Name</option>
+					@foreach (var guide in ViewBag.AllGuids as List<ShubkivTour.Models.Entity.Guide>)
+					{
+						<option value="@guide.Id">@guide.Name</option>
+					}
 				}
-			}
-		</select>
-		<input type="hidden" name="guideId" id="guideId" required />
+			</select>
+			<input type="hidden" name="guideId" id="guideId" required />
 
-		<button type="button" id="addGuideBtn" class="btn btn-primary">Записати гіда</button>
+			<button type="button" id="addGuideBtn" class="btn btn-primary">Записати гіда</button>
 
-		<ul id="guidsInTourList"></ul>
+			<ul id="guidsInTourList"></ul>
 
 
-		<label for="tourProgramId">Програма туру:</label>
-		<select name="TourProgramId">
-			<option value="">Оберіть програму туру</option>
-			@if (ViewBag.AllTourPrograms != null)
-			{
-				@foreach (var program in ViewBag.AllTourPrograms)
+			<label for="tourProgramId">Програма туру:</label>
+			<select name="TourProgramId">
+				<option value="">Оберіть програму туру</option>
+				@if (ViewBag.AllTourPrograms != null)
 				{
-					<option value="@program.Id">@program.Name</option>
+					@foreach (var program in ViewBag.AllTourPrograms)
+					{
+						<option value="@program.Id">@program.Name</option>
+					}
+				}
+				else
+				{
+					<option disabled>Програми не знайдено</option>
+				}
+			</select>
+
+
+			<a asp-controller="Program" asp-action="DayCreate" class="btn btn-primary">Розробити програму туру</a>
+
+
+			<label>Ціна</label>
+			<input type="number" id="Priсe" name="Price" class="form-control" />
+
+			<label>Кількість учасників</label>
+			<input type="number" id="MaxMembers" name="MaxMembers" class="form-control" />
+
+			<label>Категорія</label>
+			<input type="text" id="Category" name="Category" class="form-control" />
+
+
+			<label>Важкість</label>
+			<select name="Complexity" class="form-control">
+				<option value="Легка">Легка</option>
+				<option value="Середня">Середня</option>
+				<option value="Складна">Складна</option>
+			</select>
+
+			<label>Дата</label>
+			<input type="date" id="Date" name="Date" class="form-control" />
+
+
+
+			<button type="submit" class="btn btn-primary" asp-action="TourCreate">Створити тур</button>
+
+		</div>
+	</form>
+	<div class="text-center">
+		<h1 class="display-4">Список турів</h1>
+	</div>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Назва</th>
+				<th>Складність</th>
+				<th>Ціна</th>
+				<th>Дата</th>
+				<th>Кількість учасників</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (ViewBag.AllTours != null && ViewBag.AllTours.Any())
+			{
+				foreach (var tour in ViewBag.AllTours)
+				{
+					<tr>
+						<td>@tour.Name</td>
+						<td>@tour.Complexity</td>
+						<td>@tour.Price</td>
+						<td>@tour.Date</td>
+						<td>@tour.MaxMembers</td>
+						<td>
+							<a asp-controller="Tour" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-info" target="_blank">
+								Переглянути деталі
+							</a>
+							<form asp-controller="Tour" asp-action="RemoveTour" asp-route-id="@tour.Id" method="post" style="display:inline;">
+								<button type="submit" class="btn btn-danger">Видалити</button>
+							</form>
+						</td>
+					</tr>
 				}
 			}
 			else
@@ -96,21 +188,13 @@
 			foreach (var tour in ViewBag.AllTours)
 			{
 				<tr>
-					<td>@tour.Name</td>
-					<td>@tour.Complexity</td>
-					<td>@tour.Price</td>
-					<td>@tour.Date</td>
-					<td>@tour.MaxMembers</td>
-					<td>
-						<a asp-controller="Tour" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-info" target="_blank">
-							Переглянути деталі
-						</a>
-						<form asp-controller="Tour" asp-action="RemoveTour" asp-route-id="@tour.Id" method="post" style="display:inline;">
-							<button type="submit" class="btn btn-danger">Видалити</button>
-						</form>
-					</td>
+					<td colspan="6">Турів не знайдено</td>
 				</tr>
 			}
+
+		</tbody>
+	</table>
+</body>
 		}
 		else
 		{
@@ -135,6 +219,7 @@
 			console.log("Гіда додано:", data);
 
 			if (data.success) {
+				alert("Гіда записано!");
 				// Додати гіда до списку на сторінці
 				var listItem = document.createElement("li");
 				listItem.textContent = data.guide.Name;

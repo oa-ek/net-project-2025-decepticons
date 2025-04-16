@@ -8,3 +8,4 @@ out/
 *.user
 *.userosscache
 *.sln.docstates
+appsettings.json

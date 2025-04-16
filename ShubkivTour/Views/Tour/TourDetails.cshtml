@@ -17,6 +17,10 @@
                             <li>
                                 <strong>@eventItem.Name</strong> - @eventItem.Description <br />
                                 <em>Час: @eventItem.Time</em>
+                                @if (eventItem.Image != null)
+                                {
+                                    <img src="@Url.Content("~/" + eventItem.Image.ImagePath)" class="img-thumbnail" style="max-width: 400px;" />
+                                }
                             </li>
                         }
                     </ul>
@@ -34,4 +38,4 @@ else
     <p>Днів у цьому турі ще немає</p>
 }
 
-<a asp-controller="Tour" asp-action="TourManagement" class="btn btn-primary">Назад</a>
+<a asp-controller="Tour" asp-action="TourLook" class="btn btn-primary">Назад</a>

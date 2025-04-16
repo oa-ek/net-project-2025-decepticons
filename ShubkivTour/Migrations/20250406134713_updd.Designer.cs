@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShubkivTour.Data;
 
@@ -11,9 +12,11 @@ using ShubkivTour.Data;
 namespace ShubkivTour.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250406134713_updd")]
+    partial class updd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -299,7 +302,7 @@ namespace ShubkivTour.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("DayId")
+                    b.Property<int>("DayId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -761,7 +764,9 @@ namespace ShubkivTour.Migrations
                 {
                     b.HasOne("ShubkivTour.Models.Entity.Day", "Day")
                         .WithMany("Events")
-                        .HasForeignKey("DayId");
+                        .HasForeignKey("DayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ShubkivTour.Models.Entity.Location", "Location")
                         .WithMany()
@@ -922,7 +927,8 @@ namespace ShubkivTour.Migrations
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Event", b =>
                 {
-                    b.Navigation("Image");
+                    b.Navigation("Image")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Guide", b =>

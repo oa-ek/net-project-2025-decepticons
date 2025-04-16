@@ -1,29 +1,50 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
+document.getElementById("addGuideBtn").addEventListener("click", function () {
+	var guideId = document.getElementById("guideSelect").value;
 
-//const { error, event } = require("jquery");
+	fetch('/Tour/AddGuide', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(guideId)
+	})
+		.then(response => response.json())
+		.then(data => {
+			console.log("Гіда додано:", data);
 
-// Write your JavaScript code.
+			if (data.success) {
+				// Додати гіда до списку на сторінці
+				var listItem = document.createElement("li");
+				listItem.textContent = data.guide.Name;
+				document.getElementById("guidsInTourList").appendChild(listItem);
 
+				// Додати гіда до прихованого списку
+				var addedGuides = JSON.parse(localStorage.getItem('addedGuides')) || [];
+				addedGuides.push(data.guide);
+				localStorage.setItem('addedGuides', JSON.stringify(addedGuides));
 
-/*document.getElementById("createLocationBtn").addEventListener("click", function () {
-    var location = {
-        Name: document.getElementById("locationName").value,
-        Latitude: parseFloat(document.getElementById("latitude").value),
-        Longtitude: parseFloat(document.getElementById("longitude").value),
-        Adress: document.getElementById("address").value
-    };
+				// Оновити випадаючий список, щоб не показувати вже доданих гідів
+				updateGuideSelectList();
+			}
+		})
+		.catch(error => console.error("Помилка:", error));
+});
 
-    // Відправляємо об'єкт Location на сервер через fetch
-    fetch('/Location/Create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(location)
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log("Локація створена:", data);
-            document.getElementById("locationId").value = data.location.id;
-        })
-        .catch(error => console.error("Помилка:", error));
-});*/
+function updateGuideSelectList() {
+	var addedGuides = JSON.parse(localStorage.getItem('addedGuides')) || [];
+	var guideSelect = document.getElementById("guideSelect");
+
+	// Оновлюємо випадаючий список, видаляючи вже доданих гідів
+	Array.from(guideSelect.options).forEach(option => {
+		var optionGuideId = option.value;
+		if (addedGuides.some(guide => guide.Id == optionGuideId)) {
+			option.disabled = true;
+		} else {
+			option.disabled = false;
+		}
+	});
+}
+
+// Викликаємо updateGuideSelectList при завантаженні сторінки
+window.onload = function () {
+	updateGuideSelectList();
+};
