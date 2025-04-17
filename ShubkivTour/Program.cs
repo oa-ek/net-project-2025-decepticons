@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Microsoft.EntityFrameworkCore;
 using ShubkivTour.Data;
 using ShubkivTour.Models.Entity;
 using ShubkivTour.Repository;
 using ShubkivTour.Repository.Interfaces;
+using ShubkivTour.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -30,6 +32,16 @@ builder.Services.AddDefaultIdentity<Client>(options => options.SignIn.RequireCon
 /*builder.Services.AddIdentity<Client, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();*/
+
+
+/*var emailConfig = builder.Configuration
+    .GetSection("EmailConfiguration")
+    .Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
+builder.Services.AddScoped<IEmailSender, EmailSender>();*/
+
+builder.Services.AddTransient<IEmailSender, GmailEmailSender>();
+
 
 builder.Services.AddControllersWithViews();
 
