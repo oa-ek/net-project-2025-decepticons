@@ -1,0 +1,52 @@
+﻿html, body {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(to right, #f0f0f0, #dcdcdc);
+}
+
+.min-vh-100 {
+    min-height: 100vh;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.justify-content-center {
+    justify-content: center !important;
+}
+
+.align-items-center {
+    align-items: center !important;
+}
+
+.btn-outline-light {
+    background-color: white;
+    color: #333;
+    border: 1px solid #ccc;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.btn-outline-light:hover {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+.btn-google {
+    background-color: white;
+    color: #444;
+    border: 1px solid #ccc;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-google:hover {
+    background-color: #f7f7f7;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+

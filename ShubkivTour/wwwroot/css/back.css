@@ -79,17 +79,17 @@
 .sidebar-toggle {
     position: absolute;
     top: 20px;
-    left: 20px;
+    right: 20px;
     background: transparent;
     border: none;
-    color: white;
+    color: black;
     font-size: 2rem;
     cursor: pointer;
     z-index: 1100;
 }
 
 .sidebar-toggle .navbar-toggler-icon {
-    background-color: white;
+    background-color: black;
     width: 30px;
     height: 3px;
     display: block;
@@ -104,7 +104,7 @@
     left: 0;
     width: 30px;
     height: 3px;
-    background-color: white;
+    background-color: black;
 }
 
 .sidebar-toggle .navbar-toggler-icon:after {
@@ -115,8 +115,9 @@
     left: 0;
     width: 30px;
     height: 3px;
-    background-color: white;
+    background-color: black;
 }
+
 .navbar-nav {
     display: flex;
     justify-content: center;

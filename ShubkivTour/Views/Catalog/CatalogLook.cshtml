@@ -4,75 +4,71 @@
     ViewData["Title"] = "Каталог товарів";
 }
 
-<h2>Каталог товарів</h2>
+<link rel="stylesheet" href="~/css/catalog.css" />
 
-<form method="get">
-    <label for="category">Категорія:</label>
-    <select name="categoryId" id="category">
-        <option value="">Всі</option>
-        @foreach (var category in ViewBag.Categories)
-        {
-            <option value="@category.Value">@category.Text</option>
-        }
-    </select>
+<h2 class="catalog-title">Каталог товарів</h2>
 
-    <label for="subCategory">Підкатегорія:</label>
-    <select name="subCategoryId" id="subCategory">
-        <option value="">Всі</option>
-        @foreach (var subCategory in ViewBag.SubCategories)
-        {
-            <option value="@subCategory.Value">@subCategory.Text</option>
-        }
-    </select>
+<div class="filters-container">
+    <form method="get" class="filter-form">
+        <div>
+            <label for="category">Категорія:</label>
+            <select name="categoryId" id="category">
+                <option value="">Всі</option>
+                @foreach (var category in ViewBag.Categories)
+                {
+                    <option value="@category.Value">@category.Text</option>
+                }
+            </select>
+        </div>
 
-    <label for="sortOrder">Сортування:</label>
-    <select name="sortOrder" id="sortOrder">
-        <option value="">Без сортування</option>
-        <option value="price_asc">Ціна: зростання</option>
-        <option value="price_desc">Ціна: спадання</option>
-    </select>
+        <div>
+            <label for="subCategory">Підкатегорія:</label>
+            <select name="subCategoryId" id="subCategory">
+                <option value="">Всі</option>
+                @foreach (var subCategory in ViewBag.SubCategories)
+                {
+                    <option value="@subCategory.Value">@subCategory.Text</option>
+                }
+            </select>
+        </div>
 
-    <button type="submit">Фільтрувати</button>
-</form>
+        <div>
+            <label for="sortOrder">Сортування:</label>
+            <select name="sortOrder" id="sortOrder">
+                <option value="">Без сортування</option>
+                <option value="price_asc">Ціна: зростання</option>
+                <option value="price_desc">Ціна: спадання</option>
+            </select>
+        </div>
 
-<a href="@Url.Action("Add", "Catalog")" class="btn btn-success">Додати товар</a>
+        <button type="submit" class="btn-filter">Фільтрувати</button>
+    </form>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Назва</th>
-            <th>Категорія</th>
-            <th>Підкатегорія</th>
-            <th>Бренд</th>
-            <th>Розмір</th>
-            <th>Колір</th>
-            <th>Матеріал</th>
-            <th>Ціна</th>
-            <th>Опис</th>
-            <th>Дії</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model)
-        {
-            <tr>
-                <td>@product.Name</td>
-                <td>@product.CategoryProduct?.Name</td>
-                <td>@product.CategoryProduct?.SubCategory?.Name</td>
-                <td>@product.Brand?.Name</td>
-                <td>@product.Size</td>
-                <td>@product.Color</td>
-                <td>@product.Material</td>
-                <td>@product.Price</td>
-                <td>@product.Description</td>
-                <td>
-                    <a href="@Url.Action("Edit", "Catalog", new { id = product.Id })" class="btn btn-primary">Редагувати</a>
-                    <form asp-action="Delete" asp-controller="Catalog" method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="@product.Id" />
-                        <button type="submit" class="btn btn-danger">Видалити</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="add-button">
+    <a href="@Url.Action("Add", "Catalog")" class="btn-add">+ Додати товар</a>
+</div>
+
+<div class="product-grid">
+    @foreach (var product in Model)
+    {
+        <div class="product-card">
+            <h4>@product.Name</h4>
+            <p><strong>Категорія:</strong> @product.CategoryProduct?.Name</p>
+            <p><strong>Підкатегорія:</strong> @product.CategoryProduct?.SubCategory?.Name</p>
+            <p><strong>Бренд:</strong> @product.Brand?.Name</p>
+            <p><strong>Розмір:</strong> @product.Size</p>
+            <p><strong>Колір:</strong> @product.Color</p>
+            <p><strong>Матеріал:</strong> @product.Material</p>
+            <p><strong>Ціна:</strong> @product.Price грн</p>
+            <p><strong>Опис:</strong> @product.Description</p>
+            <div class="card-actions">
+                <a href="@Url.Action("Edit", "Catalog", new { id = product.Id })" class="btn-edit">Редагувати</a>
+                <form asp-action="Delete" asp-controller="Catalog" method="post" style="display:inline;">
+                    <input type="hidden" name="id" value="@product.Id" />
+                    <button type="submit" class="btn-delete">Видалити</button>
+                </form>
+            </div>
+        </div>
+    }
+</div>

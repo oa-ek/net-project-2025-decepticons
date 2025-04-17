@@ -13,111 +13,118 @@
 	<!-- Leaflet Control Geocoder (для пошуку місць) -->
 	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+	<link rel="stylesheet" href="~/css/daycreate.css" />
 </head>
 <body>
-<h1>Створення програми туру</h1>
 
-<form asp-action="AddDay" method="post">
-	<button type="submit">Створити день</button>
-</form>
+	<div class="tour-program">
+		<h1>Створення програми туру</h1>
 
-@if (Model.Days.Count == 0 && Model.CurrentDay.Events.Count == 0)
-{
-	<p>Немає доданих днів.</p>
-}
+		<form asp-action="AddDay" method="post">
+			<button type="submit">Створити день</button>
+		</form>
 
-<h2>Додати подію</h2>
-	<form asp-action="AddEvent" id="eventForm" method="post" enctype="multipart/form-data">
-		<input type="text" id="eventName" name="name" placeholder="Назва події" required />
-		<input type="text" id="eventDescription" name="description" placeholder="Опис" required />
-		<input type="time" id="eventTime" name="time" required />
+		@if (Model.Days.Count == 0 && Model.CurrentDay.Events.Count == 0)
+		{
+			<p>Немає доданих днів.</p>
+		}
 
-		<input type="hidden" id="eventId" name="eventId" required />
+		<h2>Додати подію</h2>
+		<form asp-action="AddEvent" id="eventForm" method="post" enctype="multipart/form-data">
+			<input type="text" id="eventName" name="name" placeholder="Назва події" required />
+			<input type="text" id="eventDescription" name="description" placeholder="Опис" required />
+			<input type="time" id="eventTime" name="time" required />
 
-		<input type="hidden" name="locationId" id="locationId" required />
+			<input type="hidden" id="eventId" name="eventId" required />
 
-		<label for="Image">Фото:</label>
-		<input type="file" name="imageFile" id="locationId" required accept="image/*" />
+			<input type="hidden" name="locationId" id="locationId" required />
 
-		<button id="addEventButton" type="submit">Записати івент</button>
-	</form>
+			<label for="Image">Фото:</label>
+			<input type="file" name="imageFile" id="locationId" required accept="image/*" />
+
+			<button id="addEventButton" type="submit">Записати івент</button>
+		</form>
 
 
 		<div id="map" style="height: 500px;"></div>
-	<form id="locationForm">
-		<label>Назва локації:</label>
-		<input type="text" id="locationName" required /><br>
+		<form id="locationForm">
+			<label>Назва локації:</label>
+			<input type="text" id="locationName" required /><br>
 
-		<label>Широта (Latitude):</label>
-		<input type="text" id="latitude" readonly /><br>
+			<label>Широта (Latitude):</label>
+			<input type="text" id="latitude" readonly /><br>
 
-		<label>Довгота (Longitude):</label>
-		<input type="text" id="longitude" readonly /><br>
+			<label>Довгота (Longitude):</label>
+			<input type="text" id="longitude" readonly /><br>
 
-		<label>Адреса:</label>
-		<input type="text" id="address" required /><br>
+			<label>Адреса:</label>
+			<input type="text" id="address" required /><br>
 
-		<button type="button" id="createLocationBtn">Записати локацію до події</button>
-	</form>
+			<button type="button" id="createLocationBtn">Записати локацію до події</button>
+		</form>
 
 
-@if (Model.CurrentDay.Events.Count > 0)
-{
-	<h3>Тимчасовий список івентів для дня</h3>
-	<ul id="eventsList">
-		@foreach (var eventItem in Model.CurrentDay.Events)
+		@if (Model.CurrentDay.Events.Count > 0)
 		{
-			<li>@eventItem.Name - @eventItem.Description (@eventItem.Time)</li>
+			<h3>Тимчасовий список івентів для дня</h3>
+			<ul id="eventsList">
+				@foreach (var eventItem in Model.CurrentDay.Events)
+				{
+					<li>@eventItem.Name - @eventItem.Description (@eventItem.Time)</li>
+				}
+			</ul>
 		}
-	</ul>
-}
 
-@if (Model.Days.Count > 0)
-{
-	<h2>Програма туру</h2>
-	@for (int i = 0; i < Model.Days.Count; i++)
-	{
-		<h3>День @(i + 1)</h3>
-		<ul>
-			@foreach (var eventItem in Model.Days[i].Events)
+		@if (Model.Days.Count > 0)
+		{
+			<h2>Програма туру</h2>
+			@for (int i = 0; i < Model.Days.Count; i++)
 			{
-				<li>@eventItem.Name - @eventItem.Description (@eventItem.Time)</li>
+				<h3>День @(i + 1)</h3>
+				<ul>
+					@foreach (var eventItem in Model.Days[i].Events)
+					{
+						<li>@eventItem.Name - @eventItem.Description (@eventItem.Time)</li>
+					}
+				</ul>
 			}
-		</ul>
-	}
-}
-<form asp-action="CreateProgram" method="post">
-	<input type="text" name="name" placeholder="Назва програми" required />
-	<button type="submit" class="btn btn-primary">Створити програму</button>
-</form>
-
-<a asp-controller="Tour" asp-action="TourLook" class="btn btn-primary">Готово</a>
-
-
-
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Назва</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var program in ViewBag.AllPrograms)
-		{
-			<tr>
-				<td>@program.Name</td>
-				<td>
-					<a asp-controller="Program" asp-action="ProgramDetails" asp-route-id="@program.Id" class="btn btn-info" target="_blank">
-						Переглянути деталі
-					</a>
-					<form asp-controller="Program" asp-action="RemoveProgram" asp-route-id="@program.Id" method="post" style="display:inline;">
-						<button type="submit" class="btn btn-danger">Видалити</button>
-					</form>
-				</td>
-			</tr>
 		}
-	</tbody>
-</table>
+		<form asp-action="CreateProgram" method="post">
+			<input type="text" name="name" placeholder="Назва програми" required />
+			<button type="submit" class="btn btn-primary">Створити програму</button>
+		</form>
+
+		<a asp-controller="Tour" asp-action="TourLook" class="btn btn-primary">Готово</a>
+
+
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Назва</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var program in ViewBag.AllPrograms)
+				{
+					<tr>
+						<td>@program.Name</td>
+						<td>
+							<a asp-controller="Program" asp-action="ProgramDetails" asp-route-id="@program.Id" class="btn btn-info" target="_blank">
+								Переглянути деталі
+							</a>
+							<form asp-controller="Program" asp-action="RemoveProgram" asp-route-id="@program.Id" method="post" style="display:inline;">
+								<button type="submit" class="btn btn-danger">Видалити</button>
+							</form>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+
+
 </body>
 
 

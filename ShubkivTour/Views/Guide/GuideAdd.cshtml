@@ -1,22 +1,27 @@
 ﻿@model ShubkivTour.Models.DTO.GuideDTOCreate;
 @{
-	ViewData["Title"] = "Guide Managemet";
+	ViewData["Title"] = "Guide Management";
 }
-	
+
+<link rel="stylesheet" href="~/css/guideAdd.css" />
+
 <div class="text-center">
-	<h1 class="display-4">Aboba</h1>
+	<h1 class="display-4">Створення гіда</h1>
 	<p>Тут кароче будем створювать гідів, дивиться їхню інфу, всіх існуючих і всяка така шняга</p>
 </div>
-<form asp-controller="Guide" asp-action="Create" method="post">
-	<div class="form-group">
-		<label for="Name">Ім'я</label>
-		<input type="text" id="Name" name="Name" class="form-control" required />
 
-		<label for="Specialty">Спеціальність</label>
-		<input type="text" id="Specialty" name="Specialty" class="form-control" required />
+<div class="guide-form-wrapper">
+	<form asp-controller="Guide" asp-action="Create" method="post">
+		<div class="form-group">
+			<label for="Name">Ім'я</label>
+			<input type="text" id="Name" name="Name" class="form-control" required />
 
-		<label for="Contact">Контакти</label>
-		<input type="text" id="Contact" name="Contact" class="form-control" required />
-	</div>
-	<button type="submit" class="btn btn-primary">Записати гіда</button>
-</form>
+			<label for="Specialty">Спеціальність</label>
+			<input type="text" id="Specialty" name="Specialty" class="form-control" required />
+
+			<label for="Contact">Контакти</label>
+			<input type="text" id="Contact" name="Contact" class="form-control" required />
+		</div>
+		<button type="submit" class="btn-custom-guide">Записати гіда</button>
+	</form>
+</div>

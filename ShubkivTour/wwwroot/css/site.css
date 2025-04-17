@@ -24,6 +24,7 @@ header {
     justify-content: center;
     gap: 2rem;
     width: 100%;
+    flex-wrap: wrap;
 }
 
 .nav-link {
@@ -32,6 +33,7 @@ header {
     font-family: "Russo One", sans-serif;
     font-weight: 200;
     font-style: normal;
+    text-align: center;
 }
 
 .btn-signing {
@@ -44,11 +46,62 @@ header {
     font-weight: 500;
     transition: background-color 0.2s ease;
     cursor: pointer;
+    white-space: nowrap;
 }
 
-.btn-signing:hover {
-    background-color: white;
-    color: black;
+    .btn-signing:hover {
+        background-color: white;
+        color: black;
+    }
+
+.site-title {
+    color: white;
+    font-family: "Russo One", sans-serif;
+    font-size: 1.5rem;
+    margin-left: 0.5rem;
+    white-space: nowrap;
 }
 
+@media (max-width: 992px) {
+    .navbar-nav {
+        gap: 1rem;
+    }
 
+    .site-title {
+        font-size: 1.2rem;
+    }
+
+    .nav-link {
+        font-size: 1rem;
+    }
+
+    .btn-signing {
+        padding: 0.5rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .site-title {
+        font-size: 1.1rem;
+    }
+
+    .nav-link {
+        font-size: 0.95rem;
+    }
+
+    .btn-signing {
+        padding: 0.4rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .navbar-brand svg {
+        width: 24px;
+        height: 24px;
+    }
+}

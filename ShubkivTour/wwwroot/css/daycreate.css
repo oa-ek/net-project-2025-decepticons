@@ -1,0 +1,115 @@
+﻿/* Головний контейнер для всього блоку створення туру */
+.tour-program {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Заголовки */
+.tour-program h1,
+.tour-program h2,
+.tour-program h3 {
+    color: #00796b;
+    margin-bottom: 20px;
+}
+
+/* Стилізація форм */
+.tour-program form {
+    background-color: #ffffff;
+    border: 1px solid #b2dfdb;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 6px rgba(0, 150, 136, 0.1);
+}
+
+/* Поля вводу */
+.tour-program input[type="text"],
+.tour-program input[type="time"],
+.tour-program input[type="file"],
+.tour-program input[type="submit"],
+.tour-program button {
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    border: 1px solid #b2dfdb;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+/* При фокусі */
+.tour-program input[type="text"]:focus,
+.tour-program input[type="time"]:focus {
+    border-color: #4db6ac;
+    outline: none;
+    box-shadow: 0 0 5px rgba(77, 182, 172, 0.4);
+}
+
+/* Кнопки */
+.tour-program button,
+.tour-program input[type="submit"] {
+    background-color: #00796b;
+    color: white;
+    cursor: pointer;
+}
+
+.tour-program button:hover,
+.tour-program input[type="submit"]:hover {
+    background-color: #004d40;
+}
+
+/* Мапа */
+.tour-program #map {
+    height: 500px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Список подій */
+.tour-program #eventsList,
+.tour-program ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.tour-program li {
+    background-color: #e0f2f1;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    border-left: 4px solid #00796b;
+}
+
+/* Таблиця програм */
+.tour-program table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+.tour-program table th,
+.tour-program table td {
+    border: 1px solid #b2dfdb;
+    padding: 12px;
+    text-align: left;
+}
+
+.tour-program table th {
+    background-color: #00796b;
+    color: white;
+}
+
+.tour-program table td {
+    background-color: #ffffff;
+}
+
+.tour-program a.btn,
+.tour-program button.btn {
+    margin-right: 10px;
+}

@@ -1,0 +1,80 @@
+﻿body {
+    background: linear-gradient(to left, #e8f5e9, #ffffff);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.edit-guide-container {
+    max-width: 550px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.2);
+}
+
+.edit-guide-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #41464b;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #41464b;
+}
+
+.form-control {
+    width: 100%;
+    border: 1px solid #c8e6c9;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #81c784;
+    box-shadow: 0 0 8px rgba(139, 195, 74, 0.4);
+}
+
+.btn-save {
+    width: 100%;
+    background-color: #43a047;
+    border: none;
+    padding: 10px 15px;
+    font-weight: 600;
+    color: white;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.btn-save:hover {
+    background-color: #2e7d32;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    background-color: #cfd8dc;
+    border: none;
+    padding: 10px 15px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #37474f;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background-color: #b0bec5;
+    cursor: pointer;
+}
