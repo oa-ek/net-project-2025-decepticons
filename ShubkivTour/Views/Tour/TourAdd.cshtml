@@ -15,11 +15,10 @@
 		<p>Тут керування турами для адміна 💼</p>
 	</div>
 
-	<div class="tour-add-container">
-		<form asp-controller="Tour" asp-action="TourCreate" method="post">
-			<div class="form-group">
-				<label>Назва</label>
-				<input type="text" name="Name" class="form-control" />
+	<form asp-controller="Tour" asp-action="TourCreate" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label>Назва</label>
+			<input type="text" id="Name" name="Name" class="form-control" />
 
 				<label>Гід</label>
 				<select name="GuideId" id="guideSelect" class="form-control">
@@ -72,12 +71,12 @@
 				<label>Дата</label>
 				<input type="date" name="Date" class="form-control" />
 
-				<button type="submit" class="btn btn-success mt-3">
-					<i class="fas fa-plus-circle"></i> Створити тур
-				</button>
-			</div>
-		</form>
-	</div>
+			<label for="Image">Фото:</label>
+			<input type="file" name="imageFile" id="locationId" required accept="image/*" />
+
+			<button type="submit" class="btn btn-primary" asp-action="TourCreate">Створити тур</button>
+		</div>
+	</form>
 
 	<div class="text-center">
 		<h1 class="display-4">📋 Список турів</h1>
@@ -130,10 +129,24 @@
 			document.getElementById("addGuideBtn").addEventListener("click", function () {
 				var guideId = document.getElementById("guideSelect").value;
 
-				fetch('/Tour/AddGuide', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(guideId)
+					if (data.success) {
+						alert("Гіда записано!");
+		
+
+						var addedGuides = JSON.parse(localStorage.getItem('addedGuides')) || [];
+						addedGuides.push(data.guide);
+						localStorage.setItem('addedGuides', JSON.stringify(addedGuides));
+
+						const guideSelect = document.getElementById("guideSelect");
+						const optionToRemove = guideSelect.querySelector(`option[value='${data.guide.id}']`);
+							if (optionToRemove) {
+							optionToRemove.remove();
+							}
+
+						var listItem = document.createElement("li");
+						listItem.textContent = data.guide.name || data.guide.Name; 
+						document.getElementById("guidsInTourList").appendChild(listItem);
+					}
 				})
 					.then(response => response.json())
 					.then(data => {

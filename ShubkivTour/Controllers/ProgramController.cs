@@ -52,15 +52,6 @@ public class ProgramController : Controller
 
                 var imagePath = Path.Combine("img", uniqueFileName);
 
-                /*var eventImage = new EventImage
-                {
-                    //EventId = newEvent.Id, // Ідентифікатор події
-                    ImagePath = imagePath // Шлях до зображення
-                };*/
-
-                //_context.EventImages.Add(eventImage);
-                //await _context.SaveChangesAsync();
-
                 var newEvent = new EventDTO
                 {
                     Name = name,

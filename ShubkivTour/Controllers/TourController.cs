@@ -38,17 +38,7 @@ namespace ShubkivTour.Controllers
             _context = context;
             _userManager = userManager;
         }
-
-        /* [HttpPost]
-         public IActionResult AddGuide(int guideId)
-         {
-             var guide = _guideRepository.GetGuideById(guideId);
-             if (guide != null)
-             {
-                 guidsInTour.Add(guide);
-             }
-             return RedirectToAction("TourManagement");
-         }*/
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult AddGuide([FromBody] int guideId)
         {
@@ -60,9 +50,10 @@ namespace ShubkivTour.Controllers
 
             guidsInTour.Add(guide);
             return Ok(new { success = true, message = "Гіда додано до туру.", guide });
+
         }
 
-
+        [Authorize(Roles = "Admin")]
         public IActionResult AddLocation(int locationId)
         {
             var location = _locationRepository.GetLocationById(locationId);
@@ -70,8 +61,9 @@ namespace ShubkivTour.Controllers
             {
                 locationInTour.Add(location);
             }
-            return RedirectToAction("ToorLook");
+            return RedirectToAction("TourLook");
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult AddEntertainment(int entertainmentId)
         {
             var entertainment = _entertainmentRepository.GetEntertainmentById(entertainmentId);
@@ -79,7 +71,7 @@ namespace ShubkivTour.Controllers
             {
                 entertainmentInTour.Add(entertainment);
             }
-            return RedirectToAction("ToorLook");
+            return RedirectToAction("TourLook");
         }
 
         public IActionResult TourLook()
@@ -95,6 +87,7 @@ namespace ShubkivTour.Controllers
                 .Where(e => !entertainmentInTour.Any(et => et.Id == e.Id))
                 .ToList();
             var allTours = _tourRepository.GetAllTours();
+
             var allTourPrograms = _context.TourPrograms.ToList();
 
             ViewBag.AllGuids = allGuids;
@@ -105,9 +98,9 @@ namespace ShubkivTour.Controllers
 
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult TourCreate(TourDTOCreate model, int TourProgramId)
+        public async Task<IActionResult> TourCreate(TourDTOCreate model, int TourProgramId, IFormFile imageFile)
         {
             if (model == null)
             {
@@ -124,6 +117,25 @@ namespace ShubkivTour.Controllers
                 return BadRequest("Babah.");
             }
 
+            string imagePath = null;
+
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
+                Directory.CreateDirectory(uploadsFolder); 
+
+                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(fileStream);
+                }
+
+                imagePath = Path.Combine("img", uniqueFileName);
+
+            }
+
             var tour = new Tour
             {
                 Name = model.Name,
@@ -135,11 +147,24 @@ namespace ShubkivTour.Controllers
                 CurrentMembers = 0,
                 TourGuides = guidsInTour.Select(guide => new TourGuides { GuideId = guide.Id }).ToList(),
                 TourProgram = selectedProgram,
-                Status = "Pizdec�"
+                Status = "Набір людей"
             };
 
 
             _tourRepository.CreateTour(tour);
+
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                var tourImage = new TourImage
+                {
+                    ImagePath = imagePath,
+                    Tour = tour
+                };
+
+                _context.TourImages.Add(tourImage);
+                await _context.SaveChangesAsync();
+            }
+
 
             guidsInTour.Clear();
             locationInTour.Clear();
@@ -178,6 +203,7 @@ namespace ShubkivTour.Controllers
 
             return View(tour);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult RemoveTour(int id)
         {
@@ -186,7 +212,7 @@ namespace ShubkivTour.Controllers
             {
                 _tourRepository.DeleteTour(id);
             }
-            return RedirectToAction("ToorLook");
+            return RedirectToAction("TourLook");
         }
 
         [HttpGet]
@@ -210,16 +236,6 @@ namespace ShubkivTour.Controllers
 
         public async Task<IActionResult> RegClientForTour(int tourId)
         {
-            /* var userId = _userManager.GetUserId(User);
-
-             if (userId == null)
-             {
-                 return RedirectToAction("Login", "Account");
-             }
-             _tourRepository.RegisterForTour(tourId, userId);
-
-             return RedirectToAction("Index", "Tours"); 
- */
             var userId = _userManager.GetUserId(User);
 
             if (userId == null)
@@ -230,13 +246,13 @@ namespace ShubkivTour.Controllers
             try
             {
                 await _tourRepository.RegisterForTour(tourId, userId);
-
-                return RedirectToAction("ToorLook");
+                TempData["SuccessMessage"] = "Ви успішно зареєструвалися на тур!";
+                return RedirectToAction("TourLook");
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
-                return RedirectToAction("ToorLook");
+                return RedirectToAction("TourLook");
             }
         }
         [Authorize(Roles = "Admin")]

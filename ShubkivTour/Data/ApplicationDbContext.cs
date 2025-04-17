@@ -22,6 +22,7 @@ namespace ShubkivTour.Data
         public DbSet<TourGuides> TourGuides => Set<TourGuides>();
 
         public DbSet<EventImage> EventImages => Set<EventImage>();
+        public DbSet<TourImage> TourImages => Set<TourImage>();
 
 
 		public DbSet<Brand> Brands => Set<Brand>();

@@ -667,6 +667,29 @@ namespace ShubkivTour.Migrations
                     b.ToTable("TourGuides");
                 });
 
+            modelBuilder.Entity("ShubkivTour.Models.Entity.TourImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TourId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TourId")
+                        .IsUnique();
+
+                    b.ToTable("TourImages");
+                });
+
             modelBuilder.Entity("ShubkivTour.Models.Entity.TourProgram", b =>
                 {
                     b.Property<int>("Id")
@@ -910,6 +933,17 @@ namespace ShubkivTour.Migrations
                     b.Navigation("Tour");
                 });
 
+            modelBuilder.Entity("ShubkivTour.Models.Entity.TourImage", b =>
+                {
+                    b.HasOne("ShubkivTour.Models.Entity.Tour", "Tour")
+                        .WithOne("Image")
+                        .HasForeignKey("ShubkivTour.Models.Entity.TourImage", "TourId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tour");
+                });
+
             modelBuilder.Entity("ShubkivTour.Models.Entity.Client", b =>
                 {
                     b.Navigation("TourClients");
@@ -937,6 +971,9 @@ namespace ShubkivTour.Migrations
 
             modelBuilder.Entity("ShubkivTour.Models.Entity.Tour", b =>
                 {
+                    b.Navigation("Image")
+                        .IsRequired();
+
                     b.Navigation("Reviews");
 
                     b.Navigation("TourClients");

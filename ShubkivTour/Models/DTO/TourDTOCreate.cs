@@ -17,5 +17,6 @@ namespace ShubkivTour.Models.DTO
 		public int MaxMembers { get; set; }
 		public int Members { get; set; }
 		public DateTime Date { get; set; }
-	}
+        public string ImageFile { get; set; }
+    }
 }
