@@ -22,5 +22,8 @@
 		public ICollection<Review> Reviews { get; set; } = new List<Review>();
 		//public ICollection<Day> Days { get; set; } = new List<Day>();
 
-	}
+        public TourImage Image { get; set; }
+
+
+    }
 }

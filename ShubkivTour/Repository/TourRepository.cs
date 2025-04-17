@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ShubkivTour.Data;
 using ShubkivTour.Models.Entity;
 using ShubkivTour.Repository.Interfaces;
@@ -38,7 +39,9 @@ namespace ShubkivTour.Repository
 
         public IEnumerable<Tour> GetAllTours()
         {
-            return _context.Tours.ToList();
+            return _context.Tours
+                .Include(t => t.Image)
+                .ToList();
         }
 
         public IEnumerable<Tour> GetExpectedTours()

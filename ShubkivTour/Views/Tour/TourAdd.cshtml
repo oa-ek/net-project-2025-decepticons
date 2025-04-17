@@ -13,7 +13,7 @@
 		<p>Тут кароче будуть всякі плюшкі для керування турами від лиця адміна</p>
 	</div>
 
-	<form asp-controller="Tour" asp-action="TourCreate" method="post">
+	<form asp-controller="Tour" asp-action="TourCreate" method="post" enctype="multipart/form-data">
 		<div class="form-group">
 			<label>Назва</label>
 			<input type="text" id="Name" name="Name" class="form-control" />
@@ -68,6 +68,9 @@
 
 			<label>Дата</label>
 			<input type="date" id="Date" name="Date" class="form-control" />
+
+			<label for="Image">Фото:</label>
+			<input type="file" name="imageFile" id="locationId" required accept="image/*" />
 
 			<button type="submit" class="btn btn-primary" asp-action="TourCreate">Створити тур</button>
 		</div>
@@ -132,33 +135,27 @@
 
 					if (data.success) {
 						alert("Гіда записано!");
-						var listItem = document.createElement("li");
-						listItem.textContent = data.guide.Name;
-						document.getElementById("guidsInTourList").appendChild(listItem);
+		
 
 						var addedGuides = JSON.parse(localStorage.getItem('addedGuides')) || [];
 						addedGuides.push(data.guide);
 						localStorage.setItem('addedGuides', JSON.stringify(addedGuides));
 
-						updateGuideSelectList();
+						const guideSelect = document.getElementById("guideSelect");
+						const optionToRemove = guideSelect.querySelector(`option[value='${data.guide.id}']`);
+							if (optionToRemove) {
+							optionToRemove.remove();
+							}
+
+						var listItem = document.createElement("li");
+						listItem.textContent = data.guide.name || data.guide.Name; 
+						document.getElementById("guidsInTourList").appendChild(listItem);
 					}
 				})
 				.catch(error => console.error("Помилка:", error));
 		});
 
-		function updateGuideSelectList() {
-			var addedGuides = JSON.parse(localStorage.getItem('addedGuides')) || [];
-			var guideSelect = document.getElementById("guideSelect");
 
-			Array.from(guideSelect.options).forEach(option => {
-				var optionGuideId = option.value;
-				option.disabled = addedGuides.some(guide => guide.Id == optionGuideId);
-			});
-		}
-
-		window.onload = function () {
-			updateGuideSelectList();
-		};
 	</script>
 </body>
 </html>
