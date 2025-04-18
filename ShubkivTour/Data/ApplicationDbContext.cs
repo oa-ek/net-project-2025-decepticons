@@ -70,13 +70,16 @@ namespace ShubkivTour.Data
             modelBuilder.Entity<Event>()
                 .HasOne(e => e.Day)
                 .WithMany(d => d.Events)
-                .HasForeignKey(e => e.DayId);
+                .HasForeignKey(e => e.DayId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Зв'язок між Day і TourProgram
             modelBuilder.Entity<Day>()
                 .HasOne(d => d.TourProgram)
                 .WithMany(tp => tp.Days)
-                .HasForeignKey(d => d.TourProgramId);
+                .HasForeignKey(d => d.TourProgramId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
 
 
 

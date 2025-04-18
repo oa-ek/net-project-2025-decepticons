@@ -213,29 +213,78 @@ public class ProgramController : Controller
         return RedirectToAction("DayCreate");
     }
 
-    [HttpPost]
-    public IActionResult CreateProgram(string name)
-    {
-        /* var tourProgramEntity = new TourProgram
+    /* [HttpPost]
+     public IActionResult CreateProgram(string name)
+     {
+         var tourProgramEntity = new TourProgram
          {
              Name = name,
-             Days = tourProgram.Days.Select(dayDto => new Day
+             Days = new List<Day>()
+         };
+         var eventImages = new List<EventImage>();
+
+         foreach (var dayDto in tourProgram.Days)
+         {
+             var day = new Day
              {
                  DayNumber = dayDto.DayNumber,
-                 Events = dayDto.Events.Select(eventDto => new Event
+                 Events = new List<Event>()
+             };
+             foreach (var eventDto in dayDto.Events)
+             {
+                 var eventEntity = new Event
                  {
                      Name = eventDto.Name,
                      Description = eventDto.Description,
                      Time = eventDto.Time,
-                     Location = _context.Locations.FirstOrDefault(l => l.Id == eventDto.Location.Id),
-                 }).ToList()
-             }).ToList()
-         };*/
+                     LocationId = eventDto.Location.Id,
+                     Location = _context.Locations.FirstOrDefault(l => l.Id == eventDto.Location.Id)
+                 };
+                 day.Events.Add(eventEntity);
+                 if (!string.IsNullOrEmpty(eventDto.ImageFilePath))
+                 {
+                     eventImages.Add(new EventImage
+                     {
+                         ImagePath = eventDto.ImageFilePath,
+                         Event = eventEntity
+                     });
+                 }
+             }
+             tourProgramEntity.Days.Add(day);
+             _context.TourPrograms.Add(tourProgramEntity);
+             _context.SaveChanges();
+
+             foreach (var eventImage in eventImages)
+             {
+                 _context.EventImages.Add(new EventImage
+                 {
+                     EventId = eventImage.Event.Id,
+                     ImagePath = eventImage.ImagePath
+                 });
+             }
+         }
+         _context.SaveChanges();
+
+         *//* _context.TourPrograms.Add(tourProgramEntity);
+          _context.SaveChanges();*//*
+
+         tourProgram = new TourProgramViewModel
+         {
+             Days = new List<DayDTO>(),
+             CurrentDay = new DayDTO { Events = new List<EventDTO>() }
+         };
+
+         return RedirectToAction("DayCreate");
+     }*/
+    [HttpPost]
+    public IActionResult CreateProgram(string name)
+    {
         var tourProgramEntity = new TourProgram
         {
             Name = name,
             Days = new List<Day>()
         };
+
         var eventImages = new List<EventImage>();
 
         foreach (var dayDto in tourProgram.Days)
@@ -245,6 +294,7 @@ public class ProgramController : Controller
                 DayNumber = dayDto.DayNumber,
                 Events = new List<Event>()
             };
+
             foreach (var eventDto in dayDto.Events)
             {
                 var eventEntity = new Event
@@ -255,7 +305,9 @@ public class ProgramController : Controller
                     LocationId = eventDto.Location.Id,
                     Location = _context.Locations.FirstOrDefault(l => l.Id == eventDto.Location.Id)
                 };
+
                 day.Events.Add(eventEntity);
+
                 if (!string.IsNullOrEmpty(eventDto.ImageFilePath))
                 {
                     eventImages.Add(new EventImage
@@ -265,23 +317,23 @@ public class ProgramController : Controller
                     });
                 }
             }
-            tourProgramEntity.Days.Add(day);
-            _context.TourPrograms.Add(tourProgramEntity);
-            _context.SaveChanges();
 
-            foreach (var eventImage in eventImages)
-            {
-                _context.EventImages.Add(new EventImage
-                {
-                    EventId = eventImage.Event.Id,
-                    ImagePath = eventImage.ImagePath
-                });
-            }
+            tourProgramEntity.Days.Add(day);
         }
+
+        _context.TourPrograms.Add(tourProgramEntity);
         _context.SaveChanges();
 
-        /* _context.TourPrograms.Add(tourProgramEntity);
-         _context.SaveChanges();*/
+        foreach (var eventImage in eventImages)
+        {
+            _context.EventImages.Add(new EventImage
+            {
+                EventId = eventImage.Event.Id,
+                ImagePath = eventImage.ImagePath
+            });
+        }
+
+        _context.SaveChanges();
 
         tourProgram = new TourProgramViewModel
         {

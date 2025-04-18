@@ -20,56 +20,56 @@
 			<label>Назва</label>
 			<input type="text" id="Name" name="Name" class="form-control" />
 
-				<label>Гід</label>
-				<select name="GuideId" id="guideSelect" class="form-control">
-					@if (ViewBag.AllGuids != null)
+			<label>Гід</label>
+			<select name="GuideId" id="guideSelect" class="form-control">
+				@if (ViewBag.AllGuids != null)
+				{
+					@foreach (var guide in ViewBag.AllGuids as List<ShubkivTour.Models.Entity.Guide>)
 					{
-						@foreach (var guide in ViewBag.AllGuids as List<ShubkivTour.Models.Entity.Guide>)
-						{
-							<option value="@guide.Id">@guide.Name</option>
-						}
+						<option value="@guide.Id">@guide.Name</option>
 					}
-				</select>
-				<input type="hidden" name="guideId" id="guideId" />
-				<button type="button" id="addGuideBtn" class="btn btn-primary">
-					<i class="fas fa-user-plus"></i> Додати гіда
-				</button>
-				<ul id="guidsInTourList"></ul>
+				}
+			</select>
+			<input type="hidden" name="guideId" id="guideId" />
+			<button type="button" id="addGuideBtn" class="btn btn-primary">
+				<i class="fas fa-user-plus"></i> Додати гіда
+			</button>
+			<ul id="guidsInTourList"></ul>
 
-				<label for="tourProgramId">Програма туру:</label>
-				<select name="TourProgramId" class="form-control">
-					<option value="">Оберіть програму туру</option>
-					@if (ViewBag.AllTourPrograms != null)
+			<label for="tourProgramId">Програма туру:</label>
+			<select name="TourProgramId" class="form-control">
+				<option value="">Оберіть програму туру</option>
+				@if (ViewBag.AllTourPrograms != null)
+				{
+					@foreach (var program in ViewBag.AllTourPrograms)
 					{
-						@foreach (var program in ViewBag.AllTourPrograms)
-						{
-							<option value="@program.Id">@program.Name</option>
-						}
+						<option value="@program.Id">@program.Name</option>
 					}
-				</select>
+				}
+			</select>
 
-				<a asp-controller="Program" asp-action="DayCreate" class="btn btn-info mt-2">
-					<i class="fas fa-pencil-alt"></i> Розробити програму
-				</a>
+			<a asp-controller="Program" asp-action="DayCreate" class="btn btn-info mt-2">
+				<i class="fas fa-pencil-alt"></i> Розробити програму
+			</a>
 
-				<label>Ціна</label>
-				<input type="number" name="Price" class="form-control" />
+			<label>Ціна</label>
+			<input type="number" name="Price" class="form-control" />
 
-				<label>Кількість учасників</label>
-				<input type="number" name="MaxMembers" class="form-control" />
+			<label>Кількість учасників</label>
+			<input type="number" name="MaxMembers" class="form-control" />
 
-				<label>Категорія</label>
-				<input type="text" name="Category" class="form-control" />
+			<label>Категорія</label>
+			<input type="text" name="Category" class="form-control" />
 
-				<label>Важкість</label>
-				<select name="Complexity" class="form-control">
-					<option value="Легка">Легка</option>
-					<option value="Середня">Середня</option>
-					<option value="Складна">Складна</option>
-				</select>
+			<label>Важкість</label>
+			<select name="Complexity" class="form-control">
+				<option value="Легка">Легка</option>
+				<option value="Середня">Середня</option>
+				<option value="Складна">Складна</option>
+			</select>
 
-				<label>Дата</label>
-				<input type="date" name="Date" class="form-control" />
+			<label>Дата</label>
+			<input type="date" name="Date" class="form-control" />
 
 			<label for="Image">Фото:</label>
 			<input type="file" name="imageFile" id="locationId" required accept="image/*" />
@@ -124,63 +124,54 @@
 		</tbody>
 	</table>
 
+	<script>
+		document.getElementById("addGuideBtn").addEventListener("click", function () {
+			var guideId = document.getElementById("guideSelect").value;
 
-		<script>
-			document.getElementById("addGuideBtn").addEventListener("click", function () {
-				var guideId = document.getElementById("guideSelect").value;
+			fetch('/Tour/AddGuide', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(guideId)
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log("Гіда додано:", data);
 
 					if (data.success) {
 						alert("Гіда записано!");
-		
+						var listItem = document.createElement("li");
+						listItem.textContent = data.guide.name || data.guide.Name; 
+						document.getElementById("guidsInTourList").appendChild(listItem);
+
+							const guideSelect = document.getElementById("guideSelect");
+							const optionToRemove = guideSelect.querySelector(`option[value='${data.guide.id}']`);
+							if (optionToRemove) {
+								optionToRemove.remove();
+							}
 
 						var addedGuides = JSON.parse(localStorage.getItem('addedGuides')) || [];
 						addedGuides.push(data.guide);
 						localStorage.setItem('addedGuides', JSON.stringify(addedGuides));
 
-						const guideSelect = document.getElementById("guideSelect");
-						const optionToRemove = guideSelect.querySelector(`option[value='${data.guide.id}']`);
-							if (optionToRemove) {
-							optionToRemove.remove();
-							}
-
-						var listItem = document.createElement("li");
-						listItem.textContent = data.guide.name || data.guide.Name; 
-						document.getElementById("guidsInTourList").appendChild(listItem);
+						updateGuideSelectList();
 					}
 				})
-					.then(response => response.json())
-					.then(data => {
-						console.log("Гіда додано:", data);
+				.catch(error => console.error("Помилка:", error));
+		});
 
-						if (data.success) {
-							alert("Гіда записано!");
-							var listItem = document.createElement("li");
-							listItem.textContent = data.guide.Name;
-							document.getElementById("guidsInTourList").appendChild(listItem);
+		function updateGuideSelectList() {
+			var addedGuides = JSON.parse(localStorage.getItem('addedGuides')) || [];
+			var guideSelect = document.getElementById("guideSelect");
 
-							var addedGuides = JSON.parse(localStorage.getItem('addedGuides')) || [];
-							addedGuides.push(data.guide);
-							localStorage.setItem('addedGuides', JSON.stringify(addedGuides));
-
-							updateGuideSelectList();
-						}
-					})
-					.catch(error => console.error("Помилка:", error));
+			Array.from(guideSelect.options).forEach(option => {
+				var optionGuideId = option.value;
+				option.disabled = addedGuides.some(guide => guide.Id == optionGuideId);
 			});
+		}
 
-			function updateGuideSelectList() {
-				var addedGuides = JSON.parse(localStorage.getItem('addedGuides')) || [];
-				var guideSelect = document.getElementById("guideSelect");
-
-				Array.from(guideSelect.options).forEach(option => {
-					var optionGuideId = option.value;
-					option.disabled = addedGuides.some(guide => guide.Id == optionGuideId);
-				});
-			}
-
-			window.onload = function () {
-				updateGuideSelectList();
-			};
-		</script>
+		window.onload = function () {
+			updateGuideSelectList();
+		};
+	</script>
 </body>
 </html>
