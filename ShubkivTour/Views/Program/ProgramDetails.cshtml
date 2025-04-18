@@ -1,0 +1,37 @@
+﻿@model ShubkivTour.Models.Entity.TourProgram;
+
+<h2>Програма туру: @Model.Name</h2>
+
+@if (Model.Days != null && Model.Days.Any())
+{
+    <ul>
+        @foreach (var day in Model.Days)
+        {
+            <li>
+                <h3>День @day.DayNumber</h3>
+                @if (day.Events.Any())
+                {
+                    <ul>
+                        @foreach (var eventItem in day.Events)
+                        {
+                            <li>
+                                <strong>@eventItem.Name</strong> - @eventItem.Description <br />
+                                <em>Час: @eventItem.Time</em>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>Подій немає</p>
+                }
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Днів у цьому турі ще немає</p>
+}
+
+<a asp-controller="Tour" asp-action="TourLook" class="btn btn-primary">Назад</a>

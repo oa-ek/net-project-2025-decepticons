@@ -1,0 +1,186 @@
+﻿@model ShubkivTour.Models.DTO.TourDTOCreate
+@{
+	ViewData["Title"] = "Tour Management";
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewData["Title"]</title>
+	<link rel="stylesheet" href="~/css/tourAdd.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+	<div class="text-center">
+		<h1 class="display-4">👋 Salam</h1>
+		<p>Тут керування турами для адміна 💼</p>
+	</div>
+
+	<form asp-controller="Tour" asp-action="TourCreate" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label>Назва</label>
+			<input type="text" id="Name" name="Name" class="form-control" />
+
+				<label>Гід</label>
+				<select name="GuideId" id="guideSelect" class="form-control">
+					@if (ViewBag.AllGuids != null)
+					{
+						@foreach (var guide in ViewBag.AllGuids as List<ShubkivTour.Models.Entity.Guide>)
+						{
+							<option value="@guide.Id">@guide.Name</option>
+						}
+					}
+				</select>
+				<input type="hidden" name="guideId" id="guideId" />
+				<button type="button" id="addGuideBtn" class="btn btn-primary">
+					<i class="fas fa-user-plus"></i> Додати гіда
+				</button>
+				<ul id="guidsInTourList"></ul>
+
+				<label for="tourProgramId">Програма туру:</label>
+				<select name="TourProgramId" class="form-control">
+					<option value="">Оберіть програму туру</option>
+					@if (ViewBag.AllTourPrograms != null)
+					{
+						@foreach (var program in ViewBag.AllTourPrograms)
+						{
+							<option value="@program.Id">@program.Name</option>
+						}
+					}
+				</select>
+
+				<a asp-controller="Program" asp-action="DayCreate" class="btn btn-info mt-2">
+					<i class="fas fa-pencil-alt"></i> Розробити програму
+				</a>
+
+				<label>Ціна</label>
+				<input type="number" name="Price" class="form-control" />
+
+				<label>Кількість учасників</label>
+				<input type="number" name="MaxMembers" class="form-control" />
+
+				<label>Категорія</label>
+				<input type="text" name="Category" class="form-control" />
+
+				<label>Важкість</label>
+				<select name="Complexity" class="form-control">
+					<option value="Легка">Легка</option>
+					<option value="Середня">Середня</option>
+					<option value="Складна">Складна</option>
+				</select>
+
+				<label>Дата</label>
+				<input type="date" name="Date" class="form-control" />
+
+			<label for="Image">Фото:</label>
+			<input type="file" name="imageFile" id="locationId" required accept="image/*" />
+
+			<button type="submit" class="btn btn-primary" asp-action="TourCreate">Створити тур</button>
+		</div>
+	</form>
+
+	<div class="text-center">
+		<h1 class="display-4">📋 Список турів</h1>
+	</div>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Назва</th>
+				<th>Складність</th>
+				<th>Ціна</th>
+				<th>Дата</th>
+				<th>К-сть учасників</th>
+				<th>Дії</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (ViewBag.AllTours != null && ViewBag.AllTours.Any())
+			{
+				foreach (var tour in ViewBag.AllTours)
+				{
+					<tr>
+						<td>@tour.Name</td>
+						<td>@tour.Complexity</td>
+						<td>@tour.Price</td>
+						<td>@tour.Date.ToShortDateString()</td>
+						<td>@tour.MaxMembers</td>
+						<td>
+							<a asp-controller="Tour" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-info btn-sm" target="_blank">
+								<i class="fas fa-eye"></i>
+							</a>
+							<form asp-controller="Tour" asp-action="RemoveTour" asp-route-id="@tour.Id" method="post" style="display:inline;">
+								<button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+							</form>
+						</td>
+					</tr>
+				}
+			}
+			else
+			{
+				<tr>
+					<td colspan="6" class="text-center text-muted">Турів не знайдено</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+
+		<script>
+			document.getElementById("addGuideBtn").addEventListener("click", function () {
+				var guideId = document.getElementById("guideSelect").value;
+
+					if (data.success) {
+						alert("Гіда записано!");
+		
+
+						var addedGuides = JSON.parse(localStorage.getItem('addedGuides')) || [];
+						addedGuides.push(data.guide);
+						localStorage.setItem('addedGuides', JSON.stringify(addedGuides));
+
+						const guideSelect = document.getElementById("guideSelect");
+						const optionToRemove = guideSelect.querySelector(`option[value='${data.guide.id}']`);
+							if (optionToRemove) {
+							optionToRemove.remove();
+							}
+
+						var listItem = document.createElement("li");
+						listItem.textContent = data.guide.name || data.guide.Name; 
+						document.getElementById("guidsInTourList").appendChild(listItem);
+					}
+				})
+					.then(response => response.json())
+					.then(data => {
+						console.log("Гіда додано:", data);
+
+						if (data.success) {
+							alert("Гіда записано!");
+							var listItem = document.createElement("li");
+							listItem.textContent = data.guide.Name;
+							document.getElementById("guidsInTourList").appendChild(listItem);
+
+							var addedGuides = JSON.parse(localStorage.getItem('addedGuides')) || [];
+							addedGuides.push(data.guide);
+							localStorage.setItem('addedGuides', JSON.stringify(addedGuides));
+
+							updateGuideSelectList();
+						}
+					})
+					.catch(error => console.error("Помилка:", error));
+			});
+
+			function updateGuideSelectList() {
+				var addedGuides = JSON.parse(localStorage.getItem('addedGuides')) || [];
+				var guideSelect = document.getElementById("guideSelect");
+
+				Array.from(guideSelect.options).forEach(option => {
+					var optionGuideId = option.value;
+					option.disabled = addedGuides.some(guide => guide.Id == optionGuideId);
+				});
+			}
+
+			window.onload = function () {
+				updateGuideSelectList();
+			};
+		</script>
+</body>
+</html>

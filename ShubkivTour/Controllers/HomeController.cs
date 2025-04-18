@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShubkivTour.Models;
 using System.Diagnostics;
@@ -17,7 +18,7 @@ namespace ShubkivTour.Controllers
         {
             return View();
         }
-
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();

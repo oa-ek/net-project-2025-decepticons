@@ -4,6 +4,8 @@ using ShubkivTour.Models.Entity;
 using ShubkivTour.Models.DTO;
 using ShubkivTour.Repository.Interfaces;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using ShubkivTour.Data;
 
 namespace ShubkivTour.Controllers
 {
@@ -14,36 +16,39 @@ namespace ShubkivTour.Controllers
 		private readonly IGuide _guideRepository;
 		private readonly ILocation _locationRepository;
 
-		public LocationController(ILogger<LocationController> logger, ITour tourRepository, IGuide guideRepository, ILocation locationRepository)
+        private readonly ApplicationDbContext _context;
+
+        public LocationController(ApplicationDbContext context, ILogger<LocationController> logger, ITour tourRepository, IGuide guideRepository, ILocation locationRepository)
 		{
 			_logger = logger;
 			_tourRepository = tourRepository;
 			_guideRepository = guideRepository;
 			_locationRepository = locationRepository;
-		}
+            _context = context;
+        }
 
-		public IActionResult LocationManagement()
+        public IActionResult LocationManagement()
 		{
 			return View();
 		}
 
-		[HttpPost]
-		public IActionResult Create(LocationDTOCreate model)
-		{
-			if (ModelState.IsValid)
-			{
-				var location = new Location
-				{
-					Name = model.Name,
-					Description = model.Description
-				};
-				_locationRepository.CreateLocation(location);
-				return RedirectToAction("LocationAdd");
-			}
-			return View(model);
-		}
+        [HttpPost]
+        public IActionResult Create([FromBody] Location location)
+        {
+            if (location == null || string.IsNullOrWhiteSpace(location.Name))
+            {
+                return BadRequest("Неправильні дані локації");
+            }
 
-		[HttpGet]
+            _context.Locations.Add(location);
+            _context.SaveChanges();
+
+            return Ok(new { message = "Локація успішно створена", location });
+        }
+
+
+
+        [HttpGet]
 		public IActionResult LocationLook()
 		{
 			var locations = _locationRepository.GetAllLocations();
@@ -52,7 +57,6 @@ namespace ShubkivTour.Controllers
 			{
 				Id = l.Id,
 				Name = l.Name,
-				Description = l.Description
 			}).ToList();
 
 			return View(locationDTOs);
@@ -81,7 +85,6 @@ namespace ShubkivTour.Controllers
 			{
 				Id = location.Id,
 				Name = location.Name,
-				Description = location.Description
 			};
 
 			return View(locationDTO);
@@ -99,7 +102,6 @@ namespace ShubkivTour.Controllers
 			{
 				Id = model.Id,
 				Name = model.Name,
-				Description = model.Description
 			};
 
 			_locationRepository.UpdateLocation(location);

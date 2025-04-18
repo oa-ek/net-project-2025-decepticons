@@ -4,26 +4,30 @@
     ViewData["Title"] = "Редагування гіда";
 }
 
-<h2>Редагування гіда</h2>
+<link rel="stylesheet" href="~/css/guideEdit.css" />
 
-<form asp-controller="Guide" asp-action="GuideEdit" method="post">
-    <input type="hidden" asp-for="Id" />
+<div class="edit-guide-container">
+    <h2>Редагування гіда</h2>
 
-    <div class="form-group">
-        <label asp-for="Name">Ім'я</label>
-        <input asp-for="Name" class="form-control" required />
-    </div>
+    <form asp-controller="Guide" asp-action="GuideEdit" method="post">
+        <input type="hidden" asp-for="Id" />
 
-    <div class="form-group">
-        <label asp-for="Specialty">Спеціальність</label>
-        <input asp-for="Specialty" class="form-control" required />
-    </div>
+        <div class="form-group">
+            <label asp-for="Name">Ім'я</label>
+            <input asp-for="Name" class="form-control" required />
+        </div>
 
-    <div class="form-group">
-        <label asp-for="Contact">Контакти</label>
-        <input asp-for="Contact" class="form-control" required />
-    </div>
+        <div class="form-group">
+            <label asp-for="Specialty">Спеціальність</label>
+            <input asp-for="Specialty" class="form-control" required />
+        </div>
 
-    <button type="submit" class="btn btn-primary">Зберегти зміни</button>
-    <a asp-action="GuideLook" class="btn btn-secondary">Скасувати</a>
-</form>
+        <div class="form-group">
+            <label asp-for="Contact">Контакти</label>
+            <input asp-for="Contact" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn-save">Зберегти зміни</button>
+        <a asp-action="GuideLook" class="btn-cancel">Скасувати</a>
+    </form>
+</div>

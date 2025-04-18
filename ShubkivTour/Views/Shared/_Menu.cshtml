@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ShubkivTour</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ShubkivTour.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,400;1,400&family=Lilita+One&family=Russo+One&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-3">
+            <div class="container-fluid d-flex justify-content-between align-items-center">
+                <!-- ЛОГО ТА НАЗВА САЙТУ -->
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-tree-fill" viewBox="0 0 16 16">
+                        <path d="M8.416.223a.5.5 0 0 0-.832 0l-2.25 3.75A.5.5 0 0 0 5.75 4.5h1.625l-.943 1.572H4.75a.5.5 0 0 0-.416.777l1.466 2.076H4a.5.5 0 0 0-.416.777l1.684 2.385H5v1.5H4.5a.5.5 0 0 0 0 1h3v-3h1v3h3a.5.5 0 0 0 0-1H11v-1.5h-.268l1.684-2.385a.5.5 0 0 0-.416-.777H10.2l1.466-2.076a.5.5 0 0 0-.416-.777H9.568L8.625 4.5H10.25a.5.5 0 0 0 .416-.777l-2.25-3.75z" />
+                    </svg>
+                    <span class="site-title">ShubkivTour</span>
+                </a>
+
+
+                <!-- ГОЛОВНЕ МЕНЮ -->
+                <div class="collapse navbar-collapse justify-content-center">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Tour" asp-action="TourLook">Тури</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Guide" asp-action="GuideLook">Гіди</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Catalog" asp-action="Index">Каталог</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- ПРАВА ЧАСТИНА (ЛОГІН/ВИХІД) -->
+                <div class="d-flex align-items-center">
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,63 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using ShubkivTour.Models.Entity
+
+@inject SignInManager<Client> SignInManager
+@inject UserManager<Client> UserManager
+
+@model ShubkivTour.Models.DTO.TourDTOCreate
+@{
+	ViewData["Title"] = "Список турів";
+}
+
+<div class="container my-4">
+	@if (TempData["SuccessMessage"] != null)
+	{
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			@TempData["SuccessMessage"]
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	}
+	<div class="d-flex justify-content-between align-items-center mb-3">
+		<h1>Список турів</h1>
+		@if (User.IsInRole("Admin"))
+		{
+			<a asp-controller="Tour" asp-action="TourAdd" class="btn btn-success">Створити новий тур</a>
+		}
+	</div>
+	<div class="row">
+		@foreach (var tour in ViewBag.AllTours as List<ShubkivTour.Models.Entity.Tour>)
+		{
+			<div class="col-md-4 col-sm-6">
+				<div class="card mb-4">
+					<div class="card-body">
+						<h5 class="card-title">@tour.Name</h5>
+						@if (tour.Image != null)
+						{
+							<img src="~/@tour.Image.ImagePath" alt="Tour Image" width="385" />
+						}
+						else
+						{
+							<p><em>Фото не додано</em></p>
+						}
+						<p class="card-text">
+							<strong>Складність:</strong> @tour.Complexity <br />
+							<strong>Ціна:</strong> @tour.Price <br />
+							<strong>Дата:</strong> @tour.Date.ToShortDateString() <br />
+							<strong>Учасники:</strong> @tour.MaxMembers
+						</p>
+						<a asp-controller="Tour" asp-action="TourDetails" asp-route-id="@tour.Id" class="btn btn-info" target="_blank">Переглянути деталі</a>
+						@if(User.IsInRole("Admin"))
+						{
+						<form asp-controller="Tour" asp-action="RemoveTour" asp-route-id="@tour.Id" method="post" class="d-inline">
+							<button type="submit" class="btn btn-danger">Видалити</button>
+						</form>
+						}
+						<a asp-controller="Tour" asp-action="RegClientForTour" asp-route-tourId="@tour.Id" class="btn btn-info" target="_blank">
+							Зареєструватися
+						</a>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>

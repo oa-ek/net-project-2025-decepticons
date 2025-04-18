@@ -1,0 +1,74 @@
+﻿@model List<ShubkivTour.Models.Entity.Product>
+
+@{
+    ViewData["Title"] = "Каталог товарів";
+}
+
+<link rel="stylesheet" href="~/css/catalog.css" />
+
+<h2 class="catalog-title">Каталог товарів</h2>
+
+<div class="filters-container">
+    <form method="get" class="filter-form">
+        <div>
+            <label for="category">Категорія:</label>
+            <select name="categoryId" id="category">
+                <option value="">Всі</option>
+                @foreach (var category in ViewBag.Categories)
+                {
+                    <option value="@category.Value">@category.Text</option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label for="subCategory">Підкатегорія:</label>
+            <select name="subCategoryId" id="subCategory">
+                <option value="">Всі</option>
+                @foreach (var subCategory in ViewBag.SubCategories)
+                {
+                    <option value="@subCategory.Value">@subCategory.Text</option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label for="sortOrder">Сортування:</label>
+            <select name="sortOrder" id="sortOrder">
+                <option value="">Без сортування</option>
+                <option value="price_asc">Ціна: зростання</option>
+                <option value="price_desc">Ціна: спадання</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-filter">Фільтрувати</button>
+    </form>
+</div>
+
+<div class="add-button">
+    <a href="@Url.Action("Add", "Catalog")" class="btn-add">+ Додати товар</a>
+</div>
+
+<div class="product-grid">
+    @foreach (var product in Model)
+    {
+        <div class="product-card">
+            <h4>@product.Name</h4>
+            <p><strong>Категорія:</strong> @product.CategoryProduct?.Name</p>
+            <p><strong>Підкатегорія:</strong> @product.CategoryProduct?.SubCategory?.Name</p>
+            <p><strong>Бренд:</strong> @product.Brand?.Name</p>
+            <p><strong>Розмір:</strong> @product.Size</p>
+            <p><strong>Колір:</strong> @product.Color</p>
+            <p><strong>Матеріал:</strong> @product.Material</p>
+            <p><strong>Ціна:</strong> @product.Price грн</p>
+            <p><strong>Опис:</strong> @product.Description</p>
+            <div class="card-actions">
+                <a href="@Url.Action("Edit", "Catalog", new { id = product.Id })" class="btn-edit">Редагувати</a>
+                <form asp-action="Delete" asp-controller="Catalog" method="post" style="display:inline;">
+                    <input type="hidden" name="id" value="@product.Id" />
+                    <button type="submit" class="btn-delete">Видалити</button>
+                </form>
+            </div>
+        </div>
+    }
+</div>

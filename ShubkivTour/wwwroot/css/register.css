@@ -1,0 +1,57 @@
+﻿body {
+    background: linear-gradient(to right, #f0f0f0, #dcdcdc);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #000;
+}
+
+.glass-card {
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    color: #000;
+}
+
+h2 {
+    color: #000;
+    text-align: center;
+}
+
+.btn-neon {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.btn-neon:hover {
+    background: #0056b3;
+    transform: scale(1.03);
+}
+
+.btn-outline-light {
+    background-color: white;
+    color: #333;
+    border: 1px solid #ccc;
+    transition: 0.3s ease;
+}
+
+.btn-outline-light:hover {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+.form-control {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+}
+
+.form-control::placeholder {
+    color: #666;
+}
+
+label {
+    color: #333;
+}
