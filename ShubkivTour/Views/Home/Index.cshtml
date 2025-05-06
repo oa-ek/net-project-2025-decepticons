@@ -8,34 +8,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--===FAV===-->
+    <link rel="shortcut icon" href="assets/img/favicon.png">
+
+    <!--===REMIX ICON===-->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+          rel="stylesheet" />
+
+    <!--===CSS===-->
+    <link rel="stylesheet" href="~/css/home.css">
+    <script src="~/js/main.js"></script>
+
+
     <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/css/homes.css">
+    
 </head>
 <body>
-    <img class="image-gradient" src="img/gradient.png" alt="gradient">
-    <div class="layer-blur"></div>
+    <!--==================== HEADER ====================-->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="#" class="nav__logo"
+                Trevel
+        </nav>
 
-    <main>
-        <div class="content">
+        <div class="nav__menu" id="nav-menu">
+            <ul class="nav__list">
+                <li class="nav__item">
+                    <a href="#home" class="nav__link">Home</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#about" class="nav__link">About</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#popular" class="nav__link">Popular</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#explore" class="nav__link">Explore</a>
+                </li>
+            </ul>
 
-            <h1>SHUBKIV<br>TOUR</h1>
-
-            <p class="description">
-                Тури, як шаурма на вокзалі – швидко, смачно, і хочеться ще! Але в нас безпечніше і з краєвидами ;)
-            </p>
-
-            <div class="buttons">
-                <a href="#" class="btn-get-started">Про нас &gt;</a>
-                <a href="#" class="btn-signing-main">Vovan &gt;</a>
+            <!--Close button-->
+            <div class="nav__close" id="nav-close">
+                <i class="ri-close-fill"></i>
             </div>
         </div>
+        <!-- Tougle button -->
+        <div class="nav__tougle" id="nav-toggle">
+            <i class="ri-menu-line"></i>
+        </div>
+    </header>
+
+    <!--==================== MAIN ====================-->
+    <main class="main">
+        <!--==================== HOME ====================-->
+        <section class="home section" id="home">
+        </section>
+
+        <!--==================== ABOUT ====================-->
+        <section class="about section" id="about">
+        </section>
+
+        <!--==================== POPULAR ====================-->
+        <section class="popular section" id="popular">
+        </section>
+
+        <!--==================== EXPLORE ====================-->
+        <section class="explore section" id="explore">
+        </section>
+
+        <!--==================== JOIN ====================-->
+        <section class="join section">
+        </section>
     </main>
 
-    <spline-viewer class="planet-3d" url="https://prod.spline.design/tpLiFH22-wHDkxgc/scene.splinecode"></spline-viewer>
+    <!--==================== FOOTER ====================-->
+    <footer class="footer">
+    </footer>
 
+    <!--========== SCROLL UP ==========-->
+    <!--=============== SCROLLREVEAL ===============-->
+    <script src=""></script>
 
+    <!--=============== MAIN JS ===============-->
+    
 </body>
-
-<script type="module" src="https://unpkg.com/@@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
-
 </html>
