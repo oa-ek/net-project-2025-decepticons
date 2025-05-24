@@ -48,7 +48,6 @@ namespace ShubkivTour.Controllers
             ViewBag.SubCategories = new SelectList(_context.SubCategories, "Id", "Name", subCategoryId);
             ViewBag.SortOrder = sortOrder;
 
-            // Перенаправляємо до вашої в'юшки з каталогу
             return View("CatalogLook", products.ToList());
         }
 
@@ -66,7 +65,6 @@ namespace ShubkivTour.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Завантажуємо пов'язані об'єкти
                 var category = _context.CategoryProducts.FirstOrDefault(c => c.Id == product.CategoryProductId);
                 var subCategory = _context.SubCategories.FirstOrDefault(s => s.Id == product.CategoryProduct.SubCategoryId);
                 var brand = _context.Brands.FirstOrDefault(b => b.Id == product.BrandId);
