@@ -39,24 +39,9 @@ namespace ShubkivTour.Repository
 
         public IEnumerable<Tour> GetAllTours()
         {
-            var tours = _context.Tours
+            return _context.Tours
                 .Include(t => t.Image)
                 .ToList();
-
-            if (tours == null || !tours.Any())
-            {
-                return Enumerable.Empty<Tour>();
-            }
-
-            return tours;
-        }
-
-            if (tours == null || !tours.Any())
-            {
-                return Enumerable.Empty<Tour>();
-            }
-
-            return tours;
         }
         public IEnumerable<Tour> GetExpectedTours()
         {
