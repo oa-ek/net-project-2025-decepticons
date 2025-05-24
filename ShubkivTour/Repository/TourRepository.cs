@@ -50,6 +50,14 @@ namespace ShubkivTour.Repository
 
             return tours;
         }
+
+            if (tours == null || !tours.Any())
+            {
+                return Enumerable.Empty<Tour>();
+            }
+
+            return tours;
+        }
         public IEnumerable<Tour> GetExpectedTours()
         {
             return _context.Tours.Where(t => t.Status == "В очікуванні").ToList();
