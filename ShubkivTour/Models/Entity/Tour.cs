@@ -10,11 +10,14 @@
 		public int MaxMembers { get; set; }
         public int CurrentMembers { get; set; }
         public DateTime Date { get; set; }
+        public DateTime EndDate { get; set; }
         public string Status { get; set; }
         public TourProgram TourProgram { get; set; }
 
-		// Навігаційні властивості
-		public ICollection<TourGuides> TourGuides { get; set; } = new List<TourGuides>();
+        public bool ReviewSent { get; set; }
+
+        // Навігаційні властивості
+        public ICollection<TourGuides> TourGuides { get; set; } = new List<TourGuides>();
 		//public ICollection<TourEvents> TourEvents { get; set; } = new List<TourEvents>();
 		public ICollection<TourClients> TourClients { get; set; } = new List<TourClients>();
 

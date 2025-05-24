@@ -1,0 +1,31 @@
+﻿@using ShubkivTour.Models.DTO;
+@model BusinessPaymentDto
+
+<h2>Оплата туру</h2>
+
+<form asp-action="ConfirmPayment" asp-controller="Tour" method="post">
+    <input type="hidden" asp-for="ApiKey" value="MTSIT9i7HY7QpskDE1iKPPgHBjdviu" />
+    <input type="hidden" asp-for="Currency" value="UAH" />
+    <input type="hidden" name="tourId" value="@ViewBag.TourId" />
+    <div>
+        <label>Номер картки</label>
+        <input asp-for="CardNumber" class="form-control" />
+    </div>
+    <div>
+        <label>Термін дії</label>
+        <input asp-for="ExpiryDate" type="date" class="form-control" />
+    </div>
+    <div>
+        <label>CVV</label>
+        <input asp-for="Ptk" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Оплатити</button>
+
+    <div class="mt-3">
+        <p>Не маєте картки?</p>
+        <a class="btn btn-outline-primary" href="https://meerreelly.github.io/chakishbank-ui-deploy/login" target="_blank">
+            Зареєструватись на сайті банку
+        </a>
+    </div>
+</form>

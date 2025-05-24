@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    Layout = "_Menu";
+    Layout = "_TopMenu";
 }
 
 <!DOCTYPE html>
@@ -9,33 +9,334 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/css/homes.css">
+
+    <!--=============== FAVICON ===============-->
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+
+    <!--=============== REMIXICONS ===============-->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet"
+
+    <link rel="stylesheet" href="~/css/styler.css">
 </head>
 <body>
-    <img class="image-gradient" src="img/gradient.png" alt="gradient">
-    <div class="layer-blur"></div>
+    <!--==================== HEADER ====================-->
+    <header class="header" id="header">
+    </header>
 
-    <main>
-        <div class="content">
+    <!--==================== MAIN ====================-->
+    <main class="main">
+        <!--==================== HOME ====================-->
+        <section class="home section" id="home">
+            <img src="~/img/home.jpg" alt="home img" class="home__bg" />
+            <div class="home__shadow"></div>
 
-            <h1>SHUBKIV<br>TOUR</h1>
+            <div class="home__container container grid">
+                <div class="home__data">
+                    <h3 class="home__subtitle">
+                        Welcome to ShubkivTour
+                    </h3>
 
-            <p class="description">
-                Тури, як шаурма на вокзалі – швидко, смачно, і хочеться ще! Але в нас безпечніше і з краєвидами ;)
-            </p>
+                    <h1 class="home__title">
+                        Discover the world
+                    </h1>Live the trips exploring the world, discover
+                    paradises, islands, mountains and much
+                    more, get your trip now.
+                    </p>
+                    <a href="#" class="button">
+                        Start your adventure <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
 
-            <div class="buttons">
-                <a href="#" class="btn-get-started">Про нас &gt;</a>
-                <a href="#" class="btn-signing-main">Vovan &gt;</a>
+                <div class="home__cards grid">
+                    <article class="home__card">
+                        <img src="~/img/Tatariv.jpg" alt="home image" class="home__card-img" />
+                        <h3 class="home__card-title">Tatariv</h3>
+                        <div class="home__card-shadow"></div>
+                    </article>
+
+                    <article class="home__card">
+                        <img src="~/img/Vorokhta.jpg" alt="home image" class="home__card-img" />
+                        <h3 class="home__card-title">Vorohta</h3>
+                        <div class="home__card-shadow"></div>
+                    </article>
+
+                    <article class="home__card">
+                        <img src="~/img/Yaremche.jpeg" alt="home image" class="home__card-img" />
+                        <h3 class="home__card-title">Yaremche</h3>
+                        <div class="home__card-shadow"></div>
+                    </article>
+
+                    <article class="home__card">
+                        <img src="~/img/Buka.jpg" alt="home image" class="home__card-img" />
+                        <h3 class="home__card-title">Polyanitsya</h3>
+                        <div class="home__card-shadow"></div>
+                    </article>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <!--==================== ABOUT ====================-->
+        <section class="about section" id="about">
+            <div class="about__container container grid">
+                <div class="about__data">
+                    <h2 class="section__title">
+                        Learn more<br>
+                        About Travel
+                    </h2>
+
+                    <p class="about__description">
+                        All the trips around the world are a great
+                        pleasure the happiness for anyone, enjoy
+                        the sights when you travel the world. Travel
+                        safely and without worries, get your trip and
+                        explore the paradises of the world.
+                    </p>
+
+                    <a href="#" class="button">
+                        Explore Travel <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
+
+                <div class="about__image">
+                    <img src="~/img/vovka.jpg" alt="about image" class="about__img" />
+                    <div class="about__shadow"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--==================== POPULAR ====================-->
+        <section class="popular section" id="popular">
+            <h2 class="section__title">
+                Enjoy the Beauty <br>
+                Of the World
+            </h2>
+
+            <div class="popular__container container grid">
+                <article class="popular__card">
+                    <div class="popular__image">
+                        <img src="~/img/nesamovyte.jpg" alt="popular image" class="popular__img" />
+                        <div class="popular__shadow"></div>
+                    </div>
+
+                    <h2 class="popular__title">
+                        Nesamovite
+                    </h2>
+
+                    <div class="popular__location">
+                        <i class="ri-map-pin-line"></i>
+                        <span>Ivano-Frankivsk</span>
+                    </div>
+                </article>
+                <article class="popular__card">
+                    <div class="popular__image">
+                        <img src="~/img/водоспад-гук.jpg" alt="popular image" class="popular__img" />
+                        <div class="popular__shadow"></div>
+                    </div>
+
+                    <h2 class="popular__title">
+                        Waterfall "Ghuk"
+                    </h2>
+
+                    <div class="popular__location">
+                        <i class="ri-map-pin-line"></i>
+                        <span>Ivano-Frankivsk</span>
+                    </div>
+                </article>
+                <article class="popular__card">
+                    <div class="popular__image">
+                        <img src="~/img/говерла.jpg" alt="popular image" class="popular__img" />
+                        <div class="popular__shadow"></div>
+                    </div>
+
+                    <h2 class="popular__title">
+                        Goverla
+                    </h2>
+
+                    <div class="popular__location">
+                        <i class="ri-map-pin-line"></i>
+                        <span>Ivano-Frankivsk</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!--==================== EXPLORE ====================-->
+        <section class="explore section" id="explore">
+            <div class="explore__container">
+                <div class="explore__image">
+                    <img src="~/img/nesamovyte.jpg" alt="explore image" class="explore__img" />
+                    <div class="explore__shadow"></div>
+                </div>
+
+                <div class="explore__content container grid">
+                    <div class="explore__data">
+                        <h2 class="section__title">
+                            Explore the<br>
+                            World
+                        </h2>
+                        <p class="explore__description">
+                            The world is a beautiful place, full of
+                            wonders and adventures waiting to be
+                            discovered. From the majestic mountains
+                            to the serene beaches, every corner of the
+                            world has something unique to offer.
+                        </p>
+
+                    </div>
+
+                    <div class="explore__user">
+                        <img src="~/img/nesamovyte.jpg" alt="explore image" class="explore__perfil" />
+                        <span class="explore__name">Dmitro Dolzhenko</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--==================== JOIN ====================-->
+        <section class="join section">
+            <div class="join__container container grid">
+                <div class="join__data">
+                    <h2 class="section__title">
+                        Join the<br>
+                        Adventure
+                    </h2>
+                    <p class="join__description">
+                        Join us on an unforgettable journey
+                        through the most breathtaking landscapes
+                        and vibrant cultures.
+                    </p>
+
+                    <form action="" class="join__form">
+                        <input type="email" placeholder="Enter your email" class="join__input" />
+
+                        <button class="join__button button">
+                            Subscribe Our Newsletter <i class="ri-arrow-right-line"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="join__image">
+                    <img src="~/img/Buka.jpg" alt="join image" class="join__img" />
+                    <div class="join__shadow"></div>
+                </div>
+
+            </div>
+        </section>
     </main>
 
-    <spline-viewer class="planet-3d" url="https://prod.spline.design/tpLiFH22-wHDkxgc/scene.splinecode"></spline-viewer>
+    <!--==================== FOOTER ====================-->
+    <footer class="footer">
+        <div class="footer__container container grid">
+            <div class="footer__content grid">
+                <div>
+                    <a href="#" class="footer__logo">Travel</a>
 
+                    <p class="footer__description">
+                        Trever with us and explore <br>
+                        the world with us.
+                    </p>
+                </div>
 
+                <div class="footer__data grid">
+                    <div>
+                        <h3 class="footer__title">About</h3>
+
+                        <ul class="footer__links">
+                            <li>
+                                <a href="#" class="footer__link">About Us</a>
+                            </li>
+                            <li>
+                                <a href="#" class="footer__link">Features</a>
+                            </li>
+                            <li>
+                                <a href="#" class="footer__link">News & Blog</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="footer__title">Company</h3>
+
+                        <ul class="footer__links">
+                            <li>
+                                <a href="#" class="footer__link">FAQs</a>
+                            </li>
+                            <li>
+                                <a href="#" class="footer__link">History</a>
+                            </li>
+                            <li>
+                                <a href="#" class="footer__link">Testimonials</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="footer__title">Contact</h3>
+
+                        <ul class="footer__links">
+                            <li>
+                                <a href="#" class="footer__link">Call Center</a>
+                            </li>
+                            <li>
+                                <a href="#" class="footer__link">Support Center</a>
+                            </li>
+                            <li>
+                                <a href="#" class="footer__link">Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="footer__title">Support</h3>
+
+                        <ul class="footer__links">
+                            <li>
+                                <a href="#" class="footer__link">Privacy Policy</a>
+                            </li>
+                            <li>
+                                <a href="#" class="footer__link">Terms & Services</a>
+                            </li>
+                            <li>
+                                <a href="#" class="footer__link">Payments</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__group">
+                <div class="footer__social">
+                    <a href="https://www.facebook.com/?locale=uk_UA" target="_blank" class="footer__social-link">
+                        <i class="ri-facebook-line"></i>
+                    </a>
+                    <a href="https://www.instagram.com" target="_blank" class="footer__social-link">
+                        <i class="ri-instagram-line"></i>
+                    </a>
+                    <a href="https://x.com" target="_blank" class="footer__social-link">
+                        <i class="ri-twitter-line"></i>
+                    </a>
+                    <a href="https://www.youtube.com" target="_blank" class="footer__social-link">
+                        <i class="ri-youtube-line"></i>
+                    </a>
+                </div>
+
+                <span class="footer__copy">
+                    &#169; 2023 ShubkivTour. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!--========== SCROLL UP ==========-->
+    <a href="#" class="scrollup" id="scroll-up">
+        <i class="ri-arrow-up-line"></i>
+    </a>
+    <!--=============== SCROLLREVEAL ===============-->
+    <script src="~/js/scrollreveal.min.js"></script>
+
+    <!--=============== MAIN JS ===============-->
+    <script src="assets/js/main.js"></script>
+
+    <script src="~/js/main.js" asp-append-version="true"></script>
 </body>
-
-<script type="module" src="https://unpkg.com/@@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
-
 </html>

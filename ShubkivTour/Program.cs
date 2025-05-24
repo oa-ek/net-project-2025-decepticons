@@ -41,6 +41,7 @@ builder.Services.AddSingleton(emailConfig);
 builder.Services.AddScoped<IEmailSender, EmailSender>();*/
 
 builder.Services.AddTransient<IEmailSender, GmailEmailSender>();
+builder.Services.AddHostedService<TourReviewsSender>();
 
 
 builder.Services.AddControllersWithViews();

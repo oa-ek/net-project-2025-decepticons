@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\AboutUs\**" />
+    <Content Remove="Views\AboutUs\**" />
+    <EmbeddedResource Remove="Views\AboutUs\**" />
+    <None Remove="Views\AboutUs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="_ViewStart.cshtml" />
   </ItemGroup>
 
@@ -28,6 +35,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Review\" />
   </ItemGroup>
 
 </Project>

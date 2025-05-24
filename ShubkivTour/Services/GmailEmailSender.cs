@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using ShubkivTour.Data;
 using System.Net;
 using System.Net.Mail;
 namespace ShubkivTour.Services
@@ -10,6 +11,7 @@ namespace ShubkivTour.Services
         public GmailEmailSender(IConfiguration configuration)
         {
             _configuration = configuration;
+
         }
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)

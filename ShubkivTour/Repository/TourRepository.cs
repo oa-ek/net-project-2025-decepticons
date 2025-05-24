@@ -39,11 +39,17 @@ namespace ShubkivTour.Repository
 
         public IEnumerable<Tour> GetAllTours()
         {
-            return _context.Tours
+            var tours = _context.Tours
                 .Include(t => t.Image)
                 .ToList();
-        }
 
+            if (tours == null || !tours.Any())
+            {
+                return Enumerable.Empty<Tour>();
+            }
+
+            return tours;
+        }
         public IEnumerable<Tour> GetExpectedTours()
         {
             return _context.Tours.Where(t => t.Status == "В очікуванні").ToList();
@@ -90,5 +96,14 @@ namespace ShubkivTour.Repository
             await _context.SaveChangesAsync(); 
         }
 
+        //REVIEWS
+        public IEnumerable<Review> GetReviews()
+        {
+            return _context.Reviews.ToList();
+        }
+        public IEnumerable<Review> GetTourReviews(int tourId)
+        {
+            return _context.Reviews.Where(r => r.TourId == tourId).ToList();
+        }
     }
 }

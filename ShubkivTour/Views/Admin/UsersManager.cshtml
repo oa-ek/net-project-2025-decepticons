@@ -1,0 +1,64 @@
+﻿@model List<ShubkivTour.Models.DTO.UserWithRole>
+
+<h2>Список користувачів</h2>
+<form method="get" asp-action="UsersManager" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="searchName" class="form-control" placeholder="Пошук за ім'ям..." value="@Context.Request.Query["searchName"]" />
+        <button type="submit" class="btn btn-outline-primary">Пошук</button>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Ім'я</th>
+            <th>Рік народження</th>
+            <th>Роль</th>
+            <th>Оновили роль</th>
+            <th>Видалити</th>
+            <th>Блокування</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.User.Email</td>
+                <td>@user.User.Name</td>
+                <td>@user.User.YearOfBirth</td>
+                <td>@user.Role</td>
+                <td>
+                    <form method="post" asp-action="ChangeRole" asp-controller="Admin">
+                        <input type="hidden" name="userId" value="@user.User.Id" />
+                        <button type="submit" class="btn btn-primary">
+                            @if (user.Role == "Client")
+                            {
+                                <text>Зробити Admin</text>
+                            }
+                            else
+                            {
+                                <text>Зробити Client</text>
+                            }
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" asp-action="DeleteUser" asp-controller="Admin" onsubmit="return confirm('Ви впевнені, що хочете видалити користувача?');">
+                        <input type="hidden" name="userId" value="@user.User.Id" />
+                        <button type="submit" class="btn btn-danger">Видалити</button>
+                    </form>
+                </td>
+                <td>
+                    @if (user.IsLocked)
+                    {
+                        <a asp-action="ToggleLock" asp-route-userId="@user.User.Id" class="btn btn-success">Розблокувати</a>
+                    }
+                    else
+                    {
+                        <a asp-action="ToggleLock" asp-route-userId="@user.User.Id" class="btn btn-danger">Заблокувати</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

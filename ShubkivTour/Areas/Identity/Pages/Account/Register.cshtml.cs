@@ -131,6 +131,8 @@ namespace ShubkivTour.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    await _userManager.AddToRoleAsync(user, "Client");
+
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -169,10 +171,10 @@ namespace ShubkivTour.Areas.Identity.Pages.Account
             {
                 return new Client
                 {
-                    UserName = Input.Email,  // Встановлюємо ім'я користувача
-                    Email = Input.Email,     // Встановлюємо email
-                    Name = Input.Name,       // Встановлюємо ім'я
-                    YearOfBirth = Input.YearOfBirth // Встановлюємо рік народження
+                    UserName = Input.Email,
+                    Email = Input.Email, 
+                    Name = Input.Name, 
+                    YearOfBirth = Input.YearOfBirth,
                 };
                 //return Activator.CreateInstance<Client>();
             }

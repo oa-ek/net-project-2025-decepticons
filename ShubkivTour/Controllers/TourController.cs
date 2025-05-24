@@ -147,7 +147,9 @@ namespace ShubkivTour.Controllers
                 CurrentMembers = 0,
                 TourGuides = guidsInTour.Select(guide => new TourGuides { GuideId = guide.Id }).ToList(),
                 TourProgram = selectedProgram,
-                Status = "Набір людей"
+                Status = "Набір людей",
+                EndDate = model.Date.AddDays(selectedProgram.Days.Count),
+                ReviewSent = false
             };
 
 
@@ -215,6 +217,14 @@ namespace ShubkivTour.Controllers
             return RedirectToAction("TourLook");
         }
 
+        [Authorize(Roles = "Admin")]
+        public IActionResult TourAdd()
+        {
+            ViewBag.AllGuids = _guideRepository.GetAllGuides();
+            ViewBag.AllTourPrograms = _context.TourPrograms.ToList();
+            return View();
+        }
+
         [HttpGet]
         public IActionResult GetTourWithDetails(int id)
         {
@@ -234,7 +244,8 @@ namespace ShubkivTour.Controllers
             return View(tour);
         }
 
-        public async Task<IActionResult> RegClientForTour(int tourId)
+        //РЕЄСТРАЦІЯ НА ТУР ТА ОПЛАТА
+        public async Task<IActionResult> Pay(int tourId)
         {
             var userId = _userManager.GetUserId(User);
 
@@ -243,25 +254,126 @@ namespace ShubkivTour.Controllers
                 return RedirectToPage("/Account/Login", new { area = "Identity" });
             }
 
-            try
+            var tour = _tourRepository.GetToursById(tourId);
+            decimal tourPrice = Convert.ToDecimal(tour.Price);
+
+            var model = new BusinessPaymentDto
             {
-                await _tourRepository.RegisterForTour(tourId, userId);
-                TempData["SuccessMessage"] = "Ви успішно зареєструвалися на тур!";
-                return RedirectToAction("TourLook");
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;
-                return RedirectToAction("TourLook");
-            }
+                ApiKey = "MTSIT9i7HY7QpskDE1iKPPgHBjdviu",   
+                Amount = tourPrice,
+                Currency = "UAH"
+            };
+
+            ViewBag.TourId = tourId;
+            return View("Pay", model);
+            /* try
+             {
+                 await _tourRepository.RegisterForTour(tourId, userId);
+                 TempData["SuccessMessage"] = "Ви успішно зареєструвалися на тур!";
+                 return RedirectToAction("TourLook");
+             }
+             catch (Exception ex)
+             {
+                 TempData["ErrorMessage"] = ex.Message;
+                 return RedirectToAction("TourLook");
+             }*/
         }
-        [Authorize(Roles = "Admin")]
-        public IActionResult TourAdd()
+        [HttpPost]
+        public async Task<IActionResult> ConfirmPayment(BusinessPaymentDto payment, int tourId)
         {
-            ViewBag.AllGuids = _guideRepository.GetAllGuides();
-            ViewBag.AllTourPrograms = _context.TourPrograms.ToList();
+            var tour = _tourRepository.GetToursById(tourId);
+            decimal tourPrice = Convert.ToDecimal(tour.Price);
+
+            payment.Amount = tourPrice;
+
+            using var client = new HttpClient();
+
+            var response = await client.PostAsJsonAsync(
+                "https://chakish-bank-api-2f1d3ff18869.herokuapp.com/api/business/pay",
+                payment
+            );
+
+            if (response.IsSuccessStatusCode)
+            {
+                var userId = _userManager.GetUserId(User);
+
+                try
+                {
+                    await _tourRepository.RegisterForTour(tourId, userId);
+                    TempData["SuccessMessage"] = "Оплата пройшла успішно! Ви зареєстровані на тур.";
+                    return RedirectToAction("TourLook");
+                }
+                catch (Exception ex)
+                {
+                    TempData["ErrorMessage"] = "Помилка реєстрації: " + ex.Message;
+                    return RedirectToAction("TourLook");
+                }
+            }
+
+            var error = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError(string.Empty, $"Оплата не вдалася: {error}");
+            ViewBag.TourId = tourId;
+            return View("Pay", payment);
+        }
+
+
+        //ВІДГУКИ
+        [HttpGet]
+        public IActionResult AddTourReview(int id)
+        {
+            var tour = _context.Tours.FirstOrDefault(t => t.Id == id);
+            if (tour == null)
+                return NotFound();
+
+            var model = new ReviewViewModel
+            {
+                TourId = tour.Id
+                //TourName = tour.Name
+            };
+
+            return View("AddTourReview", model);
+        }
+
+        public IActionResult Review(int id)
+        {
+            var tour = _context.Tours.FirstOrDefault(t => t.Id == id);
+            if (tour == null)
+                return NotFound();
+
+            var model = new ReviewViewModel
+            {
+                TourId = tour.Id
+                //TourName = tour.Name
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult SubmitReview(ReviewViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("AddTourReview", model);
+            }
+
+            var review = new Review
+            {
+                TourId = model.TourId,
+                ReviewerName = model.ReviewerName,
+                Comment = model.Comment,
+                Date = DateTime.Now
+            };
+
+            _context.Reviews.Add(review);
+            _context.SaveChanges();
+
+            return RedirectToAction("ReviewThanks");
+        }
+        public IActionResult ReviewThanks()
+        {
             return View();
         }
+
     }
 
 }
