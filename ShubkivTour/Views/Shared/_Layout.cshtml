@@ -1,71 +1,85 @@
-﻿<@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @using ShubkivTour.Models.Entity
 
 @inject SignInManager<Client> SignInManager
 @inject UserManager<Client> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - ShubkivTour</title>
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/css/back.css" asp-append-version="true" />
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Kanit&family=Lilita+One&family=Russo+One&family=Sour+Gummy&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ShubkivTour</title>
+    <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" />
 </head>
 <body>
-	<div class="layout-wrapper">
-		<!-- Бокове меню -->
-		<div class="sidebar">
-			<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ShubkivTour</a>
+    <div class="layout-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="head">
+                <div class="user-img">
+                    <img src="~/img/user.png" alt="User" />
+                </div>
+                <div class="user-details">
+                    <p class="title">Logged in as</p>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        var user = await UserManager.GetUserAsync(User);
+                        <p class="name">@user?.UserName</p>
+                    }
+                    else
+                    {
+                        <p class="name">Гість</p>
+                    }
+                </div>
+            </div>
 
-			<div class="nav-wrapper">
-				<ul class="navbar-nav">
-					<li class="nav-item">
-						<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" asp-area="" asp-controller="Tour" asp-action="TourLook">Тури</a>
-					</li>
-						@if (User.IsInRole("Admin"))
-						{
+            <div class="nav">
+                <div class="menu">
+                    <p class="title">Main</p>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                <i class="icon"></i>
+                                <span class="text">Home</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Tour" asp-action="TourLook">
+                                <i class="icon"></i>
+                                <span class="text">Тури</span>
+                            </a>
+                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Guide" asp-action="GuideLook">
+                                    <i class="icon"></i>
+                                    <span class="text">Гіди</span>
+                                </a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Catalog" asp-action="Index">
+                                <i class="icon"></i>
+                                <span class="text">Каталог</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-						<li class="nav-item">
-							<a class="nav-link" asp-area="" asp-controller="Guide" asp-action="GuideLook">Гіди</a>
-						</li>
-						}
-					<li class="nav-item">
-						<a class="nav-link" asp-area="" asp-controller="Catalog" asp-action="Index">Каталог</a>
-					</li>
-				</ul>
-			</div>
+            <div class="mt-auto">
+                <partial name="_LoginPartial" />
+            </div>
+        </aside>
 
-			<div class="mt-auto">
-				<partial name="_LoginPartial" />
-			</div>
-		</div>
+        <!-- Main Content -->
+        <main class="main-content">
+            @RenderBody()
+        </main>
+    </div>
 
-		<div class="main-content p-4">
-			<main role="main" class="pb-3">
-					@RenderBody()
-			</main>
-		</div>
-	</div>
-
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/js/site.js" asp-append-version="true"></script>
-		@await RenderSectionAsync("Scripts", required: false)
-
-	<script>
-		document.getElementById('sidebarToggle').addEventListener('click', function () {
-			const sidebar = document.querySelector('.sidebar');
-			const mainContent = document.querySelector('.main-content');
-
-			sidebar.classList.toggle('closed');
-			mainContent.classList.toggle('shifted');
-		});
-	</script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
