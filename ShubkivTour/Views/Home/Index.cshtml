@@ -38,13 +38,13 @@
 					</h3>
 
 					<h1 class="home__title">
-						Discover the world
-					</h1>Live the trips exploring the world, discover
-					paradises, islands, mountains and much
-					more, get your trip now.
+						Відкривайте світ
+					</h1>Живіть подорожами, досліджуючи світ, відкривайте
+					райські куточки, острови, гори та багато іншого
+					більше, отримайте свою подорож зараз.
 					</p>
 					<a href="#" class="button">
-						Start your adventure <i class="ri-arrow-right-line"></i>
+						Почніть свою пригоду <i class="ri-arrow-right-line"></i>
 					</a>
 				</div>
 
@@ -53,15 +53,17 @@
 					{
 						<article class="home__card">
 							<img src="~/@tour.Image.ImagePath" alt="home image" class="home__card-img" />
-							<h3 class="home__card-title">@tour.Name</h3>
-							<p class="home__card-date">@tour.Date.ToString("dd.MM.yyyy")</p>
 							<div class="home__card-shadow"></div>
-						</article>
-						<a asp-controller="Tour" asp-action="TourDetails" asp-route-id="@tour.Id" class="home__card-button">Переглянути</a>
 
-						
+							<div class="home__card-content">
+								<h3 class="home__card-title">@tour.Name</h3>
+								<p class="home__card-date">@tour.Date.ToString("dd.MM.yyyy")</p>
+								<a asp-controller="Tour" asp-action="TourDetails" asp-route-id="@tour.Id" class="home__card-button">Переглянути</a>
+							</div>
+						</article>
 					}
 				</div>
+
 			</div>
 		</section>
 
@@ -70,20 +72,20 @@
 			<div class="about__container container grid">
 				<div class="about__data">
 					<h2 class="section__title">
-						Learn more<br>
-						About Travel
+						Дізнайтесь більше<br>
+						Про подорожі
 					</h2>
 
 					<p class="about__description">
-						All the trips around the world are a great
-						pleasure the happiness for anyone, enjoy
-						the sights when you travel the world. Travel
-						safely and without worries, get your trip and
-						explore the paradises of the world.
+						Всі мандрівки по світу - це чудово
+						задоволення щастя для будь-кого, насолоджуйся
+						пам'ятки, коли ви подорожуєте світом. Подорожі
+						безпечно та без турбот, отримайте свою поїздку та
+						досліджувати райські куточки світу.
 					</p>
 
 					<a href="#" class="button">
-						Explore Travel <i class="ri-arrow-right-line"></i>
+						Досліджуйте подорожі <i class="ri-arrow-right-line"></i>
 					</a>
 				</div>
 
@@ -99,8 +101,8 @@
 		<!--==================== POPULAR ====================-->
 		<section class="popular section" id="popular">
 			<h2 class="section__title">
-				Enjoy the Beauty <br>
-				Of the World
+				Насолоджуйся красою <br>
+				Світу
 			</h2>
 
 			<div class="popular__container container grid">
@@ -111,12 +113,12 @@
 					</div>
 
 					<h2 class="popular__title">
-						Nesamovite
+						Несамовите
 					</h2>
 
 					<div class="popular__location">
 						<i class="ri-map-pin-line"></i>
-						<span>Ivano-Frankivsk</span>
+						<span>Івано-Франківськ</span>
 					</div>
 				</article>
 				<article class="popular__card">
@@ -126,12 +128,12 @@
 					</div>
 
 					<h2 class="popular__title">
-						Waterfall "Ghuk"
+						Водоспад "Гук"
 					</h2>
 
 					<div class="popular__location">
 						<i class="ri-map-pin-line"></i>
-						<span>Ivano-Frankivsk</span>
+						<span>Івано-Франківськ</span>
 					</div>
 				</article>
 				<article class="popular__card">
@@ -141,12 +143,12 @@
 					</div>
 
 					<h2 class="popular__title">
-						Goverla
+						Говерла
 					</h2>
 
 					<div class="popular__location">
 						<i class="ri-map-pin-line"></i>
-						<span>Ivano-Frankivsk</span>
+						<span>Івано-Франківськ</span>
 					</div>
 				</article>
 			</div>
@@ -163,22 +165,22 @@
 				<div class="explore__content container grid">
 					<div class="explore__data">
 						<h2 class="section__title">
-							Explore the<br>
-							World
+							Дослідіть<br>
+							Світ
 						</h2>
 						<p class="explore__description">
-							The world is a beautiful place, full of
-							wonders and adventures waiting to be
-							discovered. From the majestic mountains
-							to the serene beaches, every corner of the
-							world has something unique to offer.
+							Світ — прекрасне місце, повне
+							дива та пригоди чекають
+							виявлено. З величних гір
+							до тихих пляжів, кожен куточок
+							світ може запропонувати щось унікальне.
 						</p>
 
 					</div>
 
 					<div class="explore__user">
 						<img src="~/img/nesamovyte.jpg" alt="explore image" class="explore__perfil" />
-						<span class="explore__name">Dmytro Dolzhenko</span>
+						<span class="explore__name">Дмитро Долженко</span>
 					</div>
 				</div>
 			</div>
@@ -189,20 +191,20 @@
 			<div class="join__container container grid">
 				<div class="join__data">
 					<h2 class="section__title">
-						Join the<br>
-						Adventure
+						Приєднуйся до<br>
+						Пригод
 					</h2>
 					<p class="join__description">
-						Join us on an unforgettable journey
-						through the most breathtaking landscapes
-						and vibrant cultures.
+						Приєднуйтесь до нас у незабутню подорож
+						через найзахоплюючі краєвиди
+						і яскраві культури.
 					</p>
 
 					<form action="" class="join__form">
-						<input type="email" placeholder="Enter your email" class="join__input" />
+						<input type="email" placeholder="Введіть адресу електронної пошти" class="join__input" />
 
 						<button class="join__button button">
-							Subscribe Our Newsletter <i class="ri-arrow-right-line"></i>
+							Підпишіться на нашу розсилку<i class="ri-arrow-right-line"></i>
 						</button>
 					</form>
 				</div>
@@ -221,43 +223,43 @@
 		<div class="footer__container container grid">
 			<div class="footer__content grid">
 				<div>
-					<a href="#" class="footer__logo">Travel</a>
+					<a href="#" class="footer__logo">Подорожі</a>
 
 					<p class="footer__description">
-						Trever with us and explore <br>
-						the world with us.
+						Подорожуйте та досліджуйте <br>
+						світ з нами.
 					</p>
 				</div>
 
 				<div class="footer__data grid">
 					<div>
-						<h3 class="footer__title">About</h3>
+						<h3 class="footer__title">Інформація</h3>
 
 						<ul class="footer__links">
 							<li>
-								<a href="#" class="footer__link">About Us</a>
+								<a href="#" class="footer__link">Про нас</a>
 							</li>
 							<li>
-								<a href="#" class="footer__link">Features</a>
+								<a href="#" class="footer__link">Особливості</a>
 							</li>
 							<li>
-								<a href="#" class="footer__link">News & Blog</a>
+								<a href="#" class="footer__link">Новини та блог</a>
 							</li>
 						</ul>
 					</div>
 
 					<div>
-						<h3 class="footer__title">Company</h3>
+						<h3 class="footer__title">Компанія</h3>
 
 						<ul class="footer__links">
 							<li>
 								<a href="#" class="footer__link">FAQs</a>
 							</li>
 							<li>
-								<a href="#" class="footer__link">History</a>
+								<a href="#" class="footer__link">Історія</a>
 							</li>
 							<li>
-								<a href="#" class="footer__link">Testimonials</a>
+								<a href="#" class="footer__link">Відгуки</a>
 							</li>
 						</ul>
 					</div>
@@ -267,29 +269,29 @@
 
 						<ul class="footer__links">
 							<li>
-								<a href="#" class="footer__link">Call Center</a>
+								<a href="#" class="footer__link">Кол-центр</a>
 							</li>
 							<li>
-								<a href="#" class="footer__link">Support Center</a>
+								<a href="#" class="footer__link">Центр підтримки</a>
 							</li>
 							<li>
-								<a href="#" class="footer__link">Contact Us</a>
+								<a href="#" class="footer__link">Зв'яжіться з нами</a>
 							</li>
 						</ul>
 					</div>
 
 					<div>
-						<h3 class="footer__title">Support</h3>
+						<h3 class="footer__title">Підтримка</h3>
 
 						<ul class="footer__links">
 							<li>
-								<a href="#" class="footer__link">Privacy Policy</a>
+								<a href="#" class="footer__link">Політика конфіденційності</a>
 							</li>
 							<li>
-								<a href="#" class="footer__link">Terms & Services</a>
+								<a href="#" class="footer__link">Умови та послуги</a>
 							</li>
 							<li>
-								<a href="#" class="footer__link">Payments</a>
+								<a href="#" class="footer__link">Платежі</a>
 							</li>
 						</ul>
 					</div>
