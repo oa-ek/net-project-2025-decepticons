@@ -9,6 +9,7 @@ using ShubkivTour.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System.Drawing;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace ShubkivTour.Controllers
 {
@@ -22,13 +23,14 @@ namespace ShubkivTour.Controllers
 
         private readonly ApplicationDbContext _context;
         private readonly UserManager<Client> _userManager;
+        private readonly IEmailSender _emailSender;
 
         private static List<Guide> guidsInTour = new List<Guide>();
         private static List<Location> locationInTour = new List<Location>();
         private static List<Event> entertainmentInTour = new List<Event>();
 
 
-        public TourController(UserManager<Client> userManager, ILogger<TourController> logger, ITour tourRepository, IGuide guideRepository, ILocation locationRepository, IEntertainments entertainmentRepository, ApplicationDbContext context)
+        public TourController(UserManager<Client> userManager, ILogger<TourController> logger, ITour tourRepository, IGuide guideRepository, ILocation locationRepository, IEntertainments entertainmentRepository, ApplicationDbContext context, IEmailSender emailSender)
         {
             _logger = logger;
             _tourRepository = tourRepository;
@@ -37,6 +39,7 @@ namespace ShubkivTour.Controllers
             _entertainmentRepository = entertainmentRepository;
             _context = context;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
@@ -72,6 +75,21 @@ namespace ShubkivTour.Controllers
                 entertainmentInTour.Add(entertainment);
             }
             return RedirectToAction("TourLook");
+        }
+
+        public IActionResult Category(string category)
+        {
+            var tours = _tourRepository.GetTourCategory(category);
+            ViewBag.AllTours = tours.ToList();
+            ViewBag.Category = category;
+            return View("TourLook");
+        }
+
+
+        public IActionResult TourCategory()
+        {
+            var categoryCounts = _tourRepository.GetTourCategoryCount();
+            return View(categoryCounts);
         }
 
         public IActionResult TourLook()
@@ -285,11 +303,39 @@ namespace ShubkivTour.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var userId = _userManager.GetUserId(User);
+                var user = await _userManager.FindByIdAsync(userId);
 
                 try
                 {
                     await _tourRepository.RegisterForTour(tourId, userId);
                     TempData["SuccessMessage"] = "Оплата пройшла успішно! Ви зареєстровані на тур.";
+
+                    var emailHtml = $@"
+<div style=""background-color:#1e1e1e; color:white; font-family:Arial, sans-serif; padding:30px;"">
+    <h1 style=""text-align:center;"">Дякуємо!</h1>
+    <div style=""background-color:#2e2e2e; padding:20px; border-radius:10px;"">
+        <p>Привіт, {user.UserName}!</p>
+        <p>Дякуємо за оплату участі в турі.</p>
+        <h2>Ідентифікатор замовлення: <span style=""color:#ffcc00;"">{Guid.NewGuid()}</span></h2>
+        <hr style=""border-color:#555;"">
+
+        <table style=""width:100%;"">
+            <tr><td><strong>Назва туру:</strong></td><td>{tour.Name}</td></tr>
+            <tr><td><strong>Дата:</strong></td><td>{tour.Date.ToShortDateString()}</td></tr>
+            <tr><td><strong>Ціна:</strong></td><td>{tour.Price} грн</td></tr>
+            <tr><td><strong>Email:</strong></td><td>{user.Email}</td></tr>
+        </table>
+
+        <p style=""margin-top:30px;"">До зустрічі в подорожі! 🌍</p>
+    </div>
+</div>";
+
+                    await _emailSender.SendEmailAsync(
+                        user.Email,
+                        "Підтвердження участі в турі",
+                        emailHtml
+                    );
+
                     return RedirectToAction("RegThanks");   
                 }
                 catch (Exception ex)

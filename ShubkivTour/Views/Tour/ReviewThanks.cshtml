@@ -1,9 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Дякуємо за відгук";
 }
-
-<div class="text-center mt-5">
+<link rel="stylesheet" href="~/css/reviewThanks.css" />
+@{
+    Layout = null;
+}
+<div class="container-box">
     <h2>Дякуємо!</h2>
     <p>Ваш відгук успішно надіслано.</p>
-    <a asp-action="TourLook" class="btn btn-primary mt-3">Повернутися до турів</a>
+    <a asp-action="TourLook" class="btn">Повернутися до турів</a>
 </div>

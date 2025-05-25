@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShubkivTour.Data;
 using ShubkivTour.Models.Entity;
 using ShubkivTour.Repository.Interfaces;
+using ShubkivTour.Models.DTO;
 
 namespace ShubkivTour.Repository
 {
@@ -43,6 +44,13 @@ namespace ShubkivTour.Repository
                 .Include(t => t.Image)
                 .ToList();
         }
+        public IEnumerable<Tour> GetTourCategory(string category)
+        {
+            return _context.Tours
+                .Where(t => t.Category == category)
+                .Include(t => t.Image)
+                .ToList();
+        }
         public IEnumerable<Tour> GetExpectedTours()
         {
             return _context.Tours.Where(t => t.Status == "В очікуванні").ToList();
@@ -61,6 +69,37 @@ namespace ShubkivTour.Repository
         public Tour GetToursById(int tourId)
         {
             return _context.Tours.FirstOrDefault(p => p.Id == tourId);
+        }
+
+
+        //REVIEWS
+        public IEnumerable<Review> GetReviews()
+        {
+            return _context.Reviews.ToList();
+        }
+        public IEnumerable<Review> GetTourReviews(int tourId)
+        {
+            return _context.Reviews.Where(r => r.TourId == tourId).ToList();
+        }
+
+        //CLIENT
+        public IEnumerable<Client> GetTourClient(int tourId)
+        {
+            return _context.TourClients
+                .Where(tc => tc.TourId == tourId)
+                .Select(tc => tc.Client)
+                .ToList();
+        }
+        public void RemoveClientFromTour(int tourId, string clientId)
+        {
+            var tour = GetToursById(tourId);
+            var relation = _context.TourClients.FirstOrDefault(tc => tc.TourId == tourId && tc.ClientId == clientId);
+            if (relation != null)
+            {
+                _context.TourClients.Remove(relation);
+                _context.SaveChanges();
+            }
+            tour.CurrentMembers--;
         }
 
         public async Task RegisterForTour(int tourId, string userId)
@@ -91,34 +130,28 @@ namespace ShubkivTour.Repository
             await _context.SaveChangesAsync(); 
         }
 
-        //REVIEWS
-        public IEnumerable<Review> GetReviews()
+        public IEnumerable<TourCategoryCount> GetTourCategoryCount()
         {
-            return _context.Reviews.ToList();
-        }
-        public IEnumerable<Review> GetTourReviews(int tourId)
-        {
-            return _context.Reviews.Where(r => r.TourId == tourId).ToList();
-        }
+            var allowedCategories = new[] { "Буковель", "Хайкінг", "Екстрим" };
 
-        //CLIENT
-        public IEnumerable<Client> GetTourClient(int tourId)
-        {
-            return _context.TourClients
-                .Where(tc => tc.TourId == tourId)
-                .Select(tc => tc.Client)
+            var result = _context.Tours
+                .Where(t => allowedCategories.Contains(t.Category))  
+                .GroupBy(t => t.Category)                             
+                .Select(g => new TourCategoryCount                  
+                {
+                    Category = g.Key,
+                    Count = g.Count()
+                })
                 .ToList();
-        }
-        public void RemoveClientFromTour(int tourId, string clientId)
-        {
-            var tour = GetToursById(tourId);
-            var relation = _context.TourClients.FirstOrDefault(tc => tc.TourId == tourId && tc.ClientId == clientId);
-            if (relation != null)
+
+            foreach (var cat in allowedCategories)
             {
-                _context.TourClients.Remove(relation);
-                _context.SaveChanges();
+                if (!result.Any(r => r.Category == cat))
+                {
+                    result.Add(new TourCategoryCount { Category = cat, Count = 0 });
+                }
             }
-            tour.CurrentMembers--;
+            return result.OrderBy(r => r.Category);
         }
 
     }
