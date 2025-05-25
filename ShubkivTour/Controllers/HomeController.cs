@@ -19,6 +19,9 @@ namespace ShubkivTour.Controllers
 
         public IActionResult Index()
         {
+            var reviews = _tourService.GetReviews();
+            ViewBag.Reviews = reviews;
+
             var tours = _tourService.GetUpcomingTours();
             return View(tours);
         }

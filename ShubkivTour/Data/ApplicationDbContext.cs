@@ -91,57 +91,6 @@ namespace ShubkivTour.Data
     .WithOne(img => img.Event)
     .HasForeignKey<EventImage>(img => img.EventId)
     .OnDelete(DeleteBehavior.Cascade);
-
-            /*			modelBuilder.Entity<Tour>()
-                .HasOne(t => t.TourProgram)
-                .WithOne(tp => tp.Tour)
-                .HasForeignKey<TourProgram>(tp => tp.TourId);*/
-
-
-            /*//зв'язок між Day та Event через проміжну
-			modelBuilder.Entity<DayEvents>()
-				.HasKey(tg => new { tg.DayId, tg.EventId });
-
-			modelBuilder.Entity<DayEvents>()
-				.HasOne(tg => tg.Day)
-				.WithMany(t => t.DayEvents)
-				.HasForeignKey(tg => tg.DayId);
-
-			modelBuilder.Entity<DayEvents>()
-				.HasOne(tg => tg.Event)
-				.WithMany(g => g.DayEvents)
-				.HasForeignKey(tg => tg.EventId);*/
-
-            /* //зв'язок між Tour та Location через проміжну
-			 modelBuilder.Entity<TourLocations>()
-				 .HasKey(tg => new { tg.TourId, tg.LocationId });
-
-			 modelBuilder.Entity<TourLocations>()
-				 .HasOne(tg => tg.Tour)
-				 .WithMany(t => t.TourLocations)
-				 .HasForeignKey(tg => tg.TourId);
-
-			 modelBuilder.Entity<TourLocations>()
-				 .HasOne(tg => tg.Location)
-				 .WithMany(g => g.TourLocations)
-				 .HasForeignKey(tg => tg.LocationId);*/
-
-
-
-
-            /* //зв'язок між Tour та Location через проміжну
-			 modelBuilder.Entity<TourEvents>()
-				 .HasKey(tg => new { tg.TourId, tg.EntertainmentId });
-
-			 modelBuilder.Entity<TourEvents>()
-				 .HasOne(tg => tg.Tour)
-				 .WithMany(t => t.TourEvents)
-				 .HasForeignKey(tg => tg.TourId);
-
-			 modelBuilder.Entity<TourEvents>()
-				 .HasOne(tg => tg.Entertainment)
-				 .WithMany(g => g.TourEvents)
-				 .HasForeignKey(tg => tg.EntertainmentId);*/
         }
     }
 }
