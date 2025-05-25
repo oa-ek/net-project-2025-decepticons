@@ -122,7 +122,7 @@ namespace ShubkivTour.Controllers
             if (imageFile != null && imageFile.Length > 0)
             {
                 var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
-                Directory.CreateDirectory(uploadsFolder); 
+                Directory.CreateDirectory(uploadsFolder);
 
                 var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
                 var filePath = Path.Combine(uploadsFolder, uniqueFileName);
@@ -191,12 +191,12 @@ namespace ShubkivTour.Controllers
           .ThenInclude(tp => tp.Days)
               .ThenInclude(d => d.Events)
                   .ThenInclude(e => e.Image)
+                  .Include(t => t.TourClients)
       .FirstOrDefault(t => t.Id == id);
 
             var ev = _context.Events
     .Include(e => e.Image)
     .FirstOrDefault(e => e.Id == id);
-
 
             if (tour == null)
             {
@@ -259,24 +259,13 @@ namespace ShubkivTour.Controllers
 
             var model = new BusinessPaymentDto
             {
-                ApiKey = "MTSIT9i7HY7QpskDE1iKPPgHBjdviu",   
+                ApiKey = "MTSIT9i7HY7QpskDE1iKPPgHBjdviu",
                 Amount = tourPrice,
                 Currency = "UAH"
             };
 
             ViewBag.TourId = tourId;
             return View("Pay", model);
-            /* try
-             {
-                 await _tourRepository.RegisterForTour(tourId, userId);
-                 TempData["SuccessMessage"] = "Ви успішно зареєструвалися на тур!";
-                 return RedirectToAction("TourLook");
-             }
-             catch (Exception ex)
-             {
-                 TempData["ErrorMessage"] = ex.Message;
-                 return RedirectToAction("TourLook");
-             }*/
         }
         [HttpPost]
         public async Task<IActionResult> ConfirmPayment(BusinessPaymentDto payment, int tourId)
@@ -301,7 +290,7 @@ namespace ShubkivTour.Controllers
                 {
                     await _tourRepository.RegisterForTour(tourId, userId);
                     TempData["SuccessMessage"] = "Оплата пройшла успішно! Ви зареєстровані на тур.";
-                    return RedirectToAction("TourLook");
+                    return RedirectToAction("RegThanks");   
                 }
                 catch (Exception ex)
                 {
@@ -314,6 +303,11 @@ namespace ShubkivTour.Controllers
             ModelState.AddModelError(string.Empty, $"Оплата не вдалася: {error}");
             ViewBag.TourId = tourId;
             return View("Pay", payment);
+        }
+
+        public IActionResult RegThanks()
+        {
+            return View();
         }
 
 
@@ -372,6 +366,22 @@ namespace ShubkivTour.Controllers
         public IActionResult ReviewThanks()
         {
             return View();
+        }
+
+
+        //CLIENT
+        [HttpGet]
+        public IActionResult TourClient(int id)
+        {
+            var clients = _tourRepository.GetTourClient(id);
+            ViewBag.TourId = id;
+            return View(clients);
+        }
+        [HttpPost]
+        public IActionResult RemoveClientFromTour(int tourId, string clientId)
+        {
+            _tourRepository.RemoveClientFromTour(tourId, clientId);
+            return RedirectToAction("TourClient", new { id = tourId });
         }
 
     }

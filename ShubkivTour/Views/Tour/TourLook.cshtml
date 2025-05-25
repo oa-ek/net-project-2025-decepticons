@@ -46,15 +46,18 @@
 							<strong>Учасники:</strong> @tour.MaxMembers
 						</p>
 						<a asp-controller="Tour" asp-action="TourDetails" asp-route-id="@tour.Id" class="btn btn-info" target="_blank">Переглянути деталі</a>
-						@if(User.IsInRole("Admin"))
+						@if (User.IsInRole("Admin"))
 						{
-						<form asp-controller="Tour" asp-action="RemoveTour" asp-route-id="@tour.Id" method="post" class="d-inline">
-							<button type="submit" class="btn btn-danger">Видалити</button>
-						</form>
+							<form asp-controller="Tour" asp-action="RemoveTour" asp-route-id="@tour.Id" method="post" class="d-inline">
+								<button type="submit" class="btn btn-danger">Видалити</button>
+							</form>
+							<form asp-controller="Tour" asp-action="TourClient" asp-route-id="@tour.Id" method="get" class="d-inline">
+								<button type="submit" class="btn btn-success">Переглянути учасників</button>
+							</form>
 						}
-						<a asp-controller="Tour" asp-action="Pay" asp-route-tourId="@tour.Id" class="btn btn-info" target="_blank">
-							Зареєструватися
-						</a>
+							<a asp-controller="Tour" asp-action="Pay" asp-route-tourId="@tour.Id" class="btn btn-info" target="_blank">
+								Зареєструватися
+							</a>
 					</div>
 				</div>
 			</div>

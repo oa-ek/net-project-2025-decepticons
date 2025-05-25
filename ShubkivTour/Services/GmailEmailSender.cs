@@ -11,7 +11,6 @@ namespace ShubkivTour.Services
         public GmailEmailSender(IConfiguration configuration)
         {
             _configuration = configuration;
-
         }
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)

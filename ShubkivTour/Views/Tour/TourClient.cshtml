@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ShubkivTour.Models.Entity.Client>
+@{
+    ViewData["Title"] = "Учасники туру";
+}
+
+<h2>Учасники туру</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Немає зареєстрованих учасників для цього туру.</div>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Ім’я</th>
+                <th>Рік народження</th>
+                <th>Email</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in Model.Select((c, i) => new { Client = c, Index = i + 1 }))
+            {
+                <tr>
+                    <td>@client.Index</td>
+                    <td>@client.Client.Name</td>
+                    <td>@client.Client.YearOfBirth</td>
+                    <td>@client.Client.Email</td>
+                    <td>
+                        <form asp-controller="Tour" asp-action="RemoveClientFromTour" method="post" class="d-inline">
+                            <input type="hidden" name="clientId" value="@client.Client.Id" />
+                            <input type="hidden" name="tourId" value="@ViewContext.RouteData.Values["id"]" />
+                            <button type="submit" class="btn btn-danger btn-sm">Вилучити</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<a asp-action="TourLook" asp-controller="Tour" class="btn btn-secondary mt-3">← Назад до турів</a>

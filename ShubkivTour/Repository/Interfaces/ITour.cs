@@ -12,6 +12,10 @@ namespace ShubkivTour.Repository.Interfaces
         void DeleteTour(int id);
         Task RegisterForTour(int tourId, string userId);
 
+
         IEnumerable<Review> GetReviews();
+        IEnumerable<Client> GetTourClient(int tourId);
+        void RemoveClientFromTour(int tourId, string clientId);
+
     }
 }
