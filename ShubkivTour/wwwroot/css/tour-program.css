@@ -10,10 +10,11 @@
 body, html {
     height: 100%;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.9);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
 }
 
-/* ==== Фон з відео ==== */
+/* ==== Відеофон (опціонально) ==== */
 .background-video {
     position: fixed;
     top: 0;
@@ -28,112 +29,368 @@ body, html {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: blur(8px) brightness(0.6);
+    filter: blur(8px) brightness(0.7);
 }
 
-/* ==== Заголовки ==== */
-h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    color: #1e3a8a;
-}
-
-/* ==== День туру ==== */
-ul {
-    list-style: none;
-    padding-left: 0;
+/* ==== Основний контейнер ==== */
+.tour-program-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
     margin-bottom: 2rem;
 }
 
-li {
-    background-color: #ffffffd9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    padding: 1rem;
+/* ==== Заголовок туру ==== */
+.tour-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    text-align: center;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #1e3a8a, #3b5fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ==== Список днів ==== */
+.days-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.day-item {
+    background: #ffffff;
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.day-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ==== Заголовок дня ==== */
+.day-title {
+    background: linear-gradient(135deg, #1e3a8a, #3b5fff);
+    color: white;
+    padding: 1rem 1.5rem;
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    position: relative;
+}
+
+.day-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #ffd700, #ff6b6b);
+}
+
+/* ==== Список подій ==== */
+.events-list {
+    list-style: none;
+    padding: 1.5rem;
+    margin: 0;
+}
+
+.event-item {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 1.5rem;
     margin-bottom: 1rem;
+    border-left: 4px solid #3b5fff;
     transition: all 0.3s ease;
+    position: relative;
 }
 
-li:hover {
-    background-color: #f0f4ff;
+.event-item:hover {
+    background: #e2e8f0;
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(59, 95, 255, 0.2);
 }
 
-/* ==== Картинка події ==== */
-img.img-thumbnail {
-    margin-top: 0.5rem;
-    border-radius: 8px;
-    max-width: 100%;
-    height: auto;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+.event-item:last-child {
+    margin-bottom: 0;
+}
+
+/* ==== Назва події ==== */
+.event-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-bottom: 0.5rem;
+    display: block;
 }
 
 /* ==== Опис події ==== */
-h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
+.event-description {
+    color: #4a5568;
+    line-height: 1.6;
     margin-bottom: 0.5rem;
+}
+
+/* ==== Час події ==== */
+.event-time {
+    color: #718096;
+    font-style: italic;
+    font-size: 0.9rem;
+    display: inline-block;
+    background: #e2e8f0;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+}
+
+/* ==== Зображення події ==== */
+.event-image {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin-top: 1rem;
+    display: block;
+}
+
+.event-image:hover {
+    transform: scale(1.02);
+}
+
+/* ==== Повідомлення про відсутність подій ==== */
+.no-events {
+    text-align: center;
+    color: #718096;
+    font-style: italic;
+    padding: 2rem;
+    background: #f7fafc;
+    border-radius: 12px;
+    margin: 1.5rem;
+}
+
+/* ==== Повідомлення про відсутність днів ==== */
+.no-days {
+    text-align: center;
+    color: #718096;
+    font-style: italic;
+    padding: 3rem;
+    background: #f7fafc;
+    border-radius: 16px;
+    font-size: 1.1rem;
+}
+
+/* ==== Прогрес-бар заповненості ==== */
+.tour-capacity {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.capacity-label {
+    font-weight: 600;
     color: #1e3a8a;
+    margin-bottom: 0.75rem;
+    display: block;
+    font-size: 1.1rem;
 }
 
-strong {
-    color: #333;
-}
-
-em {
-    color: #555;
-    font-size: 0.95rem;
-}
-
-/* ==== Прогрес бар ==== */
 .progress {
-    background-color: #e9ecef;
-    border-radius: 8px;
+    height: 12px;
+    border-radius: 10px;
+    background-color: #e2e8f0;
     overflow: hidden;
-    height: 20px;
-    margin-top: 0.5rem;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .progress-bar {
-    font-size: 0.875rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    transition: width 0.4s ease;
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #34d399);
+    border-radius: 10px;
+    transition: width 0.6s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-image: linear-gradient(
+        -45deg,
+        rgba(255, 255, 255, 0.2) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.2) 75%,
+        transparent 75%,
+        transparent
+    );
+    background-size: 50px 50px;
+    animation: move 2s linear infinite;
+}
+
+@keyframes move {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 50px 50px;
+    }
 }
 
 /* ==== Кнопки ==== */
 .btn {
-    font-size: 14px;
-    font-weight: 500;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    text-decoration: none;
     display: inline-block;
-    margin-right: 8px;
-    margin-top: 10px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0.25rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
 }
 
 .btn-info {
-    background-color: #0d6efd;
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
     color: white;
 }
 
 .btn-info:hover {
-    background-color: #0b5ed7;
+    background: linear-gradient(135deg, #0891b2, #0e7490);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
 }
 
 .btn-primary {
-    background-color: #1e3a8a;
+    background: linear-gradient(135deg, #1e3a8a, #3b5fff);
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: #3b5fff;
+    background: linear-gradient(135deg, #3b5fff, #6366f1);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 95, 255, 0.4);
 }
+
+/* ==== Контейнер кнопок ==== */
+.buttons-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+/* ==== Адаптивність ==== */
+@media (max-width: 768px) {
+    .tour-program-container {
+        margin: 1rem;
+        padding: 1rem;
+        border-radius: 16px;
+    }
+    
+    .tour-title {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .day-title {
+        font-size: 1.2rem;
+        padding: 0.75rem 1rem;
+    }
+    
+    .events-list {
+        padding: 1rem;
+    }
+    
+    .event-item {
+        padding: 1rem;
+    }
+    
+    .event-image {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .buttons-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .tour-title {
+        font-size: 1.5rem;
+    }
+    
+    .day-title {
+        font-size: 1.1rem;
+    }
+    
+    .event-name {
+        font-size: 1.1rem;
+    }
+}
+
+/* ==== Анімації ==== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.day-item {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.day-item:nth-child(1) { animation-delay: 0.1s; }
+.day-item:nth-child(2) { animation-delay: 0.2s; }
+.day-item:nth-child(3) { animation-delay: 0.3s; }
+.day-item:nth-child(4) { animation-delay: 0.4s; }
+.day-item:nth-child(5) { animation-delay: 0.5s; }

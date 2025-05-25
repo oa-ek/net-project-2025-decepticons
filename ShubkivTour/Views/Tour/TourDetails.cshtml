@@ -1,60 +1,92 @@
 ﻿@model ShubkivTour.Models.Entity.Tour;
+<link rel="stylesheet" href="~/css/tour-program.css" />
+<div class="tour-program-container">
+    <h2 class="tour-title">Програма туру: @Model.Name</h2>
 
-<h2>Програма туру: @Model.Name</h2>
+    @if (Model.TourProgram != null && Model.TourProgram.Days.Any())
+    {
+        <ul class="days-list">
+            @foreach (var day in Model.TourProgram.Days)
+            {
+                <li class="day-item">
+                    <h3 class="day-title">День @day.DayNumber</h3>
+                    @if (day.Events.Any())
+                    {
+                        <ul class="events-list">
+                            @foreach (var eventItem in day.Events)
+                            {
+                                <li class="event-item">
+                                    <strong class="event-name">@eventItem.Name</strong>
+                                    <div class="event-description">@eventItem.Description</div>
+                                    <em class="event-time">Час: @eventItem.Time</em>
+                                    @if (eventItem.Image != null)
+                                    {
+                                        <img src="@Url.Content("~/" + eventItem.Image.ImagePath)"
+                                             class="event-image img-thumbnail"
+                                             style="max-width: 400px;"
+                                             alt="@eventItem.Name" />
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="no-events">Подій немає</p>
+                    }
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p class="no-days">Днів у цьому турі ще немає</p>
+    }
 
+    @if (Model.MaxMembers > 0)
+    {
+        var currentCount = Model.TourClients?.Count ?? 0;
+        var percent = (int)(((double)currentCount / Model.MaxMembers) * 100);
 
-
-@if (Model.TourProgram != null && Model.TourProgram.Days.Any())
-{
-    <ul>
-        @foreach (var day in Model.TourProgram.Days)
-        {
-            <li>
-                <h3>День @day.DayNumber</h3>
-                @if (day.Events.Any())
-                {
-                    <ul>
-                        @foreach (var eventItem in day.Events)
-                        {
-                            <li>
-                                <strong>@eventItem.Name</strong> - @eventItem.Description <br />
-                                <em>Час: @eventItem.Time</em>
-                                @if (eventItem.Image != null)
-                                {
-                                    <img src="@Url.Content("~/" + eventItem.Image.ImagePath)" class="img-thumbnail" style="max-width: 400px;" />
-                                }
-                            </li>
-                        }
-                    </ul>
-                }
-                else
-                {
-                    <p>Подій немає</p>
-                }
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <p>Днів у цьому турі ще немає</p>
-}
-
-@if (Model.MaxMembers > 0)
-{
-    var currentCount = Model.TourClients?.Count ?? 0;
-    var percent = (int)(((double)currentCount / Model.MaxMembers) * 100);
-
-    <div class="mb-3">
-        <label>Заповненість туру: @currentCount / @Model.MaxMembers</label>
-        <div class="progress">
-            <div class="progress-bar bg-success" role="progressbar" style="width: @percent%" aria-valuenow="@percent" aria-valuemin="0" aria-valuemax="100">
-                @percent%
+        <div class="tour-capacity">
+            <label class="capacity-label">Заповненість туру: @currentCount / @Model.MaxMembers</label>
+            <div class="progress">
+                <div class="progress-bar"
+                     role="progressbar"
+                     style="width: @percent%"
+                     aria-valuenow="@percent"
+                     aria-valuemin="0"
+                     aria-valuemax="100">
+                    @percent%
+                </div>
             </div>
         </div>
+    }
+
+    <div class="buttons-container">
+        @if (Model.MaxMembers > 0)
+        {
+            <a asp-controller="Tour"
+               asp-action="Pay"
+               asp-route-tourId="@Model.Id"
+               class="btn btn-info"
+               target="_blank">
+                Зареєструватися
+            </a>
+        }
+        <a asp-controller="Tour"
+           asp-action="TourCategory"
+           class="btn btn-primary">
+            ← Назад
+        </a>
     </div>
-    <a asp-controller="Tour" asp-action="Pay" asp-route-tourId="@Model.Id" class="btn btn-info" target="_blank">
-        Зареєструватися
-    </a>
-}
-<a asp-controller="Tour" asp-action="TourCategory" class="btn btn-primary">← Назад</a>
+</div>
+
+<!-- Опціонально: відеофон -->
+<!--
+<div class="background-video">
+    <video autoplay muted loop>
+        <source src="~/videos/tour-background.mp4" type="video/mp4">
+    </video>
+</div>
+-->
