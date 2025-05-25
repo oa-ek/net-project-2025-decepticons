@@ -53,7 +53,9 @@ namespace ShubkivTour.Repository
             var today = DateTime.Now;
             var upcomingTours = today.AddDays(7);
 
-            return _context.Tours.Where(t => t.Date <= upcomingTours && t.Date >= today).ToList();
+            return _context.Tours.Where(t => t.Date <= upcomingTours && t.Date >= today)
+                .Include(t => t.Image)
+                .ToList();
         }
 
         public Tour GetToursById(int tourId)
@@ -98,5 +100,26 @@ namespace ShubkivTour.Repository
         {
             return _context.Reviews.Where(r => r.TourId == tourId).ToList();
         }
+
+        //CLIENT
+        public IEnumerable<Client> GetTourClient(int tourId)
+        {
+            return _context.TourClients
+                .Where(tc => tc.TourId == tourId)
+                .Select(tc => tc.Client)
+                .ToList();
+        }
+        public void RemoveClientFromTour(int tourId, string clientId)
+        {
+            var tour = GetToursById(tourId);
+            var relation = _context.TourClients.FirstOrDefault(tc => tc.TourId == tourId && tc.ClientId == clientId);
+            if (relation != null)
+            {
+                _context.TourClients.Remove(relation);
+                _context.SaveChanges();
+            }
+            tour.CurrentMembers--;
+        }
+
     }
 }

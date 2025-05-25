@@ -38,8 +38,6 @@ namespace ShubkivTour.Repository
                 .Select(tc => tc.Client);
         }
 
-
-
         public Client GetClientById(string clientId)
         {
             throw new NotImplementedException();

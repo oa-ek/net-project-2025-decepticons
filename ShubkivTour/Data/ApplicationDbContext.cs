@@ -25,9 +25,9 @@ namespace ShubkivTour.Data
         public DbSet<TourImage> TourImages => Set<TourImage>();
 
 
-		public DbSet<Brand> Brands => Set<Brand>();
-		public DbSet<CategoryProduct> CategoryProducts => Set<CategoryProduct>();
-		public DbSet<Order> Orders => Set<Order>();
+        public DbSet<Brand> Brands => Set<Brand>();
+        public DbSet<CategoryProduct> CategoryProducts => Set<CategoryProduct>();
+        public DbSet<Order> Orders => Set<Order>();
         public DbSet<OrderStatus> OrderStatuses => Set<OrderStatus>();
         public DbSet<Review> Reviews => Set<Review>();
         public DbSet<SubCategory> SubCategories => Set<SubCategory>();
@@ -36,9 +36,9 @@ namespace ShubkivTour.Data
         //public DbSet<SubCategory> SubCategories => Set<SubCategory>();
 
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
-		{
-			base.OnModelCreating(modelBuilder);
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<TourGuides>()
                 .HasOne(tg => tg.Tour)
@@ -79,9 +79,18 @@ namespace ShubkivTour.Data
                 .WithMany(tp => tp.Days)
                 .HasForeignKey(d => d.TourProgramId)
                 .OnDelete(DeleteBehavior.Cascade);
-            
 
+            // зв'язок Event <-> EventImage (один-до-одного)
+            modelBuilder.Entity<Event>()
+                .HasOne(e => e.Image)
+                .WithOne(i => i.Event)
+                .HasForeignKey<EventImage>(i => i.EventId);
 
+            modelBuilder.Entity<Event>()
+    .HasOne(e => e.Image)
+    .WithOne(img => img.Event)
+    .HasForeignKey<EventImage>(img => img.EventId)
+    .OnDelete(DeleteBehavior.Cascade);
 
             /*			modelBuilder.Entity<Tour>()
                 .HasOne(t => t.TourProgram)
