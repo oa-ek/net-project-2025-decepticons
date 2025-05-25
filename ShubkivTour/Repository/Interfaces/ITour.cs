@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using ShubkivTour.Models.DTO;
 using ShubkivTour.Models.Entity;
 
 namespace ShubkivTour.Repository.Interfaces
@@ -7,6 +8,7 @@ namespace ShubkivTour.Repository.Interfaces
     {
         IEnumerable<Tour> GetAllTours();
         IEnumerable<Tour> GetUpcomingTours();
+        IEnumerable<TourCategoryCount> GetTourCategoryCount();
         Tour GetToursById(int tourId);
         void CreateTour(Tour tour);
         void DeleteTour(int id);
@@ -16,6 +18,7 @@ namespace ShubkivTour.Repository.Interfaces
         IEnumerable<Review> GetReviews();
         IEnumerable<Client> GetTourClient(int tourId);
         void RemoveClientFromTour(int tourId, string clientId);
+        IEnumerable<Tour> GetTourCategory(string category);
 
     }
 }

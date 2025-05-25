@@ -11,8 +11,6 @@
 </head>
 <body>
 	<div class="text-center">
-		<h1 class="display-4">👋 Salam</h1>
-		<p>Тут керування турами для адміна 💼</p>
 	</div>
 
 	<form asp-controller="Tour" asp-action="TourCreate" method="post" enctype="multipart/form-data">
@@ -58,8 +56,12 @@
 			<label>Кількість учасників</label>
 			<input type="number" name="MaxMembers" class="form-control" />
 
-			<label>Категорія</label>
-			<input type="text" name="Category" class="form-control" />
+			<select name="Category" class="form-control">
+				<option value="">-- Виберіть категорію --</option>
+				<option value="Буковель">Буковель</option>
+				<option value="Екстрим">Екстрим</option>
+				<option value="Хайкінг">Хайкінг</option>
+			</select>
 
 			<label>Важкість</label>
 			<select name="Complexity" class="form-control">

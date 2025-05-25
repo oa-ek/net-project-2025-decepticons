@@ -27,7 +27,7 @@ namespace ShubkivTour.Services
 
             var mailMessage = new MailMessage
             {
-                From = new MailAddress(_configuration["EmailSettings:Gmail:Email"], "Tour Agency"),
+                From = new MailAddress(_configuration["EmailSettings:Gmail:Email"], "ShubkivTour"),
                 Subject = subject,
                 Body = htmlMessage,
                 IsBodyHtml = true,
@@ -36,5 +36,6 @@ namespace ShubkivTour.Services
 
             await smtpClient.SendMailAsync(mailMessage);
         }
+
     }
 }

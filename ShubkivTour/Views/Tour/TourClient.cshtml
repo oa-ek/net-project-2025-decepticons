@@ -11,6 +11,10 @@
 }
 else
 {
+    <div class="mb-2">
+        <strong>Присутні:</strong> <span id="presentCount">0</span> з @Model.Count()
+    </div>
+
     <table class="table table-bordered">
         <thead class="table-dark">
             <tr>
@@ -18,6 +22,7 @@ else
                 <th>Ім’я</th>
                 <th>Рік народження</th>
                 <th>Email</th>
+                <th>Присутність</th>
                 <th>Дії</th>
             </tr>
         </thead>
@@ -30,6 +35,9 @@ else
                     <td>@client.Client.YearOfBirth</td>
                     <td>@client.Client.Email</td>
                     <td>
+                        <input type="checkbox" name="presentClientIds" value="@client.Client.Id" onchange="updatePresentCount()" />
+                    </td>
+                    <td>
                         <form asp-controller="Tour" asp-action="RemoveClientFromTour" method="post" class="d-inline">
                             <input type="hidden" name="clientId" value="@client.Client.Id" />
                             <input type="hidden" name="tourId" value="@ViewContext.RouteData.Values["id"]" />
@@ -41,4 +49,16 @@ else
         </tbody>
     </table>
 }
-<a asp-action="TourLook" asp-controller="Tour" class="btn btn-secondary mt-3">← Назад до турів</a>
+<a asp-action="TourCategory" asp-controller="Tour" class="btn btn-secondary mt-3">← Назад до турів</a>
+
+@section Scripts {
+    <script>
+        function updatePresentCount() {
+            const checkboxes = document.querySelectorAll('input[name="presentClientIds"]');
+            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+            document.getElementById('presentCount').textContent = checkedCount;
+        }
+
+        document.addEventListener('DOMContentLoaded', updatePresentCount);
+    </script>
+}

@@ -1,0 +1,54 @@
+﻿@using ShubkivTour.Models.DTO;
+@model IEnumerable<TourCategoryCount>
+@{
+    ViewData["Title"] = "Тури";
+
+    var bukovelCount = Model.FirstOrDefault(c => c.Category == "Буковель")?.Count ?? 0;
+    var hikingCount = Model.FirstOrDefault(c => c.Category == "Хайкінг")?.Count ?? 0;
+    var extremeCount = Model.FirstOrDefault(c => c.Category == "Екстрим")?.Count ?? 0;
+}
+<link rel="stylesheet" href="~/css/tourCategory.css" />
+
+<div class="tour-section">
+    <div class="tour-title">ТУРИ</div>
+
+    <div class="container">
+        <div class="row d-flex flex-wrap justify-content-center">
+            <div class="col-md-4 mb-4">
+                <a href="@Url.Action("Category", "Tour", new { category = "Буковель" })" style="text-decoration: none; color: inherit;">
+                    <div class="tour-card"> 
+                        <img src="/img/Buka.jpg" alt="home img" class="home__bg" />
+                        <div class="tour-overlay">
+                            <div class="tour-name">БУКОВЕЛЬ</div>
+                            <div class="tour-count">Доступно турів: <span>@bukovelCount</span></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <a href="@Url.Action("Category", "Tour", new { category = "Хайкінг" })" style="text-decoration: none; color: inherit;">
+                    <div class="tour-card">
+                        <img src="/img/говерла.jpg" alt="home img" class="home__bg" />
+                        <div class="tour-overlay">
+                            <div class="tour-name">ХАЙКІНГ</div>
+                            <div class="tour-count">Доступно турів: <span>@hikingCount</span></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <a href="@Url.Action("Category", "Tour", new { category = "Екстрим" })" style="text-decoration: none; color: inherit;">
+                    <div class="tour-card">
+                        <img src="/img/rafting.jpg" alt="home img" class="home__bg" />
+                        <div class="tour-overlay">
+                            <div class="tour-name">ЕКСТРИМ</div>
+                            <div class="tour-count">Доступно турів: <span>@extremeCount</span></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
