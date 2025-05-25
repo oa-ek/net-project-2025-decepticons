@@ -13,6 +13,5 @@
 
         public EventImage? Image { get; set; }
 
-        //public ICollection<TourEvents> TourEvents { get; set; }
     }
 }
