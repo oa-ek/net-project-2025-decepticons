@@ -25,6 +25,7 @@ namespace ShubkivTour.Services
                     var emailSender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
 
                     var today = DateTime.Now.AddDays(2);
+                    //var today = DateTime.Now;
 
                     var endedTours = dbContext.Tours
                         .Include(t => t.TourClients)
@@ -48,8 +49,8 @@ namespace ShubkivTour.Services
                     dbContext.SaveChanges();
                     //_context.SaveChanges();
                 }
-                await Task.Delay(TimeSpan.FromHours(24), stoppingToken);
-                //await Task.Delay(TimeSpan.FromSeconds(120), stoppingToken);
+                //await Task.Delay(TimeSpan.FromHours(24), stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(120), stoppingToken);
 
             }
         }
